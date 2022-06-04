@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 ///App Colors
 Color purpleColor = const Color(0xFF5D4176);
+Color gradientRedColor = const Color(0xFFDF866C);
+Color redColor = const Color(0xFFCB2F6B);
 
 ///App TextStyles
-const headerTextStyle = TextStyle(color: Colors.white,
-    fontSize: 24, fontWeight: FontWeight.w700);
-final subHeaderTextStyle = TextStyle(color: Colors.white.withOpacity(0.6),
-    fontSize: 14, fontWeight: FontWeight.w400);
+final headerTextStyle = GoogleFonts.poppins(
+    textStyle: const TextStyle(color: Colors.white,
+    fontSize: 24, fontWeight: FontWeight.w700));
+final subHeaderTextStyle = GoogleFonts.poppins(
+    textStyle: TextStyle(color: Colors.white.withOpacity(0.6),
+    fontSize: 13, fontWeight: FontWeight.w400));
+final normalTextStyle = GoogleFonts.poppins(
+    textStyle: const TextStyle(color: Colors.white,
+    fontSize: 14, fontWeight: FontWeight.w400));
+final titleTextStyle = GoogleFonts.poppins(
+    textStyle: const TextStyle(color: Colors.white,
+    fontSize: 17, fontWeight: FontWeight.w500));
