@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/views/dashboard_view.dart';
 import 'package:movie_app/views/home_view.dart';
+import 'package:movie_app/widgets/navigation_bar_widget.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +20,7 @@ class MyApp extends StatelessWidget {
         scaffoldBackgroundColor: Colors.white,
         primarySwatch: Colors.blue,
       ),
-      home: HomeView(),
+      home: const DashboardView(),
     );
   }
 }
