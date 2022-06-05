@@ -7,19 +7,25 @@ List<PersistentBottomNavBarItem> navBarsItems() {
     PersistentBottomNavBarItem(
       icon: const Icon(Icons.home),
       title: ("Home"),
-      activeColorPrimary: CupertinoColors.activeBlue,
+      activeColorPrimary: CupertinoColors.white,
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.rectangle_3_offgrid_fill),
       title: ("Series"),
-      activeColorPrimary: CupertinoColors.activeBlue,
+      activeColorPrimary: CupertinoColors.white,
+      inactiveColorPrimary: CupertinoColors.systemGrey,
+    ),
+    PersistentBottomNavBarItem(
+      icon: const Icon(CupertinoIcons.video_camera),
+      title: ("Coming Soon"),
+      activeColorPrimary: CupertinoColors.white,
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
     PersistentBottomNavBarItem(
       icon: const Icon(CupertinoIcons.cloud_download_fill),
       title: ("Downloads"),
-      activeColorPrimary: CupertinoColors.activeBlue,
+      activeColorPrimary: CupertinoColors.white,
       inactiveColorPrimary: CupertinoColors.systemGrey,
     ),
   ];

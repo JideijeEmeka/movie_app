@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/views/coming_soon.dart';
 import 'package:movie_app/views/downloads_view.dart';
 import 'package:movie_app/views/home_view.dart';
 import 'package:movie_app/views/series_view.dart';
@@ -17,6 +18,7 @@ class _NavBarState extends State<NavBar> {
   List<Widget> screens = const [
     HomeView(),
     SeriesView(),
+    ComingSoon(),
     DownloadsView()
   ];
 
@@ -38,14 +40,13 @@ class _NavBarState extends State<NavBar> {
       screens: screens,
       items: navBarsItems(),
       confineInSafeArea: false,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black26,
       handleAndroidBackButtonPress: true,
       resizeToAvoidBottomInset: true,
       stateManagement: true,
       hideNavigationBarWhenKeyboardShows: true,
       decoration: NavBarDecoration(
-        borderRadius: BorderRadius.circular(0),
-        colorBehindNavBar: Colors.white),
+        borderRadius: BorderRadius.circular(0)),
       popAllScreensOnTapOfSelectedTab: true,
       popActionScreens: PopActionScreensType.all,
       itemAnimationProperties: const ItemAnimationProperties(
@@ -55,7 +56,7 @@ class _NavBarState extends State<NavBar> {
         animateTabTransition: true,
         curve: Curves.fastOutSlowIn,
         duration: Duration(milliseconds: 200)),
-      navBarStyle: NavBarStyle.style9,
+      navBarStyle: NavBarStyle.style6,
     );
   }
 }
