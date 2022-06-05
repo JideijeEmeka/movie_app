@@ -3,7 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 ///App Colors
 Color purpleColor = const Color(0xFF5D4176);
-Color gradientRedColor = const Color(0xFFDF866C);
+Color gradientOrangeColor = const Color(0xFFDF866C);
+Color gradientRedColor = const Color(0xFFE03A14);
 Color redColor = const Color(0xFFCB2F6B);
 
 ///App TextStyles
@@ -19,3 +20,12 @@ final normalTextStyle = GoogleFonts.poppins(
 final titleTextStyle = GoogleFonts.poppins(
     textStyle: const TextStyle(color: Colors.white,
     fontSize: 17, fontWeight: FontWeight.w500));
+final ratingTextStyle = GoogleFonts.poppins(
+    textStyle: const TextStyle(color: Colors.white,
+    fontSize: 17, fontWeight: FontWeight.w700));
+final appBarTextStyle = GoogleFonts.poppins(
+    textStyle: const TextStyle(color: Colors.white,
+    fontSize: 19, fontWeight: FontWeight.w700));
+final imdbTextStyle = GoogleFonts.poppins(
+    textStyle: TextStyle(color: Colors.white.withOpacity(0.3),
+    fontSize: 9, fontWeight: FontWeight.w400));
