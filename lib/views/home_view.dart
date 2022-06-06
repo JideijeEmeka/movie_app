@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/views/play_movie_view.dart';
+import 'package:movie_app/widgets/favorite_movie_list_widget.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class HomeView extends StatefulWidget {
@@ -79,11 +80,10 @@ class _HomeViewState extends State<HomeView> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 400,),
+                    const SizedBox(height: 300),
                     Center(
                       child: Text("black hawk\n down".toUpperCase(),
-                        style: headerTextStyle, textAlign: TextAlign.center,),
-                    ),
+                        style: headerTextStyle, textAlign: TextAlign.center)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
                       child: Row(
@@ -91,7 +91,7 @@ class _HomeViewState extends State<HomeView> {
                         children: [
                         Column(children: [
                           IconButton(onPressed: () {},
-                              icon: const Icon(Icons.check, size: 30,
+                              icon: const Icon(Icons.add, size: 30,
                                 color: Colors.white,)),
                           Text("My List", style: normalTextStyle,),
                         ],),
@@ -115,56 +115,23 @@ class _HomeViewState extends State<HomeView> {
                       ],),
                     ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-                      child: Text("Featured Movies", style: titleTextStyle,),),
+                      padding: const EdgeInsets.only(top: 30, left: 15,
+                          right: 15, bottom: 10),
+                      child: Text("My List", style: titleTextStyle,),),
                     CarouselSlider(items: [
-                      InkWell(
-                        onTap: () {
-                          pushNewScreen(context, screen: const PlayMovieView(),
-                              withNavBar: false);
-                        },
-                        child: Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white), child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.asset
-                            ("assets/images/movie_img.png", fit: BoxFit.cover),
-                        )),
-                      ),
-                       Container(
-                            width: MediaQuery.of(context).size.width,
-                            margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.white), child: ClipRRect(
-                          borderRadius: BorderRadius.circular(15),
-                          child: Image.asset
-                            ("assets/images/movie_img2.png", fit: BoxFit.cover),
-                        )),
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          margin: const EdgeInsets.symmetric(horizontal: 10.0),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: Colors.white), child: ClipRRect(
-                        borderRadius: BorderRadius.circular(15),
-                        child: Image.asset
-                          ("assets/images/movie_img.png", fit: BoxFit.cover),
-                      )),
+                      FavoriteMovieList(),
+                      FavoriteMovieList(),
+                      FavoriteMovieList(),
                     ],
                         options: CarouselOptions(
-                            aspectRatio: 16/9,
+                            aspectRatio: 16 / 9,
                             viewportFraction: 0.8,
-                            autoPlay: true,
                             reverse: false,
+                            autoPlay: true,
                             autoPlayInterval: const Duration(seconds: 5),
                             autoPlayAnimationDuration: const Duration(milliseconds: 800),
                             autoPlayCurve: Curves.fastOutSlowIn,
                             enlargeCenterPage: true,
-                            enlargeStrategy: CenterPageEnlargeStrategy.height
                         )),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
