@@ -19,6 +19,7 @@ dependencies:
   internet_connection_checker: any
   overlay_support: any
   connectivity_plus: ^2.3.3
+  provider: ^6.0.3
 
 
 dev_dependencies:
