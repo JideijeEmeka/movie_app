@@ -18,13 +18,11 @@ class _FavoriteMovieListState extends State<FavoriteMovieList> {
             withNavBar: false);
       },
       child: Container(
-          width: 150,
+          width: 130,
           height: 200,
-          margin: const EdgeInsets.symmetric(horizontal: 10.0),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Colors.white), child: ClipRRect(
-        borderRadius: BorderRadius.circular(15),
+          margin: const EdgeInsets.only(left: 7),
+          child: ClipRRect(
+        borderRadius: BorderRadius.circular(8),
         child: Image.asset
           ("assets/images/movie_img.png", width: 200, height: 150, fit: BoxFit.fill),
       )),
