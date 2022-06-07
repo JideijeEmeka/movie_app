@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/providers/counter.dart';
 import 'package:movie_app/views/dashboard_view.dart';
 import 'package:movie_app/views/home_view.dart';
 import 'package:movie_app/widgets/navigation_bar_widget.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+      MultiProvider(providers: [
+        ChangeNotifierProvider(create: (_) => Counter()),
+      ],
+      child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {

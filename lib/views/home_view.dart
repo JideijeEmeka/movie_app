@@ -1,10 +1,12 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/helpers/constants.dart';
-import 'package:movie_app/views/play_movie_view.dart';
+import 'package:movie_app/providers/counter.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
 import 'package:movie_app/widgets/favorite_movie_list_widget.dart';
-import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:overlay_support/overlay_support.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -14,6 +16,42 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+
+  bool hasInternet = false;
+  ConnectivityResult result = ConnectivityResult.none;
+
+  @override
+  void initState() {
+    InternetConnectionChecker().onStatusChange.listen((status) {
+      final hasInternet = status == InternetConnectionStatus.connected;
+      setState(() {
+        this.hasInternet = hasInternet;
+      });
+      checkInternetConnection();
+    });
+    super.initState();
+  }
+
+  checkInternetConnection() async {
+    hasInternet = await InternetConnectionChecker().hasConnection;
+    result = await Connectivity().checkConnectivity();
+    final color = hasInternet ? Colors.green : Colors.red;
+    final text = hasInternet ? 'Internet' : 'No Internet';
+
+    if(result == ConnectivityResult.mobile) {
+      showSimpleNotification(
+          Text('$text: Mobile Network', style: titleTextStyle),
+          background: color);
+    }else if(result == ConnectivityResult.wifi) {
+      showSimpleNotification(
+          Text('$text: Wifi Network', style: titleTextStyle),
+          background: color);
+    }else {
+      showSimpleNotification(
+          Text('$text: No Network', style: titleTextStyle),
+          background: color);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,6 +122,7 @@ class _HomeViewState extends State<HomeView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 250),
+                    Center(child: Text('${context.watch<Counter>().count}', style: headerTextStyle,)),
                     Center(
                       child: Text("black hawk\n down".toUpperCase(),
                         style: headerTextStyle, textAlign: TextAlign.center)),
@@ -98,7 +137,10 @@ class _HomeViewState extends State<HomeView> {
                                 color: Colors.white,)),
                           Text("My List", style: normalTextStyle,),
                         ],),
-                        ElevatedButton(onPressed: () {},
+                        ElevatedButton(onPressed: () async {
+                          context.read<Counter>().increment();
+                          checkInternetConnection();
+                        },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
                               padding: const EdgeInsets.symmetric(
