@@ -16,6 +16,10 @@ dependencies:
   google_fonts: ^3.0.1
   carousel_slider: ^4.1.1
   persistent_bottom_nav_bar: ^4.0.2
+  internet_connection_checker: any
+  overlay_support: any
+  connectivity_plus: ^2.3.3
+
 
 dev_dependencies:
   flutter_test:

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/views/dashboard_view.dart';
 import 'package:movie_app/views/home_view.dart';
 import 'package:movie_app/widgets/navigation_bar_widget.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,14 +14,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        primarySwatch: Colors.blue,
+    return OverlaySupport.global(
+      child: MaterialApp(
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: Colors.white,
+          primarySwatch: Colors.blue,
+        ),
+        home: const DashboardView(),
       ),
-      home: const DashboardView(),
     );
   }
 }
