@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/views/play_movie_view.dart';
+import 'package:movie_app/widgets/buttons/floating_action_button.dart';
 import 'package:movie_app/widgets/favorite_movie_list_widget.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -57,6 +58,8 @@ class _HomeViewState extends State<HomeView> {
           ],
         ),
       ),
+          floatingActionButton: floatButton(),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           extendBodyBehindAppBar: true,
           backgroundColor: Colors.transparent,
           body: Stack(children: [
@@ -80,7 +83,7 @@ class _HomeViewState extends State<HomeView> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 300),
+                    const SizedBox(height: 250),
                     Center(
                       child: Text("black hawk\n down".toUpperCase(),
                         style: headerTextStyle, textAlign: TextAlign.center)),
@@ -115,55 +118,96 @@ class _HomeViewState extends State<HomeView> {
                       ],),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 30, left: 15,
+                      padding: const EdgeInsets.only(top: 20, left: 7,
                           right: 15, bottom: 10),
-                      child: Text("My List", style: titleTextStyle,),),
-                    CarouselSlider(items: [
-                      FavoriteMovieList(),
-                      FavoriteMovieList(),
-                      FavoriteMovieList(),
-                    ],
-                        options: CarouselOptions(
-                            aspectRatio: 16 / 9,
-                            viewportFraction: 0.8,
-                            reverse: false,
-                            autoPlay: true,
-                            autoPlayInterval: const Duration(seconds: 5),
-                            autoPlayAnimationDuration: const Duration(milliseconds: 800),
-                            autoPlayCurve: Curves.fastOutSlowIn,
-                            enlargeCenterPage: true,
-                        )),
+                      child: Text("My List", style: listTextStyle,),),
+                    SizedBox(
+                      height: 170,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const ScrollPhysics(),
+                          itemCount: 8,
+                          itemBuilder: (context, index) {
+                            return const FavoriteMovieList();
+                      }),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
-                      child: Text("HitMan’s Wife’s BodyGuard", style: titleTextStyle,),),
+                      padding: const EdgeInsets.only(top: 20, left: 7,
+                          right: 5, bottom: 10),
+                      child: Text("Action TV", style: listTextStyle,),),
+                    SizedBox(
+                      height: 170,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const ScrollPhysics(),
+                          itemCount: 8,
+                          itemBuilder: (context, index) {
+                            return const FavoriteMovieList();
+                      }),
+                    ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20, bottom: 40,),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(children: [
-                            ImageIcon(const AssetImage("assets/images/star_rating.png"),
-                              color: gradientRedColor, size: 40,),
-                            Text("7.4", style: ratingTextStyle,),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 5),
-                              child: Text("IMDB", style: imdbTextStyle,),
-                            ),
-                          ],),
-                          ElevatedButton(onPressed: () {},
-                              style: ElevatedButton.styleFrom(
-                                  primary: gradientRedColor,
-                                  padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 15)
-                              ),
-                              child: Row(children: [
-                                const Icon(Icons.play_circle_filled, color: Colors.white,),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 8),
-                                  child: Text("Watch the Trailer", style: normalTextStyle,),
-                                )
-                              ],))
-                        ],),
-                    )
+                      padding: const EdgeInsets.only(top: 20, left: 7,
+                          right: 5, bottom: 10),
+                      child: Text("Trending Now", style: listTextStyle,),),
+                    SizedBox(
+                      height: 170,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const ScrollPhysics(),
+                          itemCount: 8,
+                          itemBuilder: (context, index) {
+                            return const FavoriteMovieList();
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, left: 7,
+                          right: 5, bottom: 10),
+                      child: Text("Exciting International TV Shows", style: listTextStyle,),),
+                    SizedBox(
+                      height: 170,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const ScrollPhysics(),
+                          itemCount: 8,
+                          itemBuilder: (context, index) {
+                            return const FavoriteMovieList();
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, left: 7,
+                          right: 5, bottom: 10),
+                      child: Text("Action Movies", style: listTextStyle,),),
+                    SizedBox(
+                      height: 170,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const ScrollPhysics(),
+                          itemCount: 8,
+                          itemBuilder: (context, index) {
+                            return const FavoriteMovieList();
+                      }),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, left: 7,
+                          right: 5, bottom: 10),
+                      child: Text("Vampires & Werewolves", style: listTextStyle)),
+                    SizedBox(
+                      height: 170,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          physics: const ScrollPhysics(),
+                          itemCount: 8,
+                          itemBuilder: (context, index) {
+                            return const FavoriteMovieList();
+                      }),
+                    ),
+                    const SizedBox(height: 30,)
                   ],),
             )
           ]),
