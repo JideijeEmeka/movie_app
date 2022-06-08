@@ -1,126 +1,129 @@
-import 'package:flutter/material.dart';
-
 // To parse this JSON data, do
 //
 //     final search = searchFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
-import 'package:movie_app/models/rating_model.dart';
+List<Search> searchFromJson(String str) => List<Search>.from(json.decode(str).map((x) => Search.fromJson(x)));
 
-Search searchFromJson(String str) => Search.fromJson(json.decode(str));
+String searchToJson(List<Search> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
-String searchToJson(Search data) => json.encode(data.toJson());
-
-class Search with ChangeNotifier{
-  String? title;
-
+class Search {
   Search({
-    this.title,
-    this.year,
-    this.rated,
-    this.released,
-    this.runtime,
-    this.genre,
-    this.director,
-    this.writer,
-    this.actors,
-    this.plot,
-    this.language,
-    this.country,
-    this.awards,
-    this.poster,
-    this.ratings,
-    this.metascore,
-    this.imdbRating,
-    this.imdbVotes,
-    this.imdbId,
-    this.type,
-    this.dvd,
-    this.boxOffice,
-    this.production,
-    this.website,
-    this.response,
+    required this.id,
+    required this.name,
+    required this.username,
+    required this.email,
+    required this.address,
+    required this.phone,
+    required this.website,
+    required this.company,
   });
-  String? year;
-  String? rated;
-  String? released;
-  String? runtime;
-  String? genre;
-  String? director;
-  String? writer;
-  String? actors;
-  String? plot;
-  String? language;
-  String? country;
-  String? awards;
-  String? poster;
-  List<Rating>? ratings;
-  String? metascore;
-  String? imdbRating;
-  String? imdbVotes;
-  String? imdbId;
-  String? type;
-  String? dvd;
-  String? boxOffice;
-  String? production;
-  String? website;
-  String? response;
+
+  int id;
+  String name;
+  String username;
+  String email;
+  Address address;
+  String phone;
+  String website;
+  Company company;
 
   factory Search.fromJson(Map<String, dynamic> json) => Search(
-    title: json["Title"],
-    year: json["Year"],
-    rated: json["Rated"],
-    released: json["Released"],
-    runtime: json["Runtime"],
-    genre: json["Genre"],
-    director: json["Director"],
-    writer: json["Writer"],
-    actors: json["Actors"],
-    plot: json["Plot"],
-    language: json["Language"],
-    country: json["Country"],
-    awards: json["Awards"],
-    poster: json["Poster"],
-    ratings: List<Rating>.from(json["Ratings"].map((x) => Rating.fromJson(x))),
-    metascore: json["Metascore"],
-    imdbRating: json["imdbRating"],
-    imdbVotes: json["imdbVotes"],
-    imdbId: json["imdbID"],
-    type: json["Type"],
-    dvd: json["DVD"],
-    boxOffice: json["BoxOffice"],
-    production: json["Production"],
-    website: json["Website"],
-    response: json["Response"],
+    id: json["id"],
+    name: json["name"],
+    username: json["username"],
+    email: json["email"],
+    address: Address.fromJson(json["address"]),
+    phone: json["phone"],
+    website: json["website"],
+    company: Company.fromJson(json["company"]),
   );
 
   Map<String, dynamic> toJson() => {
-    "Title": title,
-    "Year": year,
-    "Rated": rated,
-    "Released": released,
-    "Runtime": runtime,
-    "Genre": genre,
-    "Director": director,
-    "Writer": writer,
-    "Actors": actors,
-    "Plot": plot,
-    "Language": language,
-    "Country": country,
-    "Awards": awards,
-    "Poster": poster,
-    "Ratings": List<dynamic>.from(ratings!.map((x) => x.toJson())),
-    "Metascore": metascore,
-    "imdbRating": imdbRating,
-    "imdbVotes": imdbVotes,
-    "imdbID": imdbId,
-    "Type": type,
-    "DVD": dvd,
-    "BoxOffice": boxOffice,
-    "Production": production,
-    "Website": website,
-    "Response": response,
+    "id": id,
+    "name": name,
+    "username": username,
+    "email": email,
+    "address": address.toJson(),
+    "phone": phone,
+    "website": website,
+    "company": company.toJson(),
+  };
+}
+
+class Address {
+  Address({
+    required this.street,
+    required this.suite,
+    required this.city,
+    required this.zipcode,
+    required this.geo,
+  });
+
+  String street;
+  String suite;
+  String city;
+  String zipcode;
+  Geo geo;
+
+  factory Address.fromJson(Map<String, dynamic> json) => Address(
+    street: json["street"],
+    suite: json["suite"],
+    city: json["city"],
+    zipcode: json["zipcode"],
+    geo: Geo.fromJson(json["geo"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "street": street,
+    "suite": suite,
+    "city": city,
+    "zipcode": zipcode,
+    "geo": geo.toJson(),
+  };
+}
+
+class Geo {
+  Geo({
+    required this.lat,
+    required this.lng,
+  });
+
+  String lat;
+  String lng;
+
+  factory Geo.fromJson(Map<String, dynamic> json) => Geo(
+    lat: json["lat"],
+    lng: json["lng"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "lat": lat,
+    "lng": lng,
+  };
+}
+
+class Company {
+  Company({
+    required this.name,
+    required this.catchPhrase,
+    required this.bs,
+  });
+
+  String name;
+  String catchPhrase;
+  String bs;
+
+  factory Company.fromJson(Map<String, dynamic> json) => Company(
+    name: json["name"],
+    catchPhrase: json["catchPhrase"],
+    bs: json["bs"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "catchPhrase": catchPhrase,
+    "bs": bs,
   };
 }
