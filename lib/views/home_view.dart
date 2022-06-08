@@ -2,10 +2,12 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/helpers/constants.dart';
-import 'package:movie_app/providers/counter.dart';
+import 'package:movie_app/models/counter.dart';
+import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
 import 'package:movie_app/widgets/favorite_movie_list_widget.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
@@ -80,7 +82,8 @@ class _HomeViewState extends State<HomeView> {
             child: Image.asset("assets/images/logo.png"),
           ),
           actions: [
-            IconButton(onPressed: () {},
+            IconButton(onPressed: () =>
+                pushNewScreen(context, screen: const SearchView()),
                 padding: const EdgeInsets.only(right: 10),
                 icon: const Icon(Icons.search_rounded, color: Colors.white,
                 size: 30,)),
@@ -138,8 +141,8 @@ class _HomeViewState extends State<HomeView> {
                           Text("My List", style: normalTextStyle,),
                         ],),
                         ElevatedButton(onPressed: () async {
+                          /// Play Video
                           context.read<Counter>().increment();
-                          checkInternetConnection();
                         },
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,

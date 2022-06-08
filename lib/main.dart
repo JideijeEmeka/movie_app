@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/providers/counter.dart';
+import 'package:movie_app/models/counter.dart';
 import 'package:movie_app/views/dashboard_view.dart';
-import 'package:movie_app/views/home_view.dart';
-import 'package:movie_app/widgets/navigation_bar_widget.dart';
+import 'package:movie_app/views/series_view.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
@@ -17,7 +16,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return OverlaySupport.global(
@@ -28,7 +26,11 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           primarySwatch: Colors.blue,
         ),
-        home: const DashboardView(),
+        initialRoute: '/',
+        routes: {
+          '/': (context) => const DashboardView(),
+          'second': (context) => const SeriesView()
+        },
       ),
     );
   }
