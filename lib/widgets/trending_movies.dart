@@ -32,9 +32,10 @@ class _TrendingMovieListState extends State<TrendingMovieList> {
                   + widget.trending[index]['poster_path'],
                 description: widget.trending[index]['overview'],
                 vote: widget.trending[index]['vote_average'].toString(),
-                launchOn: widget.trending[index]['release_date'],),
+                launchOn: widget.trending[index]['release_date'],
+                language: widget.trending[index]['original_language'],
+                popularity: widget.trending[index]['popularity'].toString(),),
                     withNavBar: false);
-                debugPrint("Breast");
                 },
               child: Container(
                   width: 116, height: 200,
