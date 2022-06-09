@@ -5,10 +5,7 @@ import 'package:overlay_support/overlay_support.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(
-      MultiProvider(providers: const [
-      ],
-      child: const MyApp()));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

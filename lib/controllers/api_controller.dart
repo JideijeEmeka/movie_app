@@ -1,11 +1,13 @@
 import 'dart:convert';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:movie_app/helpers/constants.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 class ApiServiceController extends ControllerMVC {
-
 
   ApiServiceController();
 

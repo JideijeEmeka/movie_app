@@ -1,6 +1,7 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:movie_app/controllers/connectivity_controller.dart';
+import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
@@ -9,6 +10,7 @@ import 'package:movie_app/widgets/popular_tv_shows.dart';
 import 'package:movie_app/widgets/top_rated_movies.dart';
 import 'package:movie_app/widgets/trending_movies.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
@@ -20,23 +22,48 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends StateMVC<HomeView> {
-  _HomeViewState() : super(ConnectivityServiceController()) {
-    con = controller as ConnectivityServiceController;
+  _HomeViewState() : super(ApiServiceController()) {
+    con = controller as ApiServiceController;
   }
 
-  late ConnectivityServiceController con;
+  late ApiServiceController con;
+  bool hasInternet = false;
+  ConnectivityResult result = ConnectivityResult.none;
 
   @override
   void initState() {
     InternetConnectionChecker().onStatusChange.listen((status) {
-      con.hasInternet = status == InternetConnectionStatus.connected;
+      hasInternet = status == InternetConnectionStatus.connected;
       setState(() {
-        con.hasInternet = con.hasInternet;
+       hasInternet = hasInternet;
       });
-      con.checkInternetConnection();
+      checkInternetConnection();
     });
     loadMovies();
     super.initState();
+  }
+
+  checkInternetConnection() async {
+    hasInternet = await InternetConnectionChecker().hasConnection;
+    result = await Connectivity().checkConnectivity();
+    final color = hasInternet ? Colors.green : Colors.red;
+    final text = hasInternet ? 'Internet Connected' : 'No Internet';
+    final wifiText = hasInternet ? 'Wifi Connected' : 'No Wifi Internet';
+    final mobileText = hasInternet ? 'Internet Connected' : 'No Mobile Internet';
+
+    if(result == ConnectivityResult.mobile) {
+      showSimpleNotification(
+          Text(mobileText, style: titleTextStyle),
+          background: color);
+    }else if(result == ConnectivityResult.wifi) {
+      showSimpleNotification(
+          Text(wifiText, style: titleTextStyle),
+          background: color);
+    }else {
+      showSimpleNotification(
+          Text(text, style: titleTextStyle),
+          background: color);
+    }
   }
 
   /// Load movies
@@ -44,18 +71,13 @@ class _HomeViewState extends StateMVC<HomeView> {
   List topRatedMovies = [];
   List popularTvShows = [];
 
-  String apiKey = "2a209b9033ad19c74ec7ab61c4cd582e";
-  String readAccessToken =  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTIwOWI5MDMzYWQ"
-      "xOWM3NGVjN2FiNjFjNGNkNTgyZSIsInN1YiI6IjYyYTBjMGJkN2UxMmYwNmUwNzdhNzk1MC"
-      "IsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.nomF8AyiMxmk7R4nXfVmZ-"
-      "j1LxM9zeW8qHhuN00iKaA";
+  TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apiKey, readAccessToken),
+      logConfig: const ConfigLogger(
+          showLogs: true,
+          showErrorLogs: true
+      ));
 
   loadMovies() async {
-    TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apiKey, readAccessToken),
-        logConfig: const ConfigLogger(
-            showLogs: true,
-            showErrorLogs: true
-        ));
     Map trendingResults = await tmdbWithCustomLogs.v3.trending.getTrending();
     Map topRatedResults = await tmdbWithCustomLogs.v3.tv.getTopRated();
     Map popularTvResults = await tmdbWithCustomLogs.v3.tv.getPopular();
