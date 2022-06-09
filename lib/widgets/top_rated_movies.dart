@@ -24,8 +24,19 @@ class _TopRatedMoviesState extends State<TopRatedMovies> {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                // pushNewScreen(context, screen: const PlayMovieView(),
-                //     withNavBar: false);
+                pushNewScreen(context, screen: PlayMovieView(
+                  name: widget.topRated[index]['title'],
+                  bannerUrl: 'https://image.tmdb.org/t/p/w500'
+                      + widget.topRated[index]['backdrop_path'],
+                  posterUrl: 'https://image.tmdb.org/t/p/w500'
+                      + widget.topRated[index]['poster_path'],
+                  description: widget.topRated[index]['overview'],
+                  vote: widget.topRated[index]['vote_average'].toString(),
+                  launchOn: widget.topRated[index]['release_date'],
+                  language: widget.topRated[index]['original_language'],
+                  popularity: widget.topRated[index]['popularity'].toString(),
+                  sessionId: widget.topRated[index]['id'].toString(),),
+                    withNavBar: false);
               },
               child: Container(
                   width: 116, height: 200,

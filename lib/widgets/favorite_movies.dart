@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/views/play_movie_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
-class PopularTvShows extends StatefulWidget {
-  final List popularTvShows;
-
-  const PopularTvShows({Key? key, required this.popularTvShows}) : super(key: key);
+class FavoriteMovieList extends StatefulWidget {
+  final List favoriteList;
+  const FavoriteMovieList({Key? key, required this.favoriteList}) : super(key: key);
 
   @override
-  State<PopularTvShows> createState() => _PopularTvShowsState();
+  State<FavoriteMovieList> createState() => _FavoriteMovieListState();
 }
 
-class _PopularTvShowsState extends State<PopularTvShows> {
+class _FavoriteMovieListState extends State<FavoriteMovieList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -20,22 +19,22 @@ class _PopularTvShowsState extends State<PopularTvShows> {
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           physics: const ScrollPhysics(),
-          itemCount: widget.popularTvShows.length,
+          itemCount: widget.favoriteList.length,
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
                 pushNewScreen(context, screen: PlayMovieView(
-                  name: widget.popularTvShows[index]['title'],
+                  name: widget.favoriteList[index]['title'],
                   bannerUrl: 'https://image.tmdb.org/t/p/w500'
-                      + widget.popularTvShows[index]['backdrop_path'],
+                      + widget.favoriteList[index]['backdrop_path'],
                   posterUrl: 'https://image.tmdb.org/t/p/w500'
-                      + widget.popularTvShows[index]['poster_path'],
-                  description: widget.popularTvShows[index]['overview'],
-                  vote: widget.popularTvShows[index]['vote_average'].toString(),
-                  launchOn: widget.popularTvShows[index]['release_date'],
-                  language: widget.popularTvShows[index]['original_language'],
-                  popularity: widget.popularTvShows[index]['popularity'].toString(),
-                  sessionId: widget.popularTvShows[index]['id'].toString(),),
+                      + widget.favoriteList[index]['poster_path'],
+                  description: widget.favoriteList[index]['overview'],
+                  vote: widget.favoriteList[index]['vote_average'].toString(),
+                  launchOn: widget.favoriteList[index]['release_date'],
+                  language: widget.favoriteList[index]['original_language'],
+                  popularity: widget.favoriteList[index]['popularity'].toString(),
+                sessionId: widget.favoriteList[index]['id'].toString(),),
                     withNavBar: false);
               },
               child: Container(
@@ -43,7 +42,7 @@ class _PopularTvShowsState extends State<PopularTvShows> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(13),
                       image: DecorationImage(image: NetworkImage('https://image.tmdb.org/t/p/w500'
-                          + widget.popularTvShows[index]['poster_path']))),
+                          + widget.favoriteList[index]['poster_path']))),
                   margin: const EdgeInsets.only(left: 7)),
             );
           }),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants.dart';
+import 'package:movie_app/widgets/searched_movies.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);
@@ -10,14 +12,29 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
 
-  String query = "";
   TextEditingController searchController = TextEditingController();
 
-  // @override
-  // void initState() {
-  //   apiServices.searchMovieList();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    searchMovies(searchController.text);
+    super.initState();
+  }
+
+  /// Search Movies
+  List searchedMovies = [];
+
+  TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apiKey, readAccessToken),
+      logConfig: const ConfigLogger(
+          showLogs: true,
+          showErrorLogs: true
+      ));
+
+  searchMovies(String query) async {
+    Map searchResults = await tmdbWithCustomLogs.v3.search.queryMovies(query);
+    setState(() {
+      searchedMovies = searchResults['results'];
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,14 +77,17 @@ class _SearchViewState extends State<SearchView> {
                     controller: searchController,
                     style: titleTextStyle,
                     keyboardType: TextInputType.text,
-                    textInputAction: TextInputAction.search,
+                    textInputAction: TextInputAction.done,
                     decoration: InputDecoration.collapsed(
                       hintText: 'Search for a show, movie, genre, etc',
                       hintStyle: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 17),
                   ),),
                 ),
-                IconButton(onPressed: () {},
-                    icon: const Icon(Icons.mic, color: Colors.white,))
+                IconButton(onPressed: () {
+                  searchMovies(searchController.text);
+                  FocusManager.instance.primaryFocus?.unfocus();
+                },
+                    icon: const Icon(Icons.send, color: Colors.white,))
               ],),
             ),
           ),
@@ -75,38 +95,7 @@ class _SearchViewState extends State<SearchView> {
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               child: Text("Top Searches", style: listTextStyle,),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 50),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: FutureBuilder(
-                  // future: apiServices.loader(),
-                  // future: apiServices.searchMovieList(query: query),
-                  builder: (context, snapshot) {
-                    if(!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const ScrollPhysics(),
-                      itemCount: 7,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(bottom: 15),
-                          child: MediaQuery(data: const MediaQueryData(padding: EdgeInsets.zero),
-                            child: ListTile(
-                              leading: Image.asset("assets/images/movie_img.png", fit: BoxFit.cover,),
-                              title: Text("Interceptor", style: titleTextStyle,),
-                              trailing: const Icon(Icons.play_circle_outline, color: Colors.white,),
-                              tileColor: Colors.brown.withOpacity(0.4),
-                              contentPadding: const EdgeInsets.only(left: 0.0, right: 20.0, top: 5.0, bottom: 5.0),
-                            ),
-                          ),
-                        );
-                      });
-                  }
-                ),),
-            ),
+            SearchedMovieList(searching: searchedMovies)
         ],),
       ),
     );

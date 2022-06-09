@@ -2,18 +2,58 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:movie_app/helpers/constants.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
 class PlayMovieView extends StatefulWidget {
-  final String name, description, bannerUrl, posterUrl, vote, launchOn;
+  final String name, description, bannerUrl, posterUrl, vote, launchOn,
+      language, popularity, sessionId;
   const PlayMovieView({Key? key, required this.name, required this.description,
     required this.bannerUrl, required this.posterUrl, required this.vote,
-    required this.launchOn}) : super(key: key);
+    required this.launchOn, required this.language, required this.popularity,
+    required this.sessionId}) : super(key: key);
 
   @override
   State<PlayMovieView> createState() => _PlayMovieViewState();
 }
 
 class _PlayMovieViewState extends State<PlayMovieView> {
+
+  /// Create Favorite List
+  List myFavoriteMovies = [];
+
+  TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apiKey, readAccessToken),
+      logConfig: const ConfigLogger(
+          showLogs: true,
+          showErrorLogs: true
+      ));
+
+  // createFavoriteMovieList() async {
+  //   Map favoriteResults = await tmdbWithCustomLogs.v3.lists.createList
+  //     (widget.sessionId, widget.name, widget.description);
+  //   setState(() {
+  //     myFavoriteMovies = favoriteResults['results'];
+  //   });
+  // }
+
+  String sessionId = "";
+  String name = "";
+  String description = "";
+  String listId = "";
+  int? mediaId;
+
+  List myFavoriteMoviesList = [];
+
+  addMovieToList() async {
+    Map favListResults = await tmdbWithCustomLogs.v3.lists.createList
+      (sessionId, name, description);
+    Map favoriteMovieResults = await tmdbWithCustomLogs.v3.lists
+        .addItem(sessionId, listId, mediaId);
+    setState(() {
+      myFavoriteMoviesList = favListResults['results'];
+      myFavoriteMovies = favoriteMovieResults['results'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,7 +87,11 @@ class _PlayMovieViewState extends State<PlayMovieView> {
                             ),
                           ),
                           Text("Overview", style: appBarTextStyle),
-                          Container(width: 50)]),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 5),
+                            child: IconButton(onPressed: () => addMovieToList(), icon: const Icon
+                              (Icons.add, color: Colors.white, size: 30,)),
+                          )]),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -78,15 +122,15 @@ class _PlayMovieViewState extends State<PlayMovieView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text("Eng", style: descTextStyle,),
+                            Text(widget.language, style: descTextStyle,),
                             VerticalDivider(color: Colors.white.withOpacity(0.6), thickness: 2,),
                             Text("Action, Sci-Fi", style: descTextStyle,),
                             VerticalDivider(color: Colors.white.withOpacity(0.6), thickness: 2,),
                             Text(widget.launchOn, style: descTextStyle,),
                             VerticalDivider(color: Colors.white.withOpacity(0.6), thickness: 2,),
-                            Text("PG", style: descTextStyle,),
+                            Text('${widget.popularity}%', style: descTextStyle,),
                             VerticalDivider(color: Colors.white.withOpacity(0.6), thickness: 2,),
-                            Image.asset("assets/images/star_rating.png", color: Colors.white,),
+                            Image.asset("assets/images/star_rating.png", color: Colors.yellow,),
                             Text(widget.vote, style: descTextStyle,),
                             VerticalDivider(color: Colors.white.withOpacity(0.6), thickness: 2,),
                           ],

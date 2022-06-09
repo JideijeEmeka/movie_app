@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// App Name
+String appName = "EmmyFlix";
+
 /// App Colors
 Color purpleColor = const Color(0xFF5D4176);
 Color gradientOrangeColor = const Color(0xFFDF866C);
