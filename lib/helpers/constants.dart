@@ -14,6 +14,9 @@ final headerTextStyle = GoogleFonts.poppins(
 final subHeaderTextStyle = GoogleFonts.poppins(
     textStyle: TextStyle(color: Colors.white.withOpacity(0.6),
     fontSize: 13, fontWeight: FontWeight.w400));
+final descTextStyle = GoogleFonts.poppins(
+    textStyle: TextStyle(color: Colors.white.withOpacity(0.8),
+    fontSize: 13, fontWeight: FontWeight.w400));
 final normalTextStyle = GoogleFonts.poppins(
     textStyle: const TextStyle(color: Colors.white,
     fontSize: 14, fontWeight: FontWeight.w400));
