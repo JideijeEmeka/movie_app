@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-///App Colors
+/// App Colors
 Color purpleColor = const Color(0xFF5D4176);
 Color gradientOrangeColor = const Color(0xFFDF866C);
 Color gradientRedColor = const Color(0xFFE03A14);
 Color redColor = const Color(0xFFCB2F6B);
 
-///App TextStyles
+/// App TextStyles
 final headerTextStyle = GoogleFonts.poppins(
     textStyle: const TextStyle(color: Colors.white,
     fontSize: 24, fontWeight: FontWeight.w700));
@@ -35,3 +35,10 @@ final listTextStyle = GoogleFonts.poppins(
 final imdbTextStyle = GoogleFonts.poppins(
     textStyle: TextStyle(color: Colors.white.withOpacity(0.3),
     fontSize: 9, fontWeight: FontWeight.w400));
+
+/// Api Keys and Access Token
+String apiKey = "2a209b9033ad19c74ec7ab61c4cd582e";
+String readAccessToken =  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTIwOWI5MDMzYWQ"
+    "xOWM3NGVjN2FiNjFjNGNkNTgyZSIsInN1YiI6IjYyYTBjMGJkN2UxMmYwNmUwNzdhNzk1MC"
+    "IsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.nomF8AyiMxmk7R4nXfVmZ-"
+    "j1LxM9zeW8qHhuN00iKaA";
