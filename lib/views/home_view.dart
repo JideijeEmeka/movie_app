@@ -6,6 +6,7 @@ import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
 import 'package:movie_app/widgets/favorite_movies.dart';
+import 'package:movie_app/widgets/latest_movies.dart';
 import 'package:movie_app/widgets/popular_tv_shows.dart';
 import 'package:movie_app/widgets/top_rated_movies.dart';
 import 'package:movie_app/widgets/trending_movies.dart';
@@ -75,6 +76,7 @@ class _HomeViewState extends StateMVC<HomeView> {
   /// Load movies
   List trendingMovies = [];
   List topRatedMovies = [];
+  List latestMovies = [];
   List popularTvShows = [];
   List upComingTvShows = [];
   List myFavoriteMoviesList = [];
@@ -91,11 +93,13 @@ class _HomeViewState extends StateMVC<HomeView> {
     Map topRatedResults = await tmdbWithCustomLogs.v3.movies.getTopRated();
     Map popularTvResults = await tmdbWithCustomLogs.v3.movies.getPopular();
     Map upComingTvResults = await tmdbWithCustomLogs.v3.movies.getUpcoming();
+    Map latestMoviesResults = await tmdbWithCustomLogs.v3.movies.getLatest();
     setState(() {
       trendingMovies = trendingResults['results'];
       topRatedMovies = topRatedResults['results'];
       popularTvShows = popularTvResults['results'];
       upComingTvShows = upComingTvResults['results'];
+      latestMovies = latestMoviesResults['results'];
       // myFavoriteMovies = favoriteMovieResults['results'];
     });
   }
@@ -209,9 +213,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                               ],),
                             ),
                             /// Favorite Movies View
-                            if(myFavoriteMovies.isEmpty) ... [
-
-                            ],
+                            if(myFavoriteMovies.isEmpty) ... [],
                             if(myFavoriteMovies.isNotEmpty) ... [
                               Padding(
                                 padding: const EdgeInsets.only(top: 20, left: 6,
@@ -237,26 +239,19 @@ class _HomeViewState extends StateMVC<HomeView> {
                                   right: 5, bottom: 10),
                               child: Text("Top Rated Movies", style: listTextStyle,),),
                             TopRatedMovies(topRated: topRatedMovies,),
+                            /// UpComing TV Shows
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 10),
                               child: Text("UpComing TV Shows", style: listTextStyle,),),
                             UpComingMovies(upComing: upComingTvShows),
+                            /// Latest Movies
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 10),
-                              child: Text("Action Movies", style: listTextStyle,),),
-                            SizedBox(
-                              height: 170,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const ScrollPhysics(),
-                                  itemCount: 8,
-                                  itemBuilder: (context, index) {
-                                    return const FavoriteMovieList(favoriteList: [],);
-                              }),
-                            ),
+                              child: Text("Latest Movies", style: listTextStyle)),
+                            LatestMovies(latest: latestMovies),
+                            ///
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 10),
