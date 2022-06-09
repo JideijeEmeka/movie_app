@@ -1,14 +1,19 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:movie_app/Services/api_services.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/models/counter.dart';
 import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
 import 'package:movie_app/widgets/favorite_movie_list_widget.dart';
+import 'package:movie_app/widgets/popular_tv_shows.dart';
+import 'package:movie_app/widgets/top_rated_movies.dart';
+import 'package:movie_app/widgets/trending_movies.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:provider/provider.dart';
+import 'package:tmdb_api/tmdb_api.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -21,6 +26,7 @@ class _HomeViewState extends State<HomeView> {
 
   bool hasInternet = false;
   ConnectivityResult result = ConnectivityResult.none;
+  ApiServices apiServices = ApiServices();
 
   @override
   void initState() {
@@ -31,7 +37,36 @@ class _HomeViewState extends State<HomeView> {
       });
       checkInternetConnection();
     });
+    loadMovies();
     super.initState();
+  }
+
+  /// Load movies
+  List trendingMovies = [];
+  List topRatedMovies = [];
+  List popularTvShows = [];
+
+  String apiKey = "2a209b9033ad19c74ec7ab61c4cd582e";
+  String readAccessToken =  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTIwOWI5MDMzYWQ"
+      "xOWM3NGVjN2FiNjFjNGNkNTgyZSIsInN1YiI6IjYyYTBjMGJkN2UxMmYwNmUwNzdhNzk1MC"
+      "IsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.nomF8AyiMxmk7R4nXfVmZ-"
+      "j1LxM9zeW8qHhuN00iKaA";
+
+  loadMovies() async {
+    TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apiKey, readAccessToken),
+        logConfig: const ConfigLogger(
+            showLogs: true,
+            showErrorLogs: true
+        ));
+    Map trendingResults = await tmdbWithCustomLogs.v3.trending.getTrending();
+    Map topRatedResults = await tmdbWithCustomLogs.v3.tv.getTopRated();
+    Map popularTvResults = await tmdbWithCustomLogs.v3.tv.getPopular();
+    setState(() {
+      trendingMovies = trendingResults['results'] ?? "";
+      topRatedMovies = topRatedResults['results'];
+      popularTvShows = popularTvResults['results'];
+    });
+    debugPrint('$trendingMovies');
   }
 
   checkInternetConnection() async {
@@ -70,13 +105,11 @@ class _HomeViewState extends State<HomeView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
               TextButton(onPressed: () {},
-                  child: Text("TV Shows", style: titleTextStyle,)),
+                  child: Text("TV Shows", style: titleTextStyle)),
               TextButton(onPressed: () {},
-                  child: Text("Movies", style: titleTextStyle,)),
+                  child: Text("Movies", style: titleTextStyle)),
               TextButton(onPressed: () {},
-                  child: Text("Categories", style: titleTextStyle,)),
-            ],),
-          ),
+                  child: Text("Categories", style: titleTextStyle))])),
           leading: Padding(
             padding: const EdgeInsets.only(left: 20),
             child: Image.asset("assets/images/logo.png"),
@@ -163,7 +196,7 @@ class _HomeViewState extends State<HomeView> {
                       ],),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 7,
+                      padding: const EdgeInsets.only(top: 20, left: 6,
                           right: 15, bottom: 10),
                       child: Text("My List", style: listTextStyle,),),
                     SizedBox(
@@ -177,38 +210,26 @@ class _HomeViewState extends State<HomeView> {
                             return const FavoriteMovieList();
                       }),
                     ),
+                    /// Popular Movies View
                     Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 7,
+                      padding: const EdgeInsets.only(top: 20, left: 6,
                           right: 5, bottom: 10),
-                      child: Text("Action TV", style: listTextStyle,),),
-                    SizedBox(
-                      height: 170,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          physics: const ScrollPhysics(),
-                          itemCount: 8,
-                          itemBuilder: (context, index) {
-                            return const FavoriteMovieList();
-                      }),
-                    ),
+                      child: Text("Popular on EmmyFlix", style: listTextStyle,),),
+                    PopularTvShows(popularTvShows: popularTvShows,),
+                    /// Trending Now View
                     Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 7,
+                      padding: const EdgeInsets.only(top: 20, left: 6,
                           right: 5, bottom: 10),
-                      child: Text("Trending Now", style: listTextStyle,),),
-                    SizedBox(
-                      height: 170,
-                      child: ListView.builder(
-                        shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          physics: const ScrollPhysics(),
-                          itemCount: 8,
-                          itemBuilder: (context, index) {
-                            return const FavoriteMovieList();
-                      }),
-                    ),
+                      child: Text("Trending Now", style: listTextStyle)),
+                    TrendingMovieList(trending: trendingMovies),
+                    /// TopRated Movies View
                     Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 7,
+                      padding: const EdgeInsets.only(top: 20, left: 6,
+                          right: 5, bottom: 10),
+                      child: Text("Top Rated Movies", style: listTextStyle,),),
+                    TopRatedMovies(topRated: topRatedMovies,),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, left: 6,
                           right: 5, bottom: 10),
                       child: Text("Exciting International TV Shows", style: listTextStyle,),),
                     SizedBox(
@@ -223,7 +244,7 @@ class _HomeViewState extends State<HomeView> {
                       }),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 7,
+                      padding: const EdgeInsets.only(top: 20, left: 6,
                           right: 5, bottom: 10),
                       child: Text("Action Movies", style: listTextStyle,),),
                     SizedBox(
@@ -238,7 +259,7 @@ class _HomeViewState extends State<HomeView> {
                       }),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 20, left: 7,
+                      padding: const EdgeInsets.only(top: 20, left: 6,
                           right: 5, bottom: 10),
                       child: Text("Vampires & Werewolves", style: listTextStyle)),
                     SizedBox(
