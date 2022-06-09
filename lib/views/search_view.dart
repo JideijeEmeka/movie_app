@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_app/Services/api_services.dart';
 import 'package:movie_app/helpers/constants.dart';
-import 'package:movie_app/models/search_model.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);
@@ -14,7 +12,6 @@ class _SearchViewState extends State<SearchView> {
 
   String query = "";
   TextEditingController searchController = TextEditingController();
-  ApiServices apiServices = ApiServices();
 
   // @override
   // void initState() {
@@ -82,25 +79,24 @@ class _SearchViewState extends State<SearchView> {
               padding: const EdgeInsets.only(bottom: 50),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height,
-                child: FutureBuilder<List<Search>>(
-                  future: apiServices.loader(),
+                child: FutureBuilder(
+                  // future: apiServices.loader(),
                   // future: apiServices.searchMovieList(query: query),
                   builder: (context, snapshot) {
                     if(!snapshot.hasData) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    List<Search>? data = snapshot.data;
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: const ScrollPhysics(),
-                      itemCount: data?.length,
+                      itemCount: 7,
                       itemBuilder: (context, index) {
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 15),
                           child: MediaQuery(data: const MediaQueryData(padding: EdgeInsets.zero),
                             child: ListTile(
                               leading: Image.asset("assets/images/movie_img.png", fit: BoxFit.cover,),
-                              title: Text("${data?[index].name}", style: titleTextStyle,),
+                              title: Text("Interceptor", style: titleTextStyle,),
                               trailing: const Icon(Icons.play_circle_outline, color: Colors.white,),
                               tileColor: Colors.brown.withOpacity(0.4),
                               contentPadding: const EdgeInsets.only(left: 0.0, right: 20.0, top: 5.0, bottom: 5.0),

@@ -1,41 +1,39 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import 'package:movie_app/Services/api_services.dart';
+import 'package:movie_app/controllers/connectivity_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
-import 'package:movie_app/models/counter.dart';
 import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
 import 'package:movie_app/widgets/favorite_movie_list_widget.dart';
 import 'package:movie_app/widgets/popular_tv_shows.dart';
 import 'package:movie_app/widgets/top_rated_movies.dart';
 import 'package:movie_app/widgets/trending_movies.dart';
-import 'package:overlay_support/overlay_support.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:provider/provider.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
   @override
-  State<HomeView> createState() => _HomeViewState();
+  _HomeViewState createState() => _HomeViewState();
 }
 
-class _HomeViewState extends State<HomeView> {
+class _HomeViewState extends StateMVC<HomeView> {
+  _HomeViewState() : super(ConnectivityServiceController()) {
+    con = controller as ConnectivityServiceController;
+  }
 
-  bool hasInternet = false;
-  ConnectivityResult result = ConnectivityResult.none;
-  ApiServices apiServices = ApiServices();
+  late ConnectivityServiceController con;
 
   @override
   void initState() {
     InternetConnectionChecker().onStatusChange.listen((status) {
-      final hasInternet = status == InternetConnectionStatus.connected;
+      con.hasInternet = status == InternetConnectionStatus.connected;
       setState(() {
-        this.hasInternet = hasInternet;
+        con.hasInternet = con.hasInternet;
       });
-      checkInternetConnection();
+      con.checkInternetConnection();
     });
     loadMovies();
     super.initState();
@@ -62,32 +60,10 @@ class _HomeViewState extends State<HomeView> {
     Map topRatedResults = await tmdbWithCustomLogs.v3.tv.getTopRated();
     Map popularTvResults = await tmdbWithCustomLogs.v3.tv.getPopular();
     setState(() {
-      trendingMovies = trendingResults['results'] ?? "";
+      trendingMovies = trendingResults['results'];
       topRatedMovies = topRatedResults['results'];
       popularTvShows = popularTvResults['results'];
     });
-    debugPrint('$trendingMovies');
-  }
-
-  checkInternetConnection() async {
-    hasInternet = await InternetConnectionChecker().hasConnection;
-    result = await Connectivity().checkConnectivity();
-    final color = hasInternet ? Colors.green : Colors.red;
-    final text = hasInternet ? 'Internet' : 'No Internet';
-
-    if(result == ConnectivityResult.mobile) {
-      showSimpleNotification(
-          Text('$text: Mobile Network', style: titleTextStyle),
-          background: color);
-    }else if(result == ConnectivityResult.wifi) {
-      showSimpleNotification(
-          Text('$text: Wifi Network', style: titleTextStyle),
-          background: color);
-    }else {
-      showSimpleNotification(
-          Text('$text: No Network', style: titleTextStyle),
-          background: color);
-    }
   }
 
   @override
@@ -158,7 +134,6 @@ class _HomeViewState extends State<HomeView> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const SizedBox(height: 250),
-                    Center(child: Text('${context.watch<Counter>().count}', style: headerTextStyle,)),
                     Center(
                       child: Text("black hawk\n down".toUpperCase(),
                         style: headerTextStyle, textAlign: TextAlign.center)),
@@ -173,10 +148,7 @@ class _HomeViewState extends State<HomeView> {
                                 color: Colors.white,)),
                           Text("My List", style: normalTextStyle,),
                         ],),
-                        ElevatedButton(onPressed: () async {
-                          /// Play Video
-                          context.read<Counter>().increment();
-                        },
+                        ElevatedButton(onPressed: () async {},
                             style: ElevatedButton.styleFrom(
                               primary: Colors.white,
                               padding: const EdgeInsets.symmetric(

@@ -1,15 +1,15 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:movie_app/models/search_model.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
-class ApiServices {
+class ApiServiceController extends ControllerMVC {
 
-  loader() {
 
-  }
+  ApiServiceController();
+
+}
 
   // var data = [];
   // List<Search> results = [];
@@ -35,4 +35,3 @@ class ApiServices {
   //   }
   //   return results;
   // }
-}

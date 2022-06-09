@@ -14,7 +14,8 @@ class _FavoriteMovieListState extends State<FavoriteMovieList> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        pushNewScreen(context, screen: const PlayMovieView(),
+        pushNewScreen(context, screen: PlayMovieView(bannerUrl: '', launchOn: 'dfe',
+          vote: 'ff', description: 'cc', name: '', posterUrl: '',),
             withNavBar: false);
       },
       child: Container(
