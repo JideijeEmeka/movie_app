@@ -20,6 +20,9 @@ dependencies:
   overlay_support: any
   connectivity_plus: ^2.3.3
   provider: ^6.0.3
+  http: ^0.13.4
+  tmdb_api: ^2.1.2
+  mvc_pattern: any
 
 
 dev_dependencies:
