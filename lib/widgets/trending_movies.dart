@@ -24,17 +24,24 @@ class _TrendingMovieListState extends State<TrendingMovieList> {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
-                pushNewScreen(context, screen: const PlayMovieView(),
+                pushNewScreen(context, screen: PlayMovieView(
+                  name: widget.trending[index]['title'],
+                bannerUrl: 'https://image.tmdb.org/t/p/w500'
+                    + widget.trending[index]['backdrop_path'],
+                posterUrl: 'https://image.tmdb.org/t/p/w500'
+                  + widget.trending[index]['poster_path'],
+                description: widget.trending[index]['overview'],
+                vote: widget.trending[index]['vote_average'].toString(),
+                launchOn: widget.trending[index]['release_date'],),
                     withNavBar: false);
-              },
+                debugPrint("Breast");
+                },
               child: Container(
-                  width: 130,
-                  height: 200,
+                  width: 116, height: 200,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(13),
                     image: DecorationImage(image: NetworkImage('https://image.tmdb.org/t/p/w500'
-                        + widget.trending[index]['poster_path']))
-                  ),
+                        + widget.trending[index]['poster_path']))),
                   margin: const EdgeInsets.only(left: 7)),
             );
           }),
