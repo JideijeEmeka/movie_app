@@ -26,6 +26,9 @@ final normalTextStyle = GoogleFonts.poppins(
 final titleTextStyle = GoogleFonts.poppins(
     textStyle: const TextStyle(color: Colors.white,
     fontSize: 17, fontWeight: FontWeight.w500));
+final loadingTextStyle = GoogleFonts.poppins(
+    textStyle: const TextStyle(color: Colors.black,
+    fontSize: 18, fontWeight: FontWeight.w500));
 final ratingTextStyle = GoogleFonts.poppins(
     textStyle: const TextStyle(color: Colors.white,
     fontSize: 17, fontWeight: FontWeight.w700));
