@@ -87,15 +87,22 @@ class _SearchViewState extends State<SearchView> {
                   ),),
                 ),
                 IconButton(onPressed: () async {
-                  setState(() {
-                    isLoading = true;
-                  });
-                  await Future.delayed(const Duration(seconds: 4), () {
-                    searchMovies(searchController.text);
-                  });
-                  setState(() {
-                    isLoading = false;
-                  });
+                  if(searchController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:
+                    Text('Pls input a movie name', style: loadingTextStyle,), elevation: 5,
+                      backgroundColor: Colors.brown.withOpacity(0.4),
+                    margin: const EdgeInsets.only(bottom: 100), behavior: SnackBarBehavior.floating,));
+                  }else {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    await Future.delayed(const Duration(seconds: 3), () {
+                      searchMovies(searchController.text);
+                    });
+                    setState(() {
+                      isLoading = false;
+                    });
+                  }
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
                   icon: const Icon(Icons.send, color: Colors.white,))
@@ -107,7 +114,6 @@ class _SearchViewState extends State<SearchView> {
               child: Text("Top Searches", style: listTextStyle,),
             ),
             Container(
-              height: MediaQuery.of(context).size.height,
               margin: const EdgeInsets.only(bottom: 80),
               child: !isLoading ?
             SearchedMovieList(searching: searchedMovies) :
