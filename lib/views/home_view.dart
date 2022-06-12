@@ -76,7 +76,7 @@ class _HomeViewState extends StateMVC<HomeView> {
   /// Load movies
   List trendingMovies = [];
   List topRatedMovies = [];
-  List latestMovies = [];
+  // List latestMovies = [];
   List popularTvShows = [];
   List upComingTvShows = [];
   List myFavoriteMoviesList = [];
@@ -93,13 +93,13 @@ class _HomeViewState extends StateMVC<HomeView> {
     Map topRatedResults = await tmdbWithCustomLogs.v3.movies.getTopRated();
     Map popularTvResults = await tmdbWithCustomLogs.v3.movies.getPopular();
     Map upComingTvResults = await tmdbWithCustomLogs.v3.movies.getUpcoming();
-    Map latestMoviesResults = await tmdbWithCustomLogs.v3.movies.getLatest();
+    // Map latestMoviesResults = await tmdbWithCustomLogs.v3.movies.getLatest();
     setState(() {
       trendingMovies = trendingResults['results'];
       topRatedMovies = topRatedResults['results'];
       popularTvShows = popularTvResults['results'];
       upComingTvShows = upComingTvResults['results'];
-      latestMovies = latestMoviesResults['results'];
+      // latestMovies = latestMoviesResults['results'];
       // myFavoriteMovies = favoriteMovieResults['results'];
     });
   }
@@ -245,12 +245,12 @@ class _HomeViewState extends StateMVC<HomeView> {
                                   right: 5, bottom: 10),
                               child: Text("UpComing TV Shows", style: listTextStyle,),),
                             UpComingMovies(upComing: upComingTvShows),
-                            /// Latest Movies
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20, left: 6,
-                                  right: 5, bottom: 10),
-                              child: Text("Latest Movies", style: listTextStyle)),
-                            LatestMovies(latest: latestMovies),
+                            // /// Latest Movies
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 20, left: 6,
+                            //       right: 5, bottom: 10),
+                            //   child: Text("Latest Movies", style: listTextStyle)),
+                            // LatestMovies(latest: latestMovies),
                             ///
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
