@@ -89,13 +89,14 @@ class _SearchViewState extends State<SearchView> {
                 IconButton(onPressed: () async {
                   if(searchController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:
-                    Text('Pls input a movie name', style: loadingTextStyle,), elevation: 5,
+                    Text('Pls input a movie name', style: titleTextStyle,), elevation: 5,
                       backgroundColor: Colors.brown.withOpacity(0.4),
                     margin: const EdgeInsets.only(bottom: 100), behavior: SnackBarBehavior.floating,));
                   }else {
                     setState(() {
                       isLoading = true;
                     });
+                    FocusManager.instance.primaryFocus?.unfocus();
                     await Future.delayed(const Duration(seconds: 3), () {
                       searchMovies(searchController.text);
                     });

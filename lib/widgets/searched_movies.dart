@@ -38,7 +38,7 @@ class _SearchedMovieListState extends State<SearchedMovieList> {
                           withNavBar: false);
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
+                      padding: const EdgeInsets.only(bottom: 5),
                       child: MediaQuery(data: const MediaQueryData(padding: EdgeInsets.zero),
                         child: ListTile(
                           leading: Image.network('https://image.tmdb.org/t/p/w500'
