@@ -121,7 +121,7 @@ class _PlayMovieViewState extends State<PlayMovieView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(widget.language, style: descTextStyle,),
+                            Text(widget.language.toUpperCase(), style: descTextStyle,),
                             VerticalDivider(color: Colors.white.withOpacity(0.6), thickness: 2,),
                             Text("Action, Sci-Fi", style: descTextStyle,),
                             VerticalDivider(color: Colors.white.withOpacity(0.6), thickness: 2,),
