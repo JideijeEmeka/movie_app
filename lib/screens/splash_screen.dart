@@ -14,12 +14,12 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   void initState() {
-  _navigateToHome();
+  _navigateToDashboard();
     super.initState();
   }
 
-  _navigateToHome() async {
-    await Future.delayed(const Duration(milliseconds: 1000), () {});
+  _navigateToDashboard() async {
+    await Future.delayed(const Duration(milliseconds: 3000), () {});
     pushNewScreen(context, screen: const DashboardView(), withNavBar: false);
   }
 
