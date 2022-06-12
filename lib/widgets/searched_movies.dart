@@ -16,7 +16,6 @@ class _SearchedMovieListState extends State<SearchedMovieList> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-            height: MediaQuery.of(context).size.height,
             child: ListView.builder(
                 shrinkWrap: true,
                 physics: const ScrollPhysics(),
@@ -39,7 +38,7 @@ class _SearchedMovieListState extends State<SearchedMovieList> {
                           withNavBar: false);
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(bottom: 15),
+                      padding: const EdgeInsets.only(bottom: 10),
                       child: MediaQuery(data: const MediaQueryData(padding: EdgeInsets.zero),
                         child: ListTile(
                           leading: Image.network('https://image.tmdb.org/t/p/w500'

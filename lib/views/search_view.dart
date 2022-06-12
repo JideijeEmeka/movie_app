@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants.dart';
+import 'package:movie_app/helpers/utility.dart';
 import 'package:movie_app/widgets/searched_movies.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
@@ -12,6 +13,8 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
 
+  bool isLoading = false;
+  final Utility _utility = Utility();
   TextEditingController searchController = TextEditingController();
 
   @override
@@ -70,7 +73,7 @@ class _SearchViewState extends State<SearchView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                const Icon(Icons.search, color: Colors.white, size: 28,),
+                const Icon(Icons.search, color: Colors.white, size: 28),
                 const SizedBox(width: 15,),
                 Expanded(
                   child: TextField(
@@ -83,11 +86,19 @@ class _SearchViewState extends State<SearchView> {
                       hintStyle: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 17),
                   ),),
                 ),
-                IconButton(onPressed: () {
-                  searchMovies(searchController.text);
+                IconButton(onPressed: () async {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  await Future.delayed(const Duration(seconds: 4), () {
+                    searchMovies(searchController.text);
+                  });
+                  setState(() {
+                    isLoading = false;
+                  });
                   FocusManager.instance.primaryFocus?.unfocus();
                 },
-                    icon: const Icon(Icons.send, color: Colors.white,))
+                  icon: const Icon(Icons.send, color: Colors.white,))
               ],),
             ),
           ),
@@ -95,7 +106,15 @@ class _SearchViewState extends State<SearchView> {
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               child: Text("Top Searches", style: listTextStyle,),
             ),
-            SearchedMovieList(searching: searchedMovies)
+            Container(
+              height: MediaQuery.of(context).size.height,
+              margin: const EdgeInsets.only(bottom: 80),
+              child: !isLoading ?
+            SearchedMovieList(searching: searchedMovies) :
+            Center(child: Padding(
+              padding: const EdgeInsets.only(top: 50),
+              child: _utility.loader(context, 'Searching...'),
+            )),),
         ],),
       ),
     );
