@@ -8,6 +8,7 @@ import 'package:movie_app/widgets/buttons/floating_action_button.dart';
 import 'package:movie_app/widgets/favorite_movies.dart';
 import 'package:movie_app/widgets/latest_movies.dart';
 import 'package:movie_app/widgets/popular_tv_shows.dart';
+import 'package:movie_app/widgets/recommended_movies.dart';
 import 'package:movie_app/widgets/top_rated_movies.dart';
 import 'package:movie_app/widgets/trending_movies.dart';
 import 'package:movie_app/widgets/up_coming_movies.dart';
@@ -79,6 +80,7 @@ class _HomeViewState extends StateMVC<HomeView> {
   List nowPlaying = [];
   List popularTvShows = [];
   List upComingTvShows = [];
+  List recommendedMovies = [];
   List myFavoriteMoviesList = [];
   List myFavoriteMovies = [];
 
@@ -94,12 +96,15 @@ class _HomeViewState extends StateMVC<HomeView> {
     Map popularTvResults = await tmdbWithCustomLogs.v3.movies.getPopular();
     Map upComingTvResults = await tmdbWithCustomLogs.v3.movies.getUpcoming();
     Map nowPlayingResults = await tmdbWithCustomLogs.v3.movies.getNowPlaying();
+    Map recommendedMoviesResults = await tmdbWithCustomLogs.v3.movies
+        .getRecommended(2, language: 'en-US');
     setState(() {
       trendingMovies = trendingResults['results'];
       topRatedMovies = topRatedResults['results'];
       popularTvShows = popularTvResults['results'];
       upComingTvShows = upComingTvResults['results'];
       nowPlaying = nowPlayingResults['results'];
+      recommendedMovies = recommendedMoviesResults['results'];
       // myFavoriteMovies = favoriteMovieResults['results'];
     });
   }
@@ -233,6 +238,12 @@ class _HomeViewState extends StateMVC<HomeView> {
                                   right: 5, bottom: 10),
                               child: Text("Trending Now", style: listTextStyle)),
                             TrendingMovieList(trending: trendingMovies),
+                            /// Recommended Movies View
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20, left: 6,
+                                  right: 5, bottom: 10),
+                              child: Text("Recommended Movies", style: listTextStyle)),
+                            RecommendedMoviesList(recommended: recommendedMovies,),
                             /// TopRated Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,

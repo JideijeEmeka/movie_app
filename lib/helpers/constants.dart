@@ -37,7 +37,7 @@ final appBarTextStyle = GoogleFonts.poppins(
     fontSize: 19, fontWeight: FontWeight.w700));
 final listTextStyle = GoogleFonts.poppins(
     textStyle: const TextStyle(color: Colors.white,
-    fontSize: 21, fontWeight: FontWeight.w500));
+    fontSize: 18, fontWeight: FontWeight.w500));
 final imdbTextStyle = GoogleFonts.poppins(
     textStyle: TextStyle(color: Colors.white.withOpacity(0.3),
     fontSize: 9, fontWeight: FontWeight.w400));
