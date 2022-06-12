@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/views/dashboard_view.dart';
 import 'package:movie_app/views/series_view.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:provider/provider.dart';
 
 void main() {
   runApp(const MyApp());

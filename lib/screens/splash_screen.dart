@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/views/dashboard_view.dart';
-import 'package:movie_app/views/home_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class SplashScreen extends StatefulWidget {

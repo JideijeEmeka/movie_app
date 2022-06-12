@@ -68,10 +68,10 @@ class _HomeViewState extends StateMVC<HomeView> {
     }
   }
 
-  String sessionId = "";
-  String name = "";
-  String description = "";
-  String listId = "";
+  // String sessionId = "";
+  // String name = "";
+  // String description = "";
+  // String listId = "";
 
   /// Load movies
   List trendingMovies = [];
@@ -104,16 +104,16 @@ class _HomeViewState extends StateMVC<HomeView> {
     });
   }
 
-  addMovieToList(int? mediaId) async {
-    Map favListResults = await tmdbWithCustomLogs.v3.lists.createList
-      (sessionId, name, description);
-    Map favoriteMovieResults = await tmdbWithCustomLogs.v3.lists
-        .addItem(sessionId, listId, mediaId);
-    setState(() {
-      myFavoriteMoviesList = favListResults['results'];
-      myFavoriteMovies = favoriteMovieResults['results'];
-    });
-  }
+  // addMovieToList(int? mediaId) async {
+  //   Map favListResults = await tmdbWithCustomLogs.v3.lists.createList
+  //     (sessionId, name, description);
+  //   Map favoriteMovieResults = await tmdbWithCustomLogs.v3.lists
+  //       .addItem(sessionId, listId, mediaId);
+  //   setState(() {
+  //     myFavoriteMoviesList = favListResults['results'];
+  //     myFavoriteMovies = favoriteMovieResults['results'];
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
