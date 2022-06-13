@@ -208,7 +208,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                             Stack(
                               children: [
                                 SizedBox(
-                                  height: 380,
+                                  height: 365,
                                   width: double.infinity,
                                   child: ClipRRect(
                                     child: Image.network('https://image.tmdb.org/t/p/w500'
@@ -219,14 +219,9 @@ class _HomeViewState extends StateMVC<HomeView> {
                                   bottom: 2,
                                   left: 50,
                                   right: 50,
-                                  child: Container(
-                                    color: Colors.black.withOpacity(0.2),
-                                    child: Column(
+                                  child: Column(
                                       children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 10),
-                                          child: Text(popularMovies[0]['title'], style: headerTextStyle,),
-                                        ),
+                                        Text(popularMovies[0]['title'], style: appBarTextStyle,),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
@@ -260,7 +255,6 @@ class _HomeViewState extends StateMVC<HomeView> {
                                       ],
                                     ),
                                   ),
-                                ),
                               ],
                             ),
                             /// Favorite Movies View
