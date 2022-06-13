@@ -23,6 +23,7 @@ dependencies:
   http: ^0.13.4
   tmdb_api: ^2.1.2
   mvc_pattern: any
+  shimmer: ^2.0.0
 
 
 dev_dependencies:
