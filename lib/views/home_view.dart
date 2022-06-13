@@ -6,8 +6,10 @@ import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
 import 'package:movie_app/widgets/favorite_movies.dart';
-import 'package:movie_app/widgets/now_playing_movies.dart';
 import 'package:movie_app/widgets/popular_tv_shows.dart';
+import 'package:movie_app/widgets/tv_airing_today.dart';
+import 'package:movie_app/widgets/now_playing_movies.dart';
+import 'package:movie_app/widgets/popular_movies.dart';
 import 'package:movie_app/widgets/recommended_movies.dart';
 import 'package:movie_app/widgets/similar_movies.dart';
 import 'package:movie_app/widgets/top_rated_movies.dart';
@@ -79,10 +81,12 @@ class _HomeViewState extends StateMVC<HomeView> {
   List trendingMovies = [];
   List topRatedMovies = [];
   List nowPlaying = [];
-  List popularTvShows = [];
+  List popularMovies = [];
   List upComingTvShows = [];
   List recommendedMovies = [];
   List similarMovies = [];
+  List tvAiringToday = [];
+  List popularTvShows = [];
   List myFavoriteMoviesList = [];
   List myFavoriteMovies = [];
 
@@ -95,21 +99,27 @@ class _HomeViewState extends StateMVC<HomeView> {
   loadMovies() async {
     Map trendingResults = await tmdbWithCustomLogs.v3.trending.getTrending();
     Map topRatedResults = await tmdbWithCustomLogs.v3.movies.getTopRated();
-    Map popularTvResults = await tmdbWithCustomLogs.v3.movies.getPopular();
+    Map popularMoviesResults = await tmdbWithCustomLogs.v3.movies.getPopular();
     Map upComingTvResults = await tmdbWithCustomLogs.v3.movies.getUpcoming();
     Map nowPlayingResults = await tmdbWithCustomLogs.v3.movies.getNowPlaying();
     Map recommendedMoviesResults = await tmdbWithCustomLogs.v3.movies
         .getRecommended(2, language: 'en-US');
     Map similarMoviesResults = await tmdbWithCustomLogs.v3.movies
         .getSimilar(2, language: 'en-US');
+    Map tvAiringTodayResults = await tmdbWithCustomLogs.v3.tv
+        .getAiringToday(language: 'en-US', page: 2);
+    Map popularTvShowsResults = await tmdbWithCustomLogs.v3.tv
+        .getPopular(language: 'en-US', page: 2);
     setState(() {
       trendingMovies = trendingResults['results'];
       topRatedMovies = topRatedResults['results'];
-      popularTvShows = popularTvResults['results'];
+      popularMovies = popularMoviesResults['results'];
       upComingTvShows = upComingTvResults['results'];
       nowPlaying = nowPlayingResults['results'];
       recommendedMovies = recommendedMoviesResults['results'];
       similarMovies = similarMoviesResults['results'];
+      tvAiringToday = tvAiringTodayResults['results'];
+      popularTvShows = popularTvShowsResults['results'];
       // myFavoriteMovies = favoriteMovieResults['results'];
     });
   }
@@ -168,7 +178,10 @@ class _HomeViewState extends StateMVC<HomeView> {
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           extendBodyBehindAppBar: true,
           backgroundColor: Colors.transparent,
-          body: Stack(children: [
+          body: Stack(
+              clipBehavior: Clip.hardEdge,
+              alignment: Alignment.center,
+              children: [
                   Container(
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
@@ -192,13 +205,13 @@ class _HomeViewState extends StateMVC<HomeView> {
                                 style: headerTextStyle, textAlign: TextAlign.center)),
                             const SizedBox(height: 30),
                             Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                              padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 5),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
                                 Column(children: [
                                   IconButton(onPressed: () {},
-                                      icon: const Icon(Icons.message, size: 30,
+                                      icon: const Icon(Icons.add, size: 30,
                                         color: Colors.white,)),
                                   Text("My List", style: normalTextStyle,),
                                 ],),
@@ -207,11 +220,11 @@ class _HomeViewState extends StateMVC<HomeView> {
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.white,
                                       padding: const EdgeInsets.symmetric(
-                                          vertical: 7, horizontal: 25),
+                                          vertical: 7, horizontal: 20),
                                       onSurface: Colors.black54),
                                     child: Row(children: const [
-                                      Icon(Icons.add, size: 30, color: Colors.black,),
-                                      Text("Create New List", style: TextStyle(color: Colors.black,
+                                      Icon(Icons.play_arrow_rounded, size: 30, color: Colors.black,),
+                                      Text("Play", style: TextStyle(color: Colors.black,
                                           fontSize: 17)),
                                     ],)),
                                   Column(children: [
@@ -236,13 +249,19 @@ class _HomeViewState extends StateMVC<HomeView> {
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("Popular on EmmyFlix", style: listTextStyle,),),
-                            PopularTvShows(popularTvShows: popularTvShows,),
+                            PopularMovies(popularMovies: popularMovies,),
                             /// Trending Now View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("Trending Now", style: listTextStyle)),
                             TrendingMovieList(trending: trendingMovies),
+                            /// Similar Movies
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20, left: 6,
+                                  right: 5, bottom: 3),
+                              child: Text("Similar to what you've watched", style: listTextStyle,),),
+                            SimilarMoviesList(similarMovies: similarMovies,),
                             /// Recommended Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
@@ -261,18 +280,24 @@ class _HomeViewState extends StateMVC<HomeView> {
                                   right: 5, bottom: 3),
                               child: Text("UpComing TV Shows", style: listTextStyle,),),
                             UpComingMovies(upComing: upComingTvShows),
-                            /// Similar Movies
+                            /// Tv Airing Today
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
-                              child: Text("Similar Movies", style: listTextStyle,),),
-                            SimilarMoviesList(similarMovies: similarMovies,),
+                              child: Text("Tv Airing Today", style: listTextStyle)),
+                            TvAiringTodayList(latest: tvAiringToday,),
                             /// Now Playing Movies
                             Padding(
-                              padding: const EdgeInsets.only(top: 20, left: 6,
-                                  right: 5, bottom: 3),
-                              child: Text("Now Playing Movies", style: listTextStyle)),
+                                padding: const EdgeInsets.only(top: 20, left: 6,
+                                    right: 5, bottom: 3),
+                                child: Text("Now Playing Movies", style: listTextStyle)),
                             NowPlayingMoviesList(nowPlaying: nowPlaying),
+                            /// Popular Tv Shows
+                            Padding(
+                                padding: const EdgeInsets.only(top: 20, left: 6,
+                                    right: 5, bottom: 3),
+                                child: Text("Popular Tv Shows", style: listTextStyle)),
+                            PopularTvShows(popularTvShows: popularTvShows,),
                             const SizedBox(height: 100,)
                           ],),
                   ),
