@@ -192,48 +192,65 @@ class _HomeViewState extends StateMVC<HomeView> {
                             colors: [Colors.brown.withOpacity(0.4), Colors.black])
                     )),
                   Container(
-                    decoration: BoxDecoration(
-                        color: Colors.black.withOpacity(0.3)
+                    decoration: const BoxDecoration(
+                        color: Colors.black
                     )),
                   SingleChildScrollView(
                     child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 200),
-                            Center(
-                              child: Text(appName.toUpperCase(),
-                                style: headerTextStyle, textAlign: TextAlign.center)),
-                            const SizedBox(height: 30),
-                            Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 5),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                Column(children: [
-                                  IconButton(onPressed: () {},
-                                      icon: const Icon(Icons.add, size: 30,
-                                        color: Colors.white,)),
-                                  Text("My List", style: normalTextStyle,),
-                                ],),
-                                ElevatedButton(onPressed: () =>
-                                    {},
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.white,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 7, horizontal: 20),
-                                      onSurface: Colors.black54),
-                                    child: Row(children: const [
-                                      Icon(Icons.play_arrow_rounded, size: 30, color: Colors.black,),
-                                      Text("Play", style: TextStyle(color: Colors.black,
-                                          fontSize: 17)),
-                                    ],)),
-                                  Column(children: [
-                                    IconButton(onPressed: () {},
-                                        icon: const Icon(Icons.info_outline, size: 30,
-                                          color: Colors.white,)),
-                                    Text("Info", style: normalTextStyle,),
-                                  ],),
-                              ],),
+                            // const SizedBox(height: 205),
+                            // Center(
+                            //   child: Text(appName.toUpperCase(),
+                            //     style: headerTextStyle, textAlign: TextAlign.center)),
+                            // const SizedBox(height: 25),
+                            Stack(
+                              children: [
+                                SizedBox(
+                                  height: 380,
+                                  width: double.infinity,
+                                  child: ClipRRect(
+                                    child: Image.network('https://image.tmdb.org/t/p/w500'
+                                        + popularMovies[0]['poster_path'], fit: BoxFit.cover,),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 50,
+                                  right: 50,
+                                  child: Column(
+                                    children: [
+                                      Text(''),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Column(children: [
+                                            const Icon(Icons.add, size: 30, color: Colors.white,),
+                                            Text('My List', style: titleTextStyle,)
+                                          ],),
+                                          const SizedBox(width: 35,),
+                                          ElevatedButton(onPressed: () =>
+                                          {},
+                                              style: ElevatedButton.styleFrom(
+                                                  primary: Colors.white,
+                                                  padding: const EdgeInsets.symmetric(
+                                                      vertical: 7, horizontal: 20),
+                                                  onSurface: Colors.black54),
+                                              child: Row(children: const [
+                                                Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
+                                                Text("Play", style: TextStyle(color: Colors.black,
+                                                    fontSize: 17)),
+                                              ],)),
+                                          const SizedBox(width: 35,),
+                                          Column(children: [
+                                            const Icon(Icons.info_outline, size: 30, color: Colors.white,),
+                                            Text('Info', style: titleTextStyle,)
+                                          ],),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
                             ),
                             /// Favorite Movies View
                             if(myFavoriteMovies.isEmpty) ... [],
@@ -301,7 +318,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                             const SizedBox(height: 100,)
                           ],),
                   ),
-                ]),
+                    ],),
     );
   }
 }
