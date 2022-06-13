@@ -41,7 +41,7 @@ class _SimilarMoviesListState extends State<SimilarMoviesList> {
               child: Container(
                   width: 116, height: 200,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(13),
+                      borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(image: NetworkImage('https://image.tmdb.org/t/p/w500'
                           + widget.similarMovies[index]['poster_path']))),
                   margin: const EdgeInsets.only(left: 7)),
