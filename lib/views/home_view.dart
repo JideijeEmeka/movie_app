@@ -6,9 +6,10 @@ import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
 import 'package:movie_app/widgets/favorite_movies.dart';
-import 'package:movie_app/widgets/latest_movies.dart';
+import 'package:movie_app/widgets/now_playing_movies.dart';
 import 'package:movie_app/widgets/popular_tv_shows.dart';
 import 'package:movie_app/widgets/recommended_movies.dart';
+import 'package:movie_app/widgets/similar_movies.dart';
 import 'package:movie_app/widgets/top_rated_movies.dart';
 import 'package:movie_app/widgets/trending_movies.dart';
 import 'package:movie_app/widgets/up_coming_movies.dart';
@@ -81,6 +82,7 @@ class _HomeViewState extends StateMVC<HomeView> {
   List popularTvShows = [];
   List upComingTvShows = [];
   List recommendedMovies = [];
+  List similarMovies = [];
   List myFavoriteMoviesList = [];
   List myFavoriteMovies = [];
 
@@ -98,6 +100,8 @@ class _HomeViewState extends StateMVC<HomeView> {
     Map nowPlayingResults = await tmdbWithCustomLogs.v3.movies.getNowPlaying();
     Map recommendedMoviesResults = await tmdbWithCustomLogs.v3.movies
         .getRecommended(2, language: 'en-US');
+    Map similarMoviesResults = await tmdbWithCustomLogs.v3.movies
+        .getSimilar(2, language: 'en-US');
     setState(() {
       trendingMovies = trendingResults['results'];
       topRatedMovies = topRatedResults['results'];
@@ -105,6 +109,7 @@ class _HomeViewState extends StateMVC<HomeView> {
       upComingTvShows = upComingTvResults['results'];
       nowPlaying = nowPlayingResults['results'];
       recommendedMovies = recommendedMoviesResults['results'];
+      similarMovies = similarMoviesResults['results'];
       // myFavoriteMovies = favoriteMovieResults['results'];
     });
   }
@@ -222,63 +227,53 @@ class _HomeViewState extends StateMVC<HomeView> {
                             if(myFavoriteMovies.isNotEmpty) ... [
                               Padding(
                                 padding: const EdgeInsets.only(top: 20, left: 6,
-                                    right: 5, bottom: 10),
+                                    right: 5, bottom: 3),
                                 child: Text("My List", style: listTextStyle,),),
                               FavoriteMovieList(favoriteList: myFavoriteMovies),
                             ],
                             /// Popular Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
-                                  right: 5, bottom: 10),
+                                  right: 5, bottom: 3),
                               child: Text("Popular on EmmyFlix", style: listTextStyle,),),
                             PopularTvShows(popularTvShows: popularTvShows,),
                             /// Trending Now View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
-                                  right: 5, bottom: 10),
+                                  right: 5, bottom: 3),
                               child: Text("Trending Now", style: listTextStyle)),
                             TrendingMovieList(trending: trendingMovies),
                             /// Recommended Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
-                                  right: 5, bottom: 10),
+                                  right: 5, bottom: 3),
                               child: Text("Recommended Movies", style: listTextStyle)),
                             RecommendedMoviesList(recommended: recommendedMovies,),
                             /// TopRated Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
-                                  right: 5, bottom: 10),
+                                  right: 5, bottom: 3),
                               child: Text("Top Rated Movies", style: listTextStyle,),),
                             TopRatedMovies(topRated: topRatedMovies,),
                             /// UpComing TV Shows
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
-                                  right: 5, bottom: 10),
+                                  right: 5, bottom: 3),
                               child: Text("UpComing TV Shows", style: listTextStyle,),),
                             UpComingMovies(upComing: upComingTvShows),
+                            /// Similar Movies
+                            Padding(
+                              padding: const EdgeInsets.only(top: 20, left: 6,
+                                  right: 5, bottom: 3),
+                              child: Text("Similar Movies", style: listTextStyle,),),
+                            SimilarMoviesList(similarMovies: similarMovies,),
                             /// Now Playing Movies
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
-                                  right: 5, bottom: 10),
+                                  right: 5, bottom: 3),
                               child: Text("Now Playing Movies", style: listTextStyle)),
-                            LatestMovies(latest: nowPlaying),
-                            ///
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20, left: 6,
-                                  right: 5, bottom: 10),
-                              child: Text("Vampires & Werewolves", style: listTextStyle)),
-                            SizedBox(
-                              height: 170,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                  scrollDirection: Axis.horizontal,
-                                  physics: const ScrollPhysics(),
-                                  itemCount: 8,
-                                  itemBuilder: (context, index) {
-                                    return const FavoriteMovieList(favoriteList: [],);
-                              }),
-                            ),
-                            const SizedBox(height: 30,)
+                            NowPlayingMoviesList(nowPlaying: nowPlaying),
+                            const SizedBox(height: 100,)
                           ],),
                   ),
                 ]),
