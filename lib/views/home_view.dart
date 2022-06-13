@@ -34,6 +34,7 @@ class _HomeViewState extends StateMVC<HomeView> {
 
   late ApiServiceController con;
   bool hasInternet = false;
+  bool addedMovie = false;
   ConnectivityResult result = ConnectivityResult.none;
 
   @override
@@ -72,11 +73,6 @@ class _HomeViewState extends StateMVC<HomeView> {
     }
   }
 
-  // String sessionId = "";
-  // String name = "";
-  // String description = "";
-  // String listId = "";
-
   /// Load movies
   List trendingMovies = [];
   List topRatedMovies = [];
@@ -102,6 +98,9 @@ class _HomeViewState extends StateMVC<HomeView> {
     Map popularMoviesResults = await tmdbWithCustomLogs.v3.movies.getPopular();
     Map upComingTvResults = await tmdbWithCustomLogs.v3.movies.getUpcoming();
     Map nowPlayingResults = await tmdbWithCustomLogs.v3.movies.getNowPlaying();
+    // Map myFavMoviesListResults = await tmdbWithCustomLogs.v3.lists.createList
+    //   ('emmy', 'Emmy', 'my Movie List');
+    // Map myFavMoviesResults = await tmdbWithCustomLogs.v3.lists.addItem('emmy', 'listId', 2);
     Map recommendedMoviesResults = await tmdbWithCustomLogs.v3.movies
         .getRecommended(2, language: 'en-US');
     Map similarMoviesResults = await tmdbWithCustomLogs.v3.movies
@@ -120,20 +119,27 @@ class _HomeViewState extends StateMVC<HomeView> {
       similarMovies = similarMoviesResults['results'];
       tvAiringToday = tvAiringTodayResults['results'];
       popularTvShows = popularTvShowsResults['results'];
-      // myFavoriteMovies = favoriteMovieResults['results'];
+      // myFavoriteMoviesList = myFavMoviesListResults['results'];
+      // myFavoriteMovies = myFavMoviesResults['results'];
+      // myFavoriteMovies = myFavoriteMoviesList;
     });
   }
 
-  // addMovieToList(int? mediaId) async {
-  //   Map favListResults = await tmdbWithCustomLogs.v3.lists.createList
-  //     (sessionId, name, description);
-  //   Map favoriteMovieResults = await tmdbWithCustomLogs.v3.lists
-  //       .addItem(sessionId, listId, mediaId);
-  //   setState(() {
-  //     myFavoriteMoviesList = favListResults['results'];
-  //     myFavoriteMovies = favoriteMovieResults['results'];
-  //   });
-  // }
+  addMovieToList() async {
+    Map myFavMoviesListResults = await tmdbWithCustomLogs.v3.lists.createList
+      ('emmy', 'Emmy', 'my Movie List');
+    Map myFavMoviesResults = await tmdbWithCustomLogs.v3.lists.addItem('emmy', 'listId', 2);
+    addedMovie = true;
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:
+    Text('You added a movie', style: titleTextStyle,), elevation: 5,
+      backgroundColor: Colors.brown.withOpacity(0.4),
+      margin: const EdgeInsets.only(bottom: 100), behavior: SnackBarBehavior.floating,));    setState(() {
+      myFavoriteMoviesList = myFavMoviesListResults['results'];
+      myFavoriteMovies = myFavMoviesResults['results'];
+      myFavoriteMovies = myFavoriteMoviesList;
+      popularMovies.add(popularMovies);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +193,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                         gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            stops: const [0.3, 0.7],
+                            stops: const [0.6, 0.4],
                             tileMode: TileMode.repeated,
                             colors: [Colors.brown.withOpacity(0.4), Colors.black])
                     )),
@@ -199,11 +205,6 @@ class _HomeViewState extends StateMVC<HomeView> {
                     child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // const SizedBox(height: 205),
-                            // Center(
-                            //   child: Text(appName.toUpperCase(),
-                            //     style: headerTextStyle, textAlign: TextAlign.center)),
-                            // const SizedBox(height: 25),
                             Stack(
                               children: [
                                 SizedBox(
@@ -215,39 +216,49 @@ class _HomeViewState extends StateMVC<HomeView> {
                                   ),
                                 ),
                                 Positioned(
+                                  bottom: 2,
                                   left: 50,
                                   right: 50,
-                                  child: Column(
-                                    children: [
-                                      Text(''),
-                                      Row(
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Column(children: [
-                                            const Icon(Icons.add, size: 30, color: Colors.white,),
-                                            Text('My List', style: titleTextStyle,)
-                                          ],),
-                                          const SizedBox(width: 35,),
-                                          ElevatedButton(onPressed: () =>
-                                          {},
-                                              style: ElevatedButton.styleFrom(
-                                                  primary: Colors.white,
-                                                  padding: const EdgeInsets.symmetric(
-                                                      vertical: 7, horizontal: 20),
-                                                  onSurface: Colors.black54),
-                                              child: Row(children: const [
-                                                Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
-                                                Text("Play", style: TextStyle(color: Colors.black,
-                                                    fontSize: 17)),
-                                              ],)),
-                                          const SizedBox(width: 35,),
-                                          Column(children: [
-                                            const Icon(Icons.info_outline, size: 30, color: Colors.white,),
-                                            Text('Info', style: titleTextStyle,)
-                                          ],),
-                                        ],
-                                      ),
-                                    ],
+                                  child: Container(
+                                    color: Colors.black.withOpacity(0.2),
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 10),
+                                          child: Text(popularMovies[0]['title'], style: headerTextStyle,),
+                                        ),
+                                        Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
+                                          children: [
+                                            Column(children: [
+                                              IconButton(onPressed: () => addMovieToList(),
+                                                  icon: addedMovie == true ? const Icon(Icons.done,
+                                                    color: Colors.white, size: 30,) : const Icon(Icons.add,
+                                                    size: 30, color: Colors.white,)),
+                                              Text('My List', style: titleTextStyle,)
+                                            ],),
+                                            const SizedBox(width: 35,),
+                                            ElevatedButton(onPressed: () =>
+                                            {},
+                                                style: ElevatedButton.styleFrom(
+                                                    primary: Colors.white,
+                                                    padding: const EdgeInsets.symmetric(
+                                                        vertical: 7, horizontal: 20),
+                                                    onSurface: Colors.black54),
+                                                child: Row(children: const [
+                                                  Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
+                                                  Text("Play", style: TextStyle(color: Colors.black,
+                                                      fontSize: 17)),
+                                                ],)),
+                                            const SizedBox(width: 35,),
+                                            Column(children: [
+                                              const Icon(Icons.info_outline, size: 30, color: Colors.white,),
+                                              Text('Info', style: titleTextStyle,)
+                                            ],),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
