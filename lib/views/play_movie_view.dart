@@ -1,7 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
+import 'package:movie_app/views/home_view.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tmdb_api/tmdb_api.dart';
+import 'home_view.dart';
 
 class PlayMovieView extends StatefulWidget {
   final String name, description, bannerUrl, posterUrl, vote, launchOn,
@@ -12,46 +17,15 @@ class PlayMovieView extends StatefulWidget {
     required this.sessionId}) : super(key: key);
 
   @override
-  State<PlayMovieView> createState() => _PlayMovieViewState();
+  _PlayMovieViewState createState() => _PlayMovieViewState();
 }
 
-class _PlayMovieViewState extends State<PlayMovieView> {
-
-  /// Create Favorite List
-  List myFavoriteMovies = [];
-
-  TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apiKey, readAccessToken),
-      logConfig: const ConfigLogger(
-          showLogs: true,
-          showErrorLogs: true
-      ));
-
-  // createFavoriteMovieList() async {
-  //   Map favoriteResults = await tmdbWithCustomLogs.v3.lists.createList
-  //     (widget.sessionId, widget.name, widget.description);
-  //   setState(() {
-  //     myFavoriteMovies = favoriteResults['results'];
-  //   });
-  // }
-
-  String sessionId = "";
-  String name = "";
-  String description = "";
-  String listId = "";
-  int? mediaId;
-
-  List myFavoriteMoviesList = [];
-
-  addMovieToList() async {
-    Map favListResults = await tmdbWithCustomLogs.v3.lists.createList
-      (sessionId, name, description);
-    Map favoriteMovieResults = await tmdbWithCustomLogs.v3.lists
-        .addItem(sessionId, listId, mediaId);
-    setState(() {
-      myFavoriteMoviesList = favListResults['results'];
-      myFavoriteMovies = favoriteMovieResults['results'];
-    });
+class _PlayMovieViewState extends StateMVC<PlayMovieView> {
+  _PlayMovieViewState() : super(ApiServiceController()) {
+    con = controller as ApiServiceController;
   }
+
+  late ApiServiceController con;
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +62,7 @@ class _PlayMovieViewState extends State<PlayMovieView> {
                           Text("Overview", style: appBarTextStyle),
                           Padding(
                             padding: const EdgeInsets.only(right: 5),
-                            child: IconButton(onPressed: () => addMovieToList(), icon: const Icon
+                            child: IconButton(onPressed: () => {con.addMovieToList(context)}, icon: const Icon
                               (Icons.add, color: Colors.white, size: 30,)),
                           )]),
                   ),

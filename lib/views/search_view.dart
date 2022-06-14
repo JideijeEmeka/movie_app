@@ -1,17 +1,26 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/helpers/utility.dart';
 import 'package:movie_app/widgets/searched_movies.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:overlay_support/overlay_support.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);
 
   @override
-  State<SearchView> createState() => _SearchViewState();
+  _SearchViewState createState() => _SearchViewState();
 }
 
-class _SearchViewState extends State<SearchView> {
+class _SearchViewState extends StateMVC<SearchView> {
+  _SearchViewState() : super(ApiServiceController()) {
+    con = controller as ApiServiceController;
+  }
+
+  late ApiServiceController con;
 
   bool isLoading = false;
   final Utility _utility = Utility();
@@ -97,7 +106,7 @@ class _SearchViewState extends State<SearchView> {
                       isLoading = true;
                     });
                     FocusManager.instance.primaryFocus?.unfocus();
-                    await Future.delayed(const Duration(seconds: 3), () {
+                    await Future.delayed(const Duration(seconds: 4), () {
                       searchMovies(searchController.text);
                     });
                     setState(() {
