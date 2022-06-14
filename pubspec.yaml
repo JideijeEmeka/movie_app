@@ -13,7 +13,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.2
-  google_fonts: ^3.0.1
+  google_fonts: any
   carousel_slider: ^4.1.1
   persistent_bottom_nav_bar: ^4.0.2
   internet_connection_checker: any
@@ -24,6 +24,7 @@ dependencies:
   tmdb_api: ^2.1.2
   mvc_pattern: any
   shimmer: ^2.0.0
+  shared_preferences: ^2.0.15
 
 
 dev_dependencies:
