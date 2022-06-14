@@ -25,14 +25,14 @@ class _TvAiringTodayListState extends State<TvAiringTodayList> {
             return InkWell(
               onTap: () {
                 pushNewScreen(context, screen: PlayMovieView(
-                  name: widget.latest[index]['title'],
+                  name: widget.latest[index]['original_name'],
                   bannerUrl: 'https://image.tmdb.org/t/p/w500'
                       + widget.latest[index]['backdrop_path'],
                   posterUrl: 'https://image.tmdb.org/t/p/w500'
                       + widget.latest[index]['poster_path'],
                   description: widget.latest[index]['overview'],
                   vote: widget.latest[index]['vote_average'].toString(),
-                  launchOn: widget.latest[index]['release_date'],
+                  launchOn: widget.latest[index]['first_air_date'],
                   language: widget.latest[index]['original_language'],
                   popularity: widget.latest[index]['popularity'].toString(),
                   sessionId: widget.latest[index]['id'].toString(),),
