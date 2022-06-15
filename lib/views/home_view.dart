@@ -16,9 +16,7 @@ import 'package:movie_app/widgets/top_rated_movies.dart';
 import 'package:movie_app/widgets/trending_movies.dart';
 import 'package:movie_app/widgets/up_coming_movies.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:tmdb_api/tmdb_api.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -33,112 +31,18 @@ class _HomeViewState extends StateMVC<HomeView> {
   }
 
   late ApiServiceController con;
-  bool hasInternet = false;
-  bool addedMovie = false;
-  ConnectivityResult result = ConnectivityResult.none;
 
   @override
   void initState() {
     InternetConnectionChecker().onStatusChange.listen((status) {
-      hasInternet = status == InternetConnectionStatus.connected;
+      con.hasInternet = status == InternetConnectionStatus.connected;
       setState(() {
-       hasInternet = hasInternet;
+       con.hasInternet = con.hasInternet;
       });
-      checkInternetConnection();
+      con.checkInternetConnection();
     });
-    loadMovies();
+    con.loadMovies();
     super.initState();
-  }
-
-  checkInternetConnection() async {
-    hasInternet = await InternetConnectionChecker().hasConnection;
-    result = await Connectivity().checkConnectivity();
-    final color = hasInternet ? Colors.green : Colors.red;
-    final text = hasInternet ? 'Internet Connected' : 'No Internet';
-    final wifiText = hasInternet ? 'Wifi Connected' : 'No Wifi Internet';
-    final mobileText = hasInternet ? 'Internet Connected' : 'No Mobile Internet';
-
-    if(result == ConnectivityResult.mobile) {
-      showSimpleNotification(
-          Text(mobileText, style: titleTextStyle),
-          background: color);
-    }else if(result == ConnectivityResult.wifi) {
-      showSimpleNotification(
-          Text(wifiText, style: titleTextStyle),
-          background: color);
-    }else {
-      showSimpleNotification(
-          Text(text, style: titleTextStyle),
-          background: color);
-    }
-  }
-
-  /// Load movies
-  List trendingMovies = [];
-  List topRatedMovies = [];
-  List nowPlaying = [];
-  List popularMovies = [];
-  List upComingTvShows = [];
-  List recommendedMovies = [];
-  List similarMovies = [];
-  List tvAiringToday = [];
-  List popularTvShows = [];
-  List myFavoriteMoviesList = [];
-  List myFavoriteMovies = [];
-
-  TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apiKey, readAccessToken),
-      logConfig: const ConfigLogger(
-          showLogs: true,
-          showErrorLogs: true
-      ));
-
-  loadMovies() async {
-    Map trendingResults = await tmdbWithCustomLogs.v3.trending.getTrending();
-    Map topRatedResults = await tmdbWithCustomLogs.v3.movies.getTopRated();
-    Map popularMoviesResults = await tmdbWithCustomLogs.v3.movies.getPopular();
-    Map upComingTvResults = await tmdbWithCustomLogs.v3.movies.getUpcoming();
-    Map nowPlayingResults = await tmdbWithCustomLogs.v3.movies.getNowPlaying();
-    // Map myFavMoviesListResults = await tmdbWithCustomLogs.v3.lists.createList
-    //   ('emmy', 'Emmy', 'my Movie List');
-    // Map myFavMoviesResults = await tmdbWithCustomLogs.v3.lists.addItem('emmy', 'listId', 2);
-    Map recommendedMoviesResults = await tmdbWithCustomLogs.v3.movies
-        .getRecommended(2, language: 'en-US');
-    Map similarMoviesResults = await tmdbWithCustomLogs.v3.movies
-        .getSimilar(2, language: 'en-US');
-    Map tvAiringTodayResults = await tmdbWithCustomLogs.v3.tv
-        .getAiringToday(language: 'en-US', page: 2);
-    Map popularTvShowsResults = await tmdbWithCustomLogs.v3.tv
-        .getPopular(language: 'en-US', page: 2);
-    setState(() {
-      trendingMovies = trendingResults['results'];
-      topRatedMovies = topRatedResults['results'];
-      popularMovies = popularMoviesResults['results'];
-      upComingTvShows = upComingTvResults['results'];
-      nowPlaying = nowPlayingResults['results'];
-      recommendedMovies = recommendedMoviesResults['results'];
-      similarMovies = similarMoviesResults['results'];
-      tvAiringToday = tvAiringTodayResults['results'];
-      popularTvShows = popularTvShowsResults['results'];
-      // myFavoriteMoviesList = myFavMoviesListResults['results'];
-      // myFavoriteMovies = myFavMoviesResults['results'];
-      // myFavoriteMovies = myFavoriteMoviesList;
-    });
-  }
-
-  addMovieToList() async {
-    Map myFavMoviesListResults = await tmdbWithCustomLogs.v3.lists.createList
-      ('emmy', 'Emmy', 'my Movie List');
-    Map myFavMoviesResults = await tmdbWithCustomLogs.v3.lists.addItem('emmy', 'listId', 2);
-    addedMovie = true;
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:
-    Text('You added a movie', style: titleTextStyle,), elevation: 5,
-      backgroundColor: Colors.brown.withOpacity(0.4),
-      margin: const EdgeInsets.only(bottom: 100), behavior: SnackBarBehavior.floating,));    setState(() {
-      myFavoriteMoviesList = myFavMoviesListResults['results'];
-      myFavoriteMovies = myFavMoviesResults['results'];
-      myFavoriteMovies = myFavoriteMoviesList;
-      popularMovies.add(popularMovies);
-    });
   }
 
   @override
@@ -207,13 +111,13 @@ class _HomeViewState extends StateMVC<HomeView> {
                           children: [
                             Stack(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   height: 365,
                                   width: double.infinity,
-                                  child: ClipRRect(
-                                    child: Image.network('https://image.tmdb.org/t/p/w500'
-                                        + popularMovies[0]['poster_path'], fit: BoxFit.cover,),
-                                  ),
+                                  // child: ClipRRect(
+                                  //   child: Image.network('https://image.tmdb.org/t/p/w500'
+                                  //       + popularMovies[0]['poster_path'], fit: BoxFit.cover,),
+                                  // ),
                                 ),
                                 Positioned(
                                   bottom: 2,
@@ -221,25 +125,27 @@ class _HomeViewState extends StateMVC<HomeView> {
                                   right: 50,
                                   child: Column(
                                       children: [
-                                        Text(popularMovies[0]['title'], style: appBarTextStyle,),
+                                        Padding(
+                                          padding: const EdgeInsets.only(bottom: 60),
+                                          child: Text(appName, style: appBarTextStyle)),
                                         Row(
                                           mainAxisAlignment: MainAxisAlignment.center,
                                           children: [
                                             Column(children: [
-                                              IconButton(onPressed: () => addMovieToList(),
-                                                  icon: addedMovie == true ? const Icon(Icons.done,
-                                                    color: Colors.white, size: 30,) : const Icon(Icons.add,
-                                                    size: 30, color: Colors.white,)),
+                                              InkWell(
+                                                onTap: () => {},
+                                                child: const Icon(Icons.add,
+                                                  size: 30, color: Colors.white,),
+                                              ),
                                               Text('My List', style: titleTextStyle,)
                                             ],),
                                             const SizedBox(width: 35,),
-                                            ElevatedButton(onPressed: () =>
-                                            {},
-                                                style: ElevatedButton.styleFrom(
-                                                    primary: Colors.white,
-                                                    padding: const EdgeInsets.symmetric(
-                                                        vertical: 7, horizontal: 20),
-                                                    onSurface: Colors.black54),
+                                            ElevatedButton(onPressed: () => con.addMovieItem(),
+                                            style: ElevatedButton.styleFrom(
+                                                primary: Colors.white,
+                                                padding: const EdgeInsets.symmetric(
+                                                    vertical: 7, horizontal: 20),
+                                                onSurface: Colors.black54),
                                                 child: Row(children: const [
                                                   Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
                                                   Text("Play", style: TextStyle(color: Colors.black,
@@ -258,68 +164,67 @@ class _HomeViewState extends StateMVC<HomeView> {
                               ],
                             ),
                             /// Favorite Movies View
-                            if(myFavoriteMovies.isEmpty) ... [],
-                            if(myFavoriteMovies.isNotEmpty) ... [
-                              Padding(
-                                padding: const EdgeInsets.only(top: 20, left: 6,
-                                    right: 5, bottom: 3),
-                                child: Text("My List", style: listTextStyle,),),
-                              FavoriteMovieList(favoriteList: myFavoriteMovies),
-                            ],
+                            // if(myFavoriteMovies.isEmpty) ... [],
+                            // if(myFavoriteMovies.isNotEmpty) ... [],
+                            // Padding(
+                            //   padding: const EdgeInsets.only(top: 20, left: 6,
+                            //       right: 5, bottom: 3),
+                            //   child: Text("My List", style: listTextStyle,),),
+                            // FavoriteMovieList(favoriteList: con.myFavList),
                             /// Popular Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
-                              child: Text("Popular on EmmyFlix", style: listTextStyle,),),
-                            PopularMovies(popularMovies: popularMovies,),
+                              child: Text("Popular on EmmyFlix", style: listTextStyle)),
+                            PopularMovies(popularMovies: con.popularMovies),
                             /// Trending Now View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("Trending Now", style: listTextStyle)),
-                            TrendingMovieList(trending: trendingMovies),
+                            TrendingMovieList(trending: con.trendingMovies),
                             /// Similar Movies
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("Similar to what you've watched", style: listTextStyle,),),
-                            SimilarMoviesList(similarMovies: similarMovies,),
+                            SimilarMoviesList(similarMovies: con.similarMovies,),
                             /// Recommended Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("Recommended Movies", style: listTextStyle)),
-                            RecommendedMoviesList(recommended: recommendedMovies,),
+                            RecommendedMoviesList(recommended: con.recommendedMovies,),
                             /// TopRated Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("Top Rated Movies", style: listTextStyle,),),
-                            TopRatedMovies(topRated: topRatedMovies,),
+                            TopRatedMovies(topRated: con.topRatedMovies,),
                             /// UpComing TV Shows
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("UpComing TV Shows", style: listTextStyle,),),
-                            UpComingMovies(upComing: upComingTvShows),
+                            UpComingMovies(upComing: con.upComingTvShows),
                             /// Tv Airing Today
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("Tv Airing Today", style: listTextStyle)),
-                            TvAiringTodayList(latest: tvAiringToday,),
+                            TvAiringTodayList(latest: con.tvAiringToday,),
                             /// Now Playing Movies
                             Padding(
                                 padding: const EdgeInsets.only(top: 20, left: 6,
                                     right: 5, bottom: 3),
                                 child: Text("Now Playing Movies", style: listTextStyle)),
-                            NowPlayingMoviesList(nowPlaying: nowPlaying),
+                            NowPlayingMoviesList(nowPlaying: con.nowPlaying),
                             /// Popular Tv Shows
                             Padding(
                                 padding: const EdgeInsets.only(top: 20, left: 6,
                                     right: 5, bottom: 3),
                                 child: Text("Popular Tv Shows", style: listTextStyle)),
-                            PopularTvShows(popularTvShows: popularTvShows,),
+                            PopularTvShows(popularTvShows: con.popularTvShows,),
                             const SizedBox(height: 100,)
                           ],),
                   ),
