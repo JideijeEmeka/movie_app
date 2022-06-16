@@ -2,11 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
-import 'package:movie_app/views/home_view.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tmdb_api/tmdb_api.dart';
-import 'home_view.dart';
 
 class PlayMovieView extends StatefulWidget {
   final String name, description, bannerUrl, posterUrl, vote, launchOn,

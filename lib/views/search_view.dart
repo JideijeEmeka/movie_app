@@ -1,11 +1,9 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/helpers/utility.dart';
 import 'package:movie_app/widgets/searched_movies.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
-import 'package:overlay_support/overlay_support.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 class SearchView extends StatefulWidget {
