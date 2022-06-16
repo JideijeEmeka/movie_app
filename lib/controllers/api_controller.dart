@@ -1,15 +1,37 @@
+import 'dart:html';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:overlay_support/overlay_support.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 class ApiServiceController extends ControllerMVC {
 
   bool hasInternet = false;
   ConnectivityResult result = ConnectivityResult.none;
+  int? list;
+  List myList = [];
+
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+  late SharedPreferences prefs;
+
+  Future getSharedPrefs() async {
+    prefs = await _prefs;
+    list = (prefs.containsKey('savedList') ? prefs.getInt('savedList') : 0)!;
+    setState(() {
+      myList = list as List;
+    });
+  }
+  
+  addMovie(BuildContext context) async {
+    /// Populate my local List with fetched List
+    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Added to Favorite!")));
+    prefs.setInt('savedList', int.parse(myList.toString()));
+  }
 
   checkInternetConnection() async {
     hasInternet = await InternetConnectionChecker().hasConnection;
