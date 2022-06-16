@@ -1,11 +1,9 @@
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
-import 'package:movie_app/widgets/favorite_movies.dart';
 import 'package:movie_app/widgets/popular_tv_shows.dart';
 import 'package:movie_app/widgets/tv_airing_today.dart';
 import 'package:movie_app/widgets/now_playing_movies.dart';

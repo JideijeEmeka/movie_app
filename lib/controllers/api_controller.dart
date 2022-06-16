@@ -4,7 +4,6 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:overlay_support/overlay_support.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
 class ApiServiceController extends ControllerMVC {
