@@ -1,9 +1,8 @@
-import 'dart:html';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/helpers/constants.dart';
+import 'package:movie_app/widgets/snack_bar_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:overlay_support/overlay_support.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -12,6 +11,8 @@ import 'package:tmdb_api/tmdb_api.dart';
 class ApiServiceController extends ControllerMVC {
 
   bool hasInternet = false;
+  bool tapped = false;
+  int tappedOnce = 1;
   ConnectivityResult result = ConnectivityResult.none;
   int? list;
   List myList = [];
@@ -27,9 +28,15 @@ class ApiServiceController extends ControllerMVC {
     });
   }
   
-  addMovie(BuildContext context) async {
-    /// Populate my local List with fetched List
-    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Added to Favorite!")));
+  Future addMovie(BuildContext context) async {
+    if(tappedOnce == 2 && tapped == true) {
+      /// Populate my local List with fetched list on first click
+
+      ScaffoldMessenger.of(context).showSnackBar(snackBar(message: "Added to Favorite!"));
+    }else if(tappedOnce == 3){
+      /// Remove movie from my local List on second click
+      ScaffoldMessenger.of(context).showSnackBar(snackBar(message: "Removed from Favorite!"));
+    }
     prefs.setInt('savedList', int.parse(myList.toString()));
   }
 
@@ -74,7 +81,7 @@ class ApiServiceController extends ControllerMVC {
   createList() async {
     Map myFavMoviesList = await tmdbWithCustomLogs.v3.lists.createList('20', 'lol', 'okay');
     setState(() {
-      myFavList = myFavMoviesList['list_id'];
+      myFavList = myFavMoviesList[0]['list_id'];
     });
   }
 

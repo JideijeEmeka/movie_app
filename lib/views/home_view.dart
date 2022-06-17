@@ -4,15 +4,16 @@ import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
-import 'package:movie_app/widgets/popular_tv_shows.dart';
-import 'package:movie_app/widgets/tv_airing_today.dart';
-import 'package:movie_app/widgets/now_playing_movies.dart';
-import 'package:movie_app/widgets/popular_movies.dart';
-import 'package:movie_app/widgets/recommended_movies.dart';
-import 'package:movie_app/widgets/similar_movies.dart';
-import 'package:movie_app/widgets/top_rated_movies.dart';
-import 'package:movie_app/widgets/trending_movies.dart';
-import 'package:movie_app/widgets/up_coming_movies.dart';
+import 'package:movie_app/widgets/slides/favorite_movies.dart';
+import 'package:movie_app/widgets/slides/popular_tv_shows.dart';
+import 'package:movie_app/widgets/slides/tv_airing_today.dart';
+import 'package:movie_app/widgets/slides/now_playing_movies.dart';
+import 'package:movie_app/widgets/slides/popular_movies.dart';
+import 'package:movie_app/widgets/slides/recommended_movies.dart';
+import 'package:movie_app/widgets/slides/similar_movies.dart';
+import 'package:movie_app/widgets/slides/top_rated_movies.dart';
+import 'package:movie_app/widgets/slides/trending_movies.dart';
+import 'package:movie_app/widgets/slides/up_coming_movies.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -40,6 +41,7 @@ class _HomeViewState extends StateMVC<HomeView> {
       con.checkInternetConnection();
     });
     con.loadMovies();
+    con.getSharedPrefs();
     super.initState();
   }
 
@@ -110,7 +112,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                             Stack(
                               children: [
                                 const SizedBox(
-                                  height: 365,
+                                  height: 360,
                                   width: double.infinity,
                                   // child: ClipRRect(
                                   //   child: Image.network('https://image.tmdb.org/t/p/w500'
@@ -131,10 +133,20 @@ class _HomeViewState extends StateMVC<HomeView> {
                                           children: [
                                             Column(children: [
                                               InkWell(
-                                                onTap: () => {},
-                                                child: const Icon(Icons.add,
-                                                  size: 30, color: Colors.white,),
-                                              ),
+                                                onTap: () => {
+                                                  setState(() {
+                                                    con.tapped = true;
+                                                    con.tappedOnce++;
+                                                  }),
+                                                  con.addMovie(context).then((value) =>
+                                                      setState(() {
+                                                        con.myList.addAll(value);
+                                                      }))},
+                                                child: con.tappedOnce == 2 && con.tapped == true ? const Icon(Icons.check,
+                                                  size: 30, color: Colors.white)
+                                                    : con.tappedOnce == 3 ? const Icon(Icons.add, size: 30,
+                                                    color: Colors.white) : const Icon(Icons.add, size: 30,
+                                                    color: Colors.white)),
                                               Text('My List', style: titleTextStyle,)
                                             ],),
                                             const SizedBox(width: 35,),
@@ -162,16 +174,16 @@ class _HomeViewState extends StateMVC<HomeView> {
                               ],
                             ),
                             /// Favorite Movies View
-                            // if(myFavoriteMovies.isEmpty) ... [],
+                            // if(con.myList.isEmpty) ... [],
                             // if(myFavoriteMovies.isNotEmpty) ... [],
-                            // Padding(
-                            //   padding: const EdgeInsets.only(top: 20, left: 6,
-                            //       right: 5, bottom: 3),
-                            //   child: Text("My List", style: listTextStyle,),),
-                            // FavoriteMovieList(favoriteList: con.myFavList),
-                            /// Popular Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
+                                  right: 5, bottom: 3),
+                              child: Text("My List", style: listTextStyle)),
+                            FavoriteMovieList(favoriteList: con.myList),
+                            /// Popular Movies View
+                            Padding(
+                              padding: const EdgeInsets.only(top: 30, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("Popular on EmmyFlix", style: listTextStyle)),
                             PopularMovies(popularMovies: con.popularMovies),

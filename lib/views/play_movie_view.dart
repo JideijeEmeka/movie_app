@@ -58,8 +58,17 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                           Text("Overview", style: appBarTextStyle),
                           Padding(
                             padding: const EdgeInsets.only(right: 5),
-                            child: IconButton(onPressed: () => {}, icon: const Icon
-                              (Icons.add, color: Colors.white, size: 30,)),
+                            child: IconButton(onPressed: () => {
+                              setState(() {
+                                con.tapped = true;
+                                con.tappedOnce++;
+                              }),
+                              con.addMovie(context)},
+                                icon: con.tappedOnce == 2 && con.tapped == true ? const Icon(Icons.check,
+                                    size: 30, color: Colors.white)
+                                    : con.tappedOnce == 3 ? const Icon(Icons.add, size: 30,
+                                    color: Colors.white) : const Icon(Icons.add, size: 30,
+                                    color: Colors.white))
                           )]),
                   ),
                   Padding(
