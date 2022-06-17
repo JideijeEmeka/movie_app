@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/helpers/utility.dart';
-import 'package:movie_app/widgets/searched_movies.dart';
+import 'package:movie_app/widgets/slides/searched_movies.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:tmdb_api/tmdb_api.dart';
 
