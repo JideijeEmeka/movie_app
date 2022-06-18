@@ -74,7 +74,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                               String result = await con.saveMyList(widget.posterUrl);
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
                                 // con.addMovie(context, widget.movieId),
-                              ll.add(widget.posterUrl);
+                              ll.insert(0, widget.posterUrl);
                               setState(() { });
                             },
                                 icon: con.tappedOnce == 2 && con.tapped == true ? const Icon(Icons.check,

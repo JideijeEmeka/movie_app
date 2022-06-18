@@ -36,17 +36,16 @@ class ApiServiceController extends ControllerMVC {
       Flist = list;
     });
     return list;
-
   }
 
   Future<String> saveMyList(String id) async {
     String result = "";
     try{
       List<String> list = await getMyList();
-      list.add(id);
+      list.insert(0, id);
       prefs.setStringList('savedList', list);
       setState(() {
-        Flist.add(id);
+        Flist.insert(0, id);
       });
       result = 'success';
     }catch(error) {
