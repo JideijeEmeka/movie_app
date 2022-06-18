@@ -35,7 +35,7 @@ class _TrendingMovieListState extends State<TrendingMovieList> {
                 launchOn: widget.trending[index]['release_date'],
                 language: widget.trending[index]['original_language'],
                 popularity: widget.trending[index]['popularity'].toString(),
-                sessionId: widget.trending[index]['id'].toString(),),
+                movieId: widget.trending[index]['id'].toString(),),
                     withNavBar: false);
                 },
               child: Container(

@@ -35,7 +35,7 @@ class _UpComingMoviesState extends State<UpComingMovies> {
                   launchOn: widget.upComing[index]['release_date'],
                   language: widget.upComing[index]['original_language'],
                   popularity: widget.upComing[index]['popularity'].toString(),
-                sessionId: widget.upComing[index]['id'].toString(),),
+                movieId: widget.upComing[index]['id'].toString(),),
                     withNavBar: false);
               },
               child: Container(

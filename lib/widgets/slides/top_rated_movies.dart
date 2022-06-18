@@ -35,7 +35,7 @@ class _TopRatedMoviesState extends State<TopRatedMovies> {
                   launchOn: widget.topRated[index]['release_date'],
                   language: widget.topRated[index]['original_language'],
                   popularity: widget.topRated[index]['popularity'].toString(),
-                  sessionId: widget.topRated[index]['id'].toString(),),
+                  movieId: widget.topRated[index]['id'].toString(),),
                     withNavBar: false);
               },
               child: Container(

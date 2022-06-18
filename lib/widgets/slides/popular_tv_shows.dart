@@ -45,7 +45,7 @@ class _PopularTvShowsState extends StateMVC<PopularTvShows> {
                   launchOn: widget.popularTvShows[index]['first_air_date'],
                   language: widget.popularTvShows[index]['original_language'],
                   popularity: widget.popularTvShows[index]['popularity'].toString(),
-                  sessionId: widget.popularTvShows[index]['id'].toString(),),
+                  movieId: widget.popularTvShows[index]['id'].toString(),),
                     withNavBar: false);
               },
               child: Container(

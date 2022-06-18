@@ -35,7 +35,7 @@ class _RecommendedMoviesListState extends State<RecommendedMoviesList> {
                   launchOn: widget.recommended[index]['release_date'],
                   language: widget.recommended[index]['original_language'],
                   popularity: widget.recommended[index]['popularity'].toString(),
-                  sessionId: widget.recommended[index]['id'].toString(),),
+                  movieId: widget.recommended[index]['id'].toString(),),
                     withNavBar: false);
               },
               child: Container(

@@ -35,7 +35,7 @@ class _TvAiringTodayListState extends State<TvAiringTodayList> {
                   launchOn: widget.latest[index]['first_air_date'],
                   language: widget.latest[index]['original_language'],
                   popularity: widget.latest[index]['popularity'].toString(),
-                  sessionId: widget.latest[index]['id'].toString(),),
+                  movieId: widget.latest[index]['id'].toString(),),
                     withNavBar: false);
               },
               child: Container(

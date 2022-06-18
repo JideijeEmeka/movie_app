@@ -35,7 +35,7 @@ class _NowPlayingMoviesListState extends State<NowPlayingMoviesList> {
                   launchOn: widget.nowPlaying[index]['release_date'],
                   language: widget.nowPlaying[index]['original_language'],
                   popularity: widget.nowPlaying[index]['popularity'].toString(),
-                  sessionId: widget.nowPlaying[index]['id'].toString(),),
+                  movieId: widget.nowPlaying[index]['id'].toString(),),
                     withNavBar: false);
               },
               child: Container(

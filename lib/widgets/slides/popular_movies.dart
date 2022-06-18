@@ -35,7 +35,7 @@ class _PopularMoviesState extends State<PopularMovies> {
                   launchOn: widget.popularMovies[index]['release_date'],
                   language: widget.popularMovies[index]['original_language'],
                   popularity: widget.popularMovies[index]['popularity'].toString(),
-                  sessionId: widget.popularMovies[index]['id'].toString()),
+                  movieId: widget.popularMovies[index]['id'].toString()),
                     withNavBar: false);
               },
               child: Container(

@@ -35,7 +35,7 @@ class _SimilarMoviesListState extends State<SimilarMoviesList> {
                   launchOn: widget.similarMovies[index]['release_date'],
                   language: widget.similarMovies[index]['original_language'],
                   popularity: widget.similarMovies[index]['popularity'].toString(),
-                  sessionId: widget.similarMovies[index]['id'].toString(),),
+                  movieId: widget.similarMovies[index]['id'].toString(),),
                     withNavBar: false);
               },
               child: Container(

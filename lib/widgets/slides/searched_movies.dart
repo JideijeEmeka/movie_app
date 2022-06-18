@@ -34,7 +34,7 @@ class _SearchedMovieListState extends State<SearchedMovieList> {
                         launchOn: widget.searching[index]['release_date'],
                         language: widget.searching[index]['original_language'],
                         popularity: widget.searching[index]['popularity'].toString(),
-                      sessionId: widget.searching[index]['id'].toString(),),
+                      movieId: widget.searching[index]['id'].toString(),),
                           withNavBar: false);
                     },
                     child: Padding(
