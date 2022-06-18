@@ -42,7 +42,7 @@ class ApiServiceController extends ControllerMVC {
       setState(() {
         Flist.insert(0, id);
       });
-      result = 'success';
+      result = 'Added to favorite!';
     }catch(error) {
       result = error.toString();
     }
