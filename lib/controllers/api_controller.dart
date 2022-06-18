@@ -14,30 +14,66 @@ class ApiServiceController extends ControllerMVC {
   bool tapped = false;
   int tappedOnce = 1;
   ConnectivityResult result = ConnectivityResult.none;
-  int? list;
-  List myList = [];
+  List<String> Flist = [];
+  List<String> myList = [];
+  List detailsList = [];
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late SharedPreferences prefs;
 
-  Future getSharedPrefs() async {
+  Future<List<String>> getMyList() async {
     prefs = await _prefs;
-    list = (prefs.containsKey('savedList') ? prefs.getInt('savedList') : 0)!;
+    // prefs.clear();
+
+    if(prefs.getStringList('savedList') == null) {
+      prefs.setStringList('savedList', []);
+      //return [];
+      //(prefs.containsKey('savedList') ? prefs.getStringList('savedList') : 0)!;
+    }
+    List<String> list = prefs.getStringList('savedList')!;
+
     setState(() {
-      myList = list as List;
+      Flist = list;
+    });
+    return list;
+
+  }
+
+  Future<String> saveMyList(String id) async {
+    String result = "";
+    try{
+      List<String> list = await getMyList();
+      list.add(id);
+      prefs.setStringList('savedList', list);
+      setState(() {
+        Flist.add(id);
+      });
+      result = 'success';
+    }catch(error) {
+      result = error.toString();
+    }
+    return result;
+  }
+
+  Future addMovieToList(String id) async {
+    Map detailsMovieResults = await tmdbWithCustomLogs.v3.movies.getDetails(int.parse(id));
+    setState(() {
+      detailsList = detailsMovieResults['results'];
     });
   }
+
   
-  Future addMovie(BuildContext context) async {
+  Future addMovie(BuildContext context, String movieId) async {
     if(tappedOnce == 2 && tapped == true) {
       /// Populate my local List with fetched list on first click
-
+      myList.add(movieId);
+      prefs.setInt('savedList', int.parse(myList.toString()));
       ScaffoldMessenger.of(context).showSnackBar(snackBar(message: "Added to Favorite!"));
     }else if(tappedOnce == 3){
       /// Remove movie from my local List on second click
       ScaffoldMessenger.of(context).showSnackBar(snackBar(message: "Removed from Favorite!"));
     }
-    prefs.setInt('savedList', int.parse(myList.toString()));
+    prefs.setStringList('savedList', myList);
   }
 
   checkInternetConnection() async {
@@ -76,7 +112,6 @@ class ApiServiceController extends ControllerMVC {
   List myFavList = [];
   // List myFavoriteMoviesList = [];
   // List myFavoriteMovies = [];
-  // List myList = [];
 
   createList() async {
     Map myFavMoviesList = await tmdbWithCustomLogs.v3.lists.createList('20', 'lol', 'okay');
