@@ -35,9 +35,6 @@ class _FavoriteMovieListState extends StateMVC<FavoriteMovieList> {
       print(newList);
   }
 
-  // Widget getMovie(String id){
-  // con.tmdbWithCustomLogs.v3.movies.getDetails(int.parse(id));
-  // }
   @override
   Widget build(BuildContext context) {
    // fetchList();
@@ -49,8 +46,6 @@ class _FavoriteMovieListState extends StateMVC<FavoriteMovieList> {
           physics: const ScrollPhysics(),
           itemCount: myOwnList.length,
           itemBuilder: (context, index) {
-            return Image.network(myOwnList[index], height: 100, width: 100,fit: BoxFit.fill);
-
             return InkWell(
               onTap: () {
                 pushNewScreen(context, screen: PlayMovieView(
@@ -69,11 +64,9 @@ class _FavoriteMovieListState extends StateMVC<FavoriteMovieList> {
               },
               child: Container(
                   width: 117, height: 200,
-                  child: Center(child: Text("book", style: titleTextStyle,)),
-                  // decoration: BoxDecoration(
-                  //     borderRadius: BorderRadius.circular(8),
-                  //     image: DecorationImage(image: NetworkImage('https://image.tmdb.org/t/p/w500'
-                  //         + widget.favoriteList[index]['poster_path'].toString()))),
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      image: DecorationImage(image: NetworkImage(myOwnList[index]))),
                   margin: const EdgeInsets.only(left: 7)),
             );
           }),

@@ -30,6 +30,7 @@ class _HomeViewState extends StateMVC<HomeView> {
   }
 
   late ApiServiceController con;
+  List<String> newList = [];
 
   @override
   void initState() {
@@ -46,7 +47,6 @@ class _HomeViewState extends StateMVC<HomeView> {
     myOwnList;
     super.initState();
   }
-  List<String> newList = [];
 
   fetchList() async {
     myOwnList = await con.getMyList();
@@ -192,7 +192,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                             ],
                             /// Popular Movies View
                             Padding(
-                              padding: const EdgeInsets.only(top: 30, left: 6,
+                              padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("Popular on EmmyFlix", style: listTextStyle)),
                             PopularMovies(popularMovies: con.popularMovies),
