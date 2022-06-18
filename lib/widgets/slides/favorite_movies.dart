@@ -32,12 +32,12 @@ class _FavoriteMovieListState extends StateMVC<FavoriteMovieList> {
       setState(() {
         newList = i;
       });
-      print(newList);
+      debugPrint('$newList');
   }
 
   @override
   Widget build(BuildContext context) {
-   // fetchList();
+   fetchList();
     return SizedBox(
       height: 170,
       child: ListView.builder(

@@ -14,7 +14,7 @@ class ApiServiceController extends ControllerMVC {
   bool tapped = false;
   int tappedOnce = 1;
   ConnectivityResult result = ConnectivityResult.none;
-  List<String> Flist = [];
+  List<String> favList = [];
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late SharedPreferences prefs;
@@ -28,7 +28,7 @@ class ApiServiceController extends ControllerMVC {
     }
     List<String> list = prefs.getStringList('savedList')!;
     setState(() {
-      Flist = list;
+      favList = list;
     });
     return list;
   }
@@ -40,7 +40,7 @@ class ApiServiceController extends ControllerMVC {
       list.insert(0, id);
       prefs.setStringList('savedList', list);
       setState(() {
-        Flist.insert(0, id);
+        favList.insert(0, id);
       });
       result = 'Added to favorite!';
     }catch(error) {
