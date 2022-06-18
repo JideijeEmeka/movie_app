@@ -65,8 +65,8 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                           Text("Overview", style: appBarTextStyle),
                           Padding(
                             padding: const EdgeInsets.only(right: 5),
-                            child: IconButton(onPressed: ()
-                            async {
+                            child: !ll.contains(widget.posterUrl) ?
+                            IconButton(onPressed: () async {
                               setState(() {
                                 con.tapped = true;
                                 con.tappedOnce++;
@@ -81,9 +81,8 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                                     size: 30, color: Colors.white)
                                     : con.tappedOnce == 3 ? const Icon(Icons.add, size: 30,
                                     color: Colors.white) : const Icon(Icons.add, size: 30,
-                                    color: Colors.white))
-                          )]),
-                  ),
+                                    color: Colors.white)) : Container()
+                          )])),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+List<String> ll = [];
+
 /// App Name
 String appName = "EmmyFlix";
 
