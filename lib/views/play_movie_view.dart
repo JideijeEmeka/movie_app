@@ -2,15 +2,16 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
+import 'package:movie_app/widgets/snack_bar_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 
 class PlayMovieView extends StatefulWidget {
   final String name, description, bannerUrl, posterUrl, vote, launchOn,
-      language, popularity, sessionId;
+      language, popularity, movieId;
   const PlayMovieView({Key? key, required this.name, required this.description,
     required this.bannerUrl, required this.posterUrl, required this.vote,
     required this.launchOn, required this.language, required this.popularity,
-    required this.sessionId}) : super(key: key);
+    required this.movieId}) : super(key: key);
 
   @override
   _PlayMovieViewState createState() => _PlayMovieViewState();
@@ -22,6 +23,12 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
   }
 
   late ApiServiceController con;
+  List favList = [];
+  @override
+  void initState() {
+    //con.myList = favList;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,12 +65,18 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                           Text("Overview", style: appBarTextStyle),
                           Padding(
                             padding: const EdgeInsets.only(right: 5),
-                            child: IconButton(onPressed: () => {
+                            child: IconButton(onPressed: ()
+                            async {
                               setState(() {
                                 con.tapped = true;
                                 con.tappedOnce++;
-                              }),
-                              con.addMovie(context)},
+                              });
+                              String result = await con.saveMyList(widget.posterUrl);
+                                ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
+                                // con.addMovie(context, widget.movieId),
+                              ll.add(widget.posterUrl);
+                              setState(() { });
+                            },
                                 icon: con.tappedOnce == 2 && con.tapped == true ? const Icon(Icons.check,
                                     size: 30, color: Colors.white)
                                     : con.tappedOnce == 3 ? const Icon(Icons.add, size: 30,
@@ -102,7 +115,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                           children: [
                             Text(widget.language.toUpperCase(), style: descTextStyle,),
                             VerticalDivider(color: Colors.white.withOpacity(0.6), thickness: 2,),
-                            Text("Action, Sci-Fi", style: descTextStyle,),
+                            Text(widget.movieId, style: descTextStyle,),
                             VerticalDivider(color: Colors.white.withOpacity(0.6), thickness: 2,),
                             Text(widget.launchOn, style: descTextStyle,),
                             VerticalDivider(color: Colors.white.withOpacity(0.6), thickness: 2,),

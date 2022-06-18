@@ -33,6 +33,8 @@ class _HomeViewState extends StateMVC<HomeView> {
 
   @override
   void initState() {
+    fetchList();
+    print(33);
     InternetConnectionChecker().onStatusChange.listen((status) {
       con.hasInternet = status == InternetConnectionStatus.connected;
       setState(() {
@@ -41,12 +43,26 @@ class _HomeViewState extends StateMVC<HomeView> {
       con.checkInternetConnection();
     });
     con.loadMovies();
-    con.getSharedPrefs();
+    con.getMyList();
+    ll;
+    print(con.myList);
     super.initState();
+  }
+  List<String> newList = [];
+
+  fetchList() async {
+    ll = await con.getMyList();
+
+    var i = await con.getMyList();
+    setState(() {
+      newList = i;
+    });
+    print(newList);
   }
 
   @override
   Widget build(BuildContext context) {
+    fetchList();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
@@ -138,7 +154,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                                                     con.tapped = true;
                                                     con.tappedOnce++;
                                                   }),
-                                                  con.addMovie(context).then((value) =>
+                                                  con.addMovie(context, '2').then((value) =>
                                                       setState(() {
                                                         con.myList.addAll(value);
                                                       }))},
@@ -180,7 +196,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("My List", style: listTextStyle)),
-                            FavoriteMovieList(favoriteList: con.myList),
+                            FavoriteMovieList(favoriteList: ll),
                             /// Popular Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 30, left: 6,
