@@ -65,7 +65,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                           Text("Overview", style: appBarTextStyle),
                           Padding(
                             padding: const EdgeInsets.only(right: 5),
-                            child: !ll.contains(widget.posterUrl) ?
+                            child: !myOwnList.contains(widget.posterUrl) ?
                             IconButton(onPressed: () async {
                               setState(() {
                                 con.tapped = true;
@@ -74,7 +74,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                               String result = await con.saveMyList(widget.posterUrl);
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
                                 // con.addMovie(context, widget.movieId),
-                              ll.insert(0, widget.posterUrl);
+                              myOwnList.insert(0, widget.posterUrl);
                               setState(() { });
                             },
                                 icon: con.tappedOnce == 2 && con.tapped == true ? const Icon(Icons.check,

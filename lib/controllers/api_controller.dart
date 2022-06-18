@@ -15,7 +15,6 @@ class ApiServiceController extends ControllerMVC {
   int tappedOnce = 1;
   ConnectivityResult result = ConnectivityResult.none;
   List<String> Flist = [];
-  List<String> myList = [];
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late SharedPreferences prefs;

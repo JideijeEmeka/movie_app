@@ -34,7 +34,6 @@ class _HomeViewState extends StateMVC<HomeView> {
   @override
   void initState() {
     fetchList();
-    print(33);
     InternetConnectionChecker().onStatusChange.listen((status) {
       con.hasInternet = status == InternetConnectionStatus.connected;
       setState(() {
@@ -44,15 +43,13 @@ class _HomeViewState extends StateMVC<HomeView> {
     });
     con.loadMovies();
     con.getMyList();
-    ll;
-    print(con.myList);
+    myOwnList;
     super.initState();
   }
   List<String> newList = [];
 
   fetchList() async {
-    ll = await con.getMyList();
-
+    myOwnList = await con.getMyList();
     var i = await con.getMyList();
     setState(() {
       newList = i;
@@ -62,7 +59,6 @@ class _HomeViewState extends StateMVC<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    fetchList();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
@@ -153,11 +149,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                                                   setState(() {
                                                     con.tapped = true;
                                                     con.tappedOnce++;
-                                                  }),
-                                                  con.addMovie(context, '2').then((value) =>
-                                                      setState(() {
-                                                        con.myList.addAll(value);
-                                                      }))},
+                                                  })},
                                                 child: con.tappedOnce == 2 && con.tapped == true ? const Icon(Icons.check,
                                                   size: 30, color: Colors.white)
                                                     : con.tappedOnce == 3 ? const Icon(Icons.add, size: 30,
@@ -166,7 +158,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                                               Text('My List', style: titleTextStyle,)
                                             ],),
                                             const SizedBox(width: 35,),
-                                            ElevatedButton(onPressed: () => con.addMovieItem(),
+                                            ElevatedButton(onPressed: () => {},
                                             style: ElevatedButton.styleFrom(
                                                 primary: Colors.white,
                                                 padding: const EdgeInsets.symmetric(
@@ -190,13 +182,14 @@ class _HomeViewState extends StateMVC<HomeView> {
                               ],
                             ),
                             /// Favorite Movies View
-                            // if(con.myList.isEmpty) ... [],
-                            // if(myFavoriteMovies.isNotEmpty) ... [],
+                            if(myOwnList.isEmpty) ... [],
+                            if(myOwnList.isNotEmpty) ... [
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("My List", style: listTextStyle)),
-                            FavoriteMovieList(favoriteList: ll),
+                            FavoriteMovieList(favoriteList: myOwnList),
+                            ],
                             /// Popular Movies View
                             Padding(
                               padding: const EdgeInsets.only(top: 30, left: 6,

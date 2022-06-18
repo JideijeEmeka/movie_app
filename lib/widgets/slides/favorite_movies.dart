@@ -47,9 +47,9 @@ class _FavoriteMovieListState extends StateMVC<FavoriteMovieList> {
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           physics: const ScrollPhysics(),
-          itemCount: ll.length,
+          itemCount: myOwnList.length,
           itemBuilder: (context, index) {
-            return Image.network(ll[index], height: 100, width: 100,fit: BoxFit.fill);
+            return Image.network(myOwnList[index], height: 100, width: 100,fit: BoxFit.fill);
 
             return InkWell(
               onTap: () {
