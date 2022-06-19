@@ -47,6 +47,22 @@ class ApiServiceController extends ControllerMVC {
     return result;
   }
 
+  Future<String> removeMovieFromList(String id) async {
+    String result = "";
+    try{
+      List<String> list = await getMyList();
+      list.remove(id);
+      prefs.setStringList('savedList', list);
+      setState(() {
+        favList.remove(id);
+      });
+      result = 'Removed from favorite!';
+    }catch(error) {
+      result = error.toString();
+    }
+    return result;
+  }
+
   checkInternetConnection() async {
     hasInternet = await InternetConnectionChecker().hasConnection;
     result = await Connectivity().checkConnectivity();
