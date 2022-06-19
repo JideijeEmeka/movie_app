@@ -122,7 +122,7 @@ class _SearchViewState extends StateMVC<SearchView> {
               child: Text("Top Searches", style: listTextStyle,),
             ),
             Container(
-              margin: const EdgeInsets.only(bottom: 80),
+              margin: const EdgeInsets.only(bottom: 50),
               child: !isLoading ?
             SearchedMovieList(searching: searchedMovies) :
             Center(child: Padding(

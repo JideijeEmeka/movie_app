@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/views/play_movie_view.dart';
+import 'package:movie_app/widgets/snack_bar_widget.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class SearchedMovieList extends StatefulWidget {
@@ -9,12 +12,34 @@ class SearchedMovieList extends StatefulWidget {
   const SearchedMovieList({Key? key, required this.searching}) : super(key: key);
 
   @override
-  State<SearchedMovieList> createState() => _SearchedMovieListState();
+  _SearchedMovieListState createState() => _SearchedMovieListState();
 }
 
-class _SearchedMovieListState extends State<SearchedMovieList> {
+class _SearchedMovieListState extends StateMVC<SearchedMovieList> {
+  _SearchedMovieListState() : super(ApiServiceController()) {
+    con = controller as ApiServiceController;
+  }
+
+  late ApiServiceController con;
+  List<String> newList = [];
+
+  @override
+  void initState() {
+    fetch();
+    super.initState();
+  }
+
+  fetch() async {
+    var i = await con.getMyList();
+    setState(() {
+      newList = i;
+    });
+    debugPrint('$newList');
+  }
+
   @override
   Widget build(BuildContext context) {
+    fetch();
     return SizedBox(
             child: ListView.builder(
                 shrinkWrap: true,
@@ -44,7 +69,12 @@ class _SearchedMovieListState extends State<SearchedMovieList> {
                           leading: Image.network('https://image.tmdb.org/t/p/w500'
                             + widget.searching[index]['poster_path'], fit: BoxFit.cover,),
                           title: Text(widget.searching[index]['title'], style: titleTextStyle,),
-                          trailing: const Icon(Icons.play_circle_outline, color: Colors.white,),
+                          /// Hide movie from future search
+                          trailing: IconButton(onPressed: () {
+                            String result = con.removeMovieFromList(widget.searching[index]['id']).toString();
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
+                          },
+                              icon: const Icon(Icons.remove, color: Colors.white)),
                           tileColor: Colors.brown.withOpacity(0.4),
                           contentPadding: const EdgeInsets.only(left: 0.0, right: 20.0, top: 0.0, bottom: 0.0),
                         ),
