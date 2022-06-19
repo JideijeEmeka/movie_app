@@ -66,21 +66,24 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                           Padding(
                             padding: const EdgeInsets.only(right: 5),
                             child: !myOwnList.contains(widget.posterUrl) ?
+                            /// Show add icon if movie is not yet added to favorite
                             IconButton(onPressed: () async {
-                              setState(() {
-                                con.tapped = true;
-                                con.tappedOnce++;
-                              });
-                              String result = await con.saveMyList(widget.posterUrl);
+                              String result = await con.addMovieToList(widget.posterUrl);
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
                               myOwnList.insert(0, widget.posterUrl);
                               setState(() { });
                             },
-                                icon: con.tappedOnce == 2 && con.tapped == true ? const Icon(Icons.check,
-                                    size: 30, color: Colors.white)
-                                    : con.tappedOnce == 3 ? const Icon(Icons.add, size: 30,
-                                    color: Colors.white) : const Icon(Icons.add, size: 30,
-                                    color: Colors.white)) : Container()
+                                icon: const Icon(Icons.add, size: 30,
+                                    color: Colors.white))
+                            /// Show check icon if movie already added to favorite
+                                : IconButton(onPressed: () async {
+                              // String result = await con.addMovieToList(widget.posterUrl);
+                              // ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
+                              // myOwnList.insert(0, widget.posterUrl);
+                              setState(() { });
+                            },
+                                icon: const Icon(Icons.check, size: 30,
+                                    color: Colors.white))
                           )])),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20),

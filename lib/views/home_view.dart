@@ -145,15 +145,8 @@ class _HomeViewState extends StateMVC<HomeView> {
                                           children: [
                                             Column(children: [
                                               InkWell(
-                                                onTap: () => {
-                                                  setState(() {
-                                                    con.tapped = true;
-                                                    con.tappedOnce++;
-                                                  })},
-                                                child: con.tappedOnce == 2 && con.tapped == true ? const Icon(Icons.check,
-                                                  size: 30, color: Colors.white)
-                                                    : con.tappedOnce == 3 ? const Icon(Icons.add, size: 30,
-                                                    color: Colors.white) : const Icon(Icons.add, size: 30,
+                                                onTap: () => {},
+                                                child: const Icon(Icons.add, size: 30,
                                                     color: Colors.white)),
                                               Text('My List', style: titleTextStyle,)
                                             ],),

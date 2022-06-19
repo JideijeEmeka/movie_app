@@ -11,8 +11,6 @@ import 'package:tmdb_api/tmdb_api.dart';
 class ApiServiceController extends ControllerMVC {
 
   bool hasInternet = false;
-  bool tapped = false;
-  int tappedOnce = 1;
   ConnectivityResult result = ConnectivityResult.none;
   List<String> favList = [];
 
@@ -33,7 +31,7 @@ class ApiServiceController extends ControllerMVC {
     return list;
   }
 
-  Future<String> saveMyList(String id) async {
+  Future<String> addMovieToList(String id) async {
     String result = "";
     try{
       List<String> list = await getMyList();
