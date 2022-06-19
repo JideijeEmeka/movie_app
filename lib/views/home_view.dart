@@ -44,21 +44,20 @@ class _HomeViewState extends StateMVC<HomeView> {
     });
     con.loadMovies();
     con.getMyList();
-    myOwnList;
     super.initState();
   }
 
   fetchList() async {
-    myOwnList = await con.getMyList();
     var i = await con.getMyList();
     setState(() {
       newList = i;
     });
-    print(newList);
+    debugPrint('$newList');
   }
 
   @override
   Widget build(BuildContext context) {
+    fetchList();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
