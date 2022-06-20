@@ -13,6 +13,7 @@ class ApiServiceController extends ControllerMVC {
   bool hasInternet = false;
   ConnectivityResult result = ConnectivityResult.none;
   List<String> favList = [];
+  List<String> hiddenMovieList = [];
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late SharedPreferences prefs;
@@ -57,6 +58,22 @@ class ApiServiceController extends ControllerMVC {
         favList.remove(id);
       });
       result = 'Removed from favorite!';
+    }catch(error) {
+      result = error.toString();
+    }
+    return result;
+  }
+
+  Future<String> hideMovieFromSearchResults(String id) async {
+    String result = "";
+    try{
+      List<String> list = await getMyList();
+      list.remove(id);
+      prefs.setStringList('savedList', list);
+      setState(() {
+        hiddenMovieList.remove(id);
+      });
+      result = 'Removed from Search!';
     }catch(error) {
       result = error.toString();
     }
