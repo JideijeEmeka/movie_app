@@ -29,17 +29,26 @@ class _SearchViewState extends StateMVC<SearchView> {
 
   @override
   void initState() {
-    // con.searchMovies(searchController.text);
     super.initState();
   }
 
+  restoreHiddenMovies() async {
+    con.clearHiddenList();
+    ///showBack.addAll(con.hiddenMovieList);
+    con.hiddenMovieList = [];
+    con.searchedMovies = await con.searchMovies(searchController.text);
+    setState(() { });
+  }
 
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
-      floatingActionButton: floatButton("Show hidden movies",
+      floatingActionButton: floatButton(() {
+        restoreHiddenMovies();
+      },
+          "Show hidden movies",
         const Icon(CupertinoIcons.eye_fill)),
       appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -81,7 +90,8 @@ class _SearchViewState extends StateMVC<SearchView> {
                     textInputAction: TextInputAction.done,
                     decoration: InputDecoration.collapsed(
                       hintText: 'Search for a show, movie, genre, etc',
-                      hintStyle: TextStyle(color: Colors.white.withOpacity(0.6), fontSize: 17),
+                      hintStyle: TextStyle(color: Colors.white.withOpacity(0.6),
+                          fontSize: 17),
                   ),),
                 ),
                 IconButton(onPressed: () async {
@@ -116,63 +126,66 @@ class _SearchViewState extends StateMVC<SearchView> {
               margin: const EdgeInsets.only(bottom: 50),
               child: !isLoading ?
               SizedBox(
-                height: MediaQuery.of(context).size.height,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: con.searchedMovies.length,
-                  itemBuilder: (c,i){
-                    return
-                      con.hiddenMovieList.contains(con.searchedMovies[i]["id"].toString())?
-                          Container()
-
-                    :InkWell(
-                      onTap: (){
-                        pushNewScreen(context, screen: PlayMovieView(
-                          name: con.searchedMovies[i]['title'],
-                          bannerUrl: 'https://image.tmdb.org/t/p/w500'
-                              + con.searchedMovies[i]['backdrop_path'],
-                          posterUrl: 'https://image.tmdb.org/t/p/w500'
-                              + con.searchedMovies[i]['poster_path'].toString(),
-                          description: con.searchedMovies[i]['overview'],
-                          vote: con.searchedMovies[i]['vote_average'].toString(),
-                          launchOn: con.searchedMovies[i]['release_date'],
-                          language: con.searchedMovies[i]['original_language'],
-                          popularity: con.searchedMovies[i]['popularity'].toString(),
-                          movieId: '${con.searchedMovies[i]['id']}',),
-                            withNavBar: false);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: MediaQuery(data: const MediaQueryData(padding: EdgeInsets.zero),
-                          child: ListTile(
-                            leading: Image.network('https://image.tmdb.org/t/p/w500'
-                                + con.searchedMovies[i]['poster_path'], fit: BoxFit.cover,),
-                            title: Text('${con.searchedMovies[i]['title']}',
-                              style: titleTextStyle,),
-                            /// Hide movie from future search
-                            trailing: IconButton(onPressed: () {
-                              print(con.searchedMovies[i]["id"]);
-                              con.saveHideToList(con.searchedMovies[i]["id"].toString());
-                              con.searchedMovies.removeAt(i);
-                              setState(() { });
-                              print(con.hiddenMovieList);
-                            },
-                                icon: const Icon(Icons.remove, color: Colors.white)),
-                            tileColor: Colors.brown.withOpacity(0.4),
-                            contentPadding: const EdgeInsets.only(left: 0.0,
-                                right: 20.0, top: 0.0, bottom: 0.0),
+                child: Column(
+                  children: [
+                    ListView.builder(
+                      shrinkWrap: true,
+                      physics: const ScrollPhysics(),
+                      itemCount: con.searchedMovies.length,
+                      itemBuilder: (c,i){
+                        return
+                          con.hiddenMovieList.contains(con.searchedMovies[i]["id"].toString())?
+                              Container()
+                        :InkWell(
+                          onTap: (){
+                            pushNewScreen(context, screen: PlayMovieView(
+                              name: con.searchedMovies[i]['title'],
+                              bannerUrl: 'https://image.tmdb.org/t/p/w500'
+                                  + con.searchedMovies[i]['backdrop_path'],
+                              posterUrl: 'https://image.tmdb.org/t/p/w500'
+                                  + con.searchedMovies[i]['poster_path'].toString(),
+                              description: con.searchedMovies[i]['overview'],
+                              vote: con.searchedMovies[i]['vote_average'].toString(),
+                              launchOn: con.searchedMovies[i]['release_date'],
+                              language: con.searchedMovies[i]['original_language'],
+                              popularity: con.searchedMovies[i]['popularity'].toString(),
+                              movieId: '${con.searchedMovies[i]['id']}',),
+                                withNavBar: false);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: MediaQuery(data: const MediaQueryData(padding: EdgeInsets.zero),
+                              child: ListTile(
+                                leading: Image.network('https://image.tmdb.org/t/p/w500'
+                                    + con.searchedMovies[i]['poster_path'], fit: BoxFit.cover,),
+                                title: Text('${con.searchedMovies[i]['title']}',
+                                  style: titleTextStyle,),
+                                /// Hide movie from future search
+                                trailing: IconButton(onPressed: () {
+                                  print(con.searchedMovies[i]["id"]);
+                                  con.saveHideToList(con.searchedMovies[i]["id"].toString());
+                                  con.searchedMovies.removeAt(i);
+                                  setState(() { });
+                                  print(con.hiddenMovieList);
+                                },
+                                    icon: const Icon(Icons.remove, color: Colors.white)),
+                                tileColor: Colors.brown.withOpacity(0.4),
+                                contentPadding: const EdgeInsets.only(left: 0.0,
+                                    right: 20.0, top: 0.0, bottom: 0.0),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
-                    );
-                  },
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 30,)
+                  ],
                 ),
               ):
             Center(child: Padding(
               padding: const EdgeInsets.only(top: 50),
               child: _utility.loader(context, 'Searching...'),
             )),),
-            const SizedBox(height: 250,)
         ],),
       ),
     );
