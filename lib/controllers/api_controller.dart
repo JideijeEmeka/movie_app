@@ -12,7 +12,7 @@ class ApiServiceController extends ControllerMVC {
 
   bool hasInternet = false;
   ConnectivityResult result = ConnectivityResult.none;
-  List<String> hiddenMovieList = [];
+  List hiddenMovieList = [];
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late SharedPreferences prefs;
@@ -29,6 +29,36 @@ class ApiServiceController extends ControllerMVC {
       myOwnList = list;
     });
     return list;
+  }
+
+  Future<List<String>> getMyHideList() async {
+    prefs = await _prefs;
+    // prefs.clear();
+
+    if(prefs.getStringList('hiddenList') == null) {
+      prefs.setStringList('hiddenList', []);
+    }
+    List<String> list = prefs.getStringList('hiddenList')!;
+    setState(() {
+      myHiddenMovieList = list;
+    });
+    return list;
+  }
+
+  Future<String> saveHideToList(String id) async {
+    String result = "";
+    try{
+      List<String> list = await getMyHideList();
+      list.add(id);
+      prefs.setStringList('hiddenList', list);
+      setState(() {
+        myHiddenMovieList.add(id);
+      });
+      result = 'Hidden from Search!';
+    }catch(error) {
+      result = error.toString();
+    }
+    return result;
   }
 
   Future<String> addMovieToList(String id) async {
@@ -70,13 +100,23 @@ class ApiServiceController extends ControllerMVC {
       list.remove(id);
       prefs.setStringList('savedList', list);
       setState(() {
-        hiddenMovieList.remove(id);
+        myHiddenMovieList.add(id);
       });
       result = 'Removed from Search!';
     }catch(error) {
       result = error.toString();
     }
     return result;
+  }
+
+  /// Search Movies
+  List searchedMovies = [];
+
+  searchMovies(String query) async {
+    Map searchResults = await tmdbWithCustomLogs.v3.search.queryMovies(query);
+    setState(() {
+      searchedMovies = searchResults['results'];
+    });
   }
 
   checkInternetConnection() async {
