@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_app/helpers/constants.dart';
 
-Widget floatButton() {
+Widget floatButton(String title, Widget? icon) {
   return FloatingActionButton.extended(onPressed: () {},
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.circular(12)
     ),
-  icon: const Icon(CupertinoIcons.shuffle),
+  icon: icon,
   backgroundColor: Colors.white,
     foregroundColor: redColor,
-    label: const Text("Play Something"),);
+    label: Text(title),);
 }
