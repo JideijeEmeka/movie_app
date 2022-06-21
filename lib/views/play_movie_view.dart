@@ -23,7 +23,6 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
   }
 
   late ApiServiceController con;
-  List favList = [];
   @override
   void initState() {
     //con.myList = favList;

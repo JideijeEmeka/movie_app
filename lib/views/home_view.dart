@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/controllers/api_controller.dart';
@@ -16,6 +17,7 @@ import 'package:movie_app/widgets/slides/trending_movies.dart';
 import 'package:movie_app/widgets/slides/up_coming_movies.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -34,6 +36,7 @@ class _HomeViewState extends StateMVC<HomeView> {
 
   @override
   void initState() {
+
     fetchList();
     InternetConnectionChecker().onStatusChange.listen((status) {
       con.hasInternet = status == InternetConnectionStatus.connected;
@@ -48,6 +51,8 @@ class _HomeViewState extends StateMVC<HomeView> {
   }
 
   fetchList() async {
+    con.prefs = await SharedPreferences.getInstance();
+    //con.prefs.clear();
     var i = await con.getMyList();
     setState(() {
       newList = i;
@@ -57,7 +62,7 @@ class _HomeViewState extends StateMVC<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    fetchList();
+    //fetchList();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
@@ -95,7 +100,7 @@ class _HomeViewState extends StateMVC<HomeView> {
           ],
         ),
       ),
-          floatingActionButton: floatButton(),
+          floatingActionButton: floatButton("Play Something", const Icon(CupertinoIcons.shuffle)),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           extendBodyBehindAppBar: true,
           backgroundColor: Colors.transparent,
