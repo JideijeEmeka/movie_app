@@ -41,6 +41,7 @@ class ApiServiceController extends ControllerMVC {
     List<String> list = prefs.getStringList('hiddenList')!;
     setState(() {
       myHiddenMovieList = list;
+      hiddenMovieList = list;
     });
     return list;
   }
@@ -112,11 +113,15 @@ class ApiServiceController extends ControllerMVC {
   /// Search Movies
   List searchedMovies = [];
 
-  searchMovies(String query) async {
+  Future <List> searchMovies(String query) async {
     Map searchResults = await tmdbWithCustomLogs.v3.search.queryMovies(query);
     setState(() {
       searchedMovies = searchResults['results'];
     });
+
+    return searchResults['results'];
+
+
   }
 
   checkInternetConnection() async {
