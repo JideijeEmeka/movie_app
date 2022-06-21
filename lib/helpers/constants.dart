@@ -3,6 +3,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 /// My favorite movie list
 List myOwnList = [];
+List<String> myHiddenMovieList = [];
+List searchList = [];
 
 /// App Name
 String appName = "EmmyFlix";
