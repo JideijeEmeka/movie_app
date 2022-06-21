@@ -36,7 +36,6 @@ class _HomeViewState extends StateMVC<HomeView> {
 
   @override
   void initState() {
-
     fetchList();
     InternetConnectionChecker().onStatusChange.listen((status) {
       con.hasInternet = status == InternetConnectionStatus.connected;
@@ -51,7 +50,7 @@ class _HomeViewState extends StateMVC<HomeView> {
   }
 
   fetchList() async {
-    con.prefs = await SharedPreferences.getInstance();
+    // con.prefs = await SharedPreferences.getInstance();
     //con.prefs.clear();
     var i = await con.getMyList();
     setState(() {
@@ -62,7 +61,7 @@ class _HomeViewState extends StateMVC<HomeView> {
 
   @override
   Widget build(BuildContext context) {
-    //fetchList();
+    fetchList();
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(100.0),
