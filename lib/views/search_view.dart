@@ -5,7 +5,6 @@ import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/helpers/utility.dart';
 import 'package:movie_app/views/play_movie_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
-import 'package:movie_app/widgets/slides/searched_movies.dart';
 import 'package:movie_app/widgets/snack_bar_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
@@ -156,7 +155,6 @@ class _SearchViewState extends StateMVC<SearchView> {
                               con.saveHideToList(con.searchedMovies[i]["id"].toString());
                               con.searchedMovies.removeAt(i);
                               setState(() { });
-
                               print(con.hiddenMovieList);
                             },
                                 icon: const Icon(Icons.remove, color: Colors.white)),
