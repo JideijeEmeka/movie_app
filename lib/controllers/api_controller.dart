@@ -45,6 +45,10 @@ class ApiServiceController extends ControllerMVC {
     return list;
   }
 
+  Future clearHiddenList() async {
+    prefs.setStringList('hiddenList', []);
+  }
+
   Future<String> saveHideToList(String id) async {
     String result = "";
     try{
