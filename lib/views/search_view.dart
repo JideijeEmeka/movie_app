@@ -163,7 +163,11 @@ class _SearchViewState extends StateMVC<SearchView> {
                                 /// Hide movie from future search
                                 trailing: IconButton(onPressed: () {
                                   print(con.searchedMovies[i]["id"]);
-                                  con.saveHideToList(con.searchedMovies[i]["id"].toString());
+                                  con.saveHideToList(con.searchedMovies[i]["id"].toString()).then((_) =>
+                                  {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                        snackBar(message: 'Hidden from Search!'))
+                                  });
                                   con.searchedMovies.removeAt(i);
                                   setState(() { });
                                   print(con.hiddenMovieList);
