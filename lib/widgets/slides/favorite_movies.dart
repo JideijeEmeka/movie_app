@@ -48,18 +48,17 @@ class _FavoriteMovieListState extends StateMVC<FavoriteMovieList> {
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
+                print(myOwnList);
                 pushNewScreen(context, screen: PlayMovieView(
-                  name: widget.favoriteList[index]['title'],
-                  bannerUrl: 'https://image.tmdb.org/t/p/w500'
-                      + widget.favoriteList[index]['backdrop_path'],
-                  posterUrl: 'https://image.tmdb.org/t/p/w500'
-                      + widget.favoriteList[index]['poster_path'],
-                  description: widget.favoriteList[index]['overview'],
-                  vote: widget.favoriteList[index]['vote_average'].toString(),
-                  launchOn: widget.favoriteList[index]['release_date'],
-                  language: widget.favoriteList[index]['original_language'],
-                  popularity: widget.favoriteList[index]['popularity'].toString(),
-                movieId: widget.favoriteList[index]['id'].toString(),),
+                  name: myOwnList[index],
+                  bannerUrl: myOwnList[index],
+                  posterUrl: myOwnList[index],
+                  description: myOwnList[index],
+                  vote: myOwnList[index],
+                  launchOn: myOwnList[index],
+                  language: myOwnList[index],
+                  popularity: myOwnList[index],
+                movieId: myOwnList[index]),
                     withNavBar: false);
               },
               child: Container(
