@@ -1,9 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
+import 'package:movie_app/views/video_player_view.dart';
 import 'package:movie_app/widgets/snack_bar_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class PlayMovieView extends StatefulWidget {
   final String name, description, bannerUrl, posterUrl, vote, launchOn,
@@ -26,6 +29,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
   @override
   void initState() {
     //con.myList = favList;
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.initState();
   }
 
@@ -136,7 +140,10 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                       Container(
                         width: double.infinity,
                         margin: const EdgeInsets.symmetric(vertical: 30),
-                        child: ElevatedButton(onPressed: () {},
+                        child: ElevatedButton(onPressed: () => {
+                          pushNewScreen(context, screen: const VideoPlayerView(),
+                          withNavBar: false)
+                        },
                             style: ElevatedButton.styleFrom(
                                 textStyle: titleTextStyle,
                                 primary: gradientRedColor,
