@@ -141,7 +141,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                             pushNewScreen(context, screen: PlayMovieView(
                               name: con.searchedMovies[i]['title'],
                               bannerUrl: 'https://image.tmdb.org/t/p/w500'
-                                  + con.searchedMovies[i]['backdrop_path'],
+                                  + con.searchedMovies[i]['backdrop_path'].toString(),
                               posterUrl: 'https://image.tmdb.org/t/p/w500'
                                   + con.searchedMovies[i]['poster_path'].toString(),
                               description: con.searchedMovies[i]['overview'],
@@ -157,7 +157,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                             child: MediaQuery(data: const MediaQueryData(padding: EdgeInsets.zero),
                               child: ListTile(
                                 leading: Image.network('https://image.tmdb.org/t/p/w500'
-                                    + con.searchedMovies[i]['poster_path'], fit: BoxFit.cover,),
+                                    + con.searchedMovies[i]['poster_path'].toString(), fit: BoxFit.cover,),
                                 title: Text('${con.searchedMovies[i]['title']}',
                                   style: titleTextStyle,),
                                 /// Hide movie from future search

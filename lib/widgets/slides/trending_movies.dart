@@ -27,9 +27,9 @@ class _TrendingMovieListState extends State<TrendingMovieList> {
                 pushNewScreen(context, screen: PlayMovieView(
                   name: widget.trending[index]['title'],
                 bannerUrl: 'https://image.tmdb.org/t/p/w500'
-                    + widget.trending[index]['backdrop_path'],
+                    + widget.trending[index]['backdrop_path'].toString(),
                 posterUrl: 'https://image.tmdb.org/t/p/w500'
-                  + widget.trending[index]['poster_path'],
+                  + widget.trending[index]['poster_path'].toString(),
                 description: widget.trending[index]['overview'],
                 vote: widget.trending[index]['vote_average'].toString(),
                 launchOn: widget.trending[index]['release_date'],
