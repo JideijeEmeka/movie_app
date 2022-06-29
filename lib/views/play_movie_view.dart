@@ -43,7 +43,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
             decoration: BoxDecoration(
               color: Colors.black,
               image: DecorationImage(image: NetworkImage("https://image.tmdb.org/t/p/w500"
-                  + widget.bannerUrl),
+                  + widget.bannerUrl.toString()),
               fit: BoxFit.fill)
             ),
             child: BackdropFilter(
@@ -98,7 +98,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                         child: Center(child: ClipRRect(
                           borderRadius: BorderRadius.circular(15),
                             child: Image.network("https://image.tmdb.org/t/p/w500"
-                                + widget.posterUrl, fit: BoxFit.cover,))),
+                                + widget.posterUrl.toString(), fit: BoxFit.cover,))),
                       ),
                     ],),
                   ),
