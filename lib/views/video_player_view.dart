@@ -37,18 +37,8 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _playerController.value.isPlaying
-                ? _playerController.pause()
-                : _playerController.play();
-          });
-        }, child: Icon(_playerController.value.isPlaying
-            ? Icons.pause : Icons.play_arrow)),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Stack(
-        alignment: Alignment.topLeft,
+        alignment: Alignment.center,
         children: [
           SizedBox(
               height: MediaQuery.of(context).size.height,
@@ -57,14 +47,48 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                   ? AspectRatio(aspectRatio: _playerController.value.aspectRatio,
                 child: VideoPlayer(_playerController),)
                   : Container()),
-          Positioned(top: 30, left: 20,
+          Positioned(top: 20, left: 2,
               child: _playerController.value.isPlaying
               ? Container() : BackButton(onPressed: () {
                 Navigator.pop(context);
                 SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,
                   DeviceOrientation.portraitDown]);
               },
-                  color: Colors.black)),
+                  color: Colors.red)),
+          Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  /// Skip backwards button
+                IconButton(
+                  onPressed: () {
+                  setState(() {
+                    _playerController.value.isPlaying
+                        ? _playerController.pause()
+                        : _playerController.play();
+                  });
+                }, icon: Icon(Icons.skip_previous), iconSize: 80, color: Colors.red,),
+                /// Play button
+                IconButton(onPressed: () {
+                  setState(() {
+                    _playerController.value.isPlaying
+                        ? _playerController.pause()
+                        : _playerController.play();
+                  });
+                }, icon: Icon(_playerController.value.isPlaying
+                    ? Icons.pause : Icons.play_arrow), iconSize: 80, color: Colors.red,),
+                /// Skip forward button
+                IconButton(
+                  onPressed: () {
+                    _playerController.seekTo(const Duration(seconds: 1));
+                    setState(() {});
+                }, icon: Icon(Icons.skip_next), iconSize: 80, color: Colors.red,)
+              ],)
+            ],),
+          )
         ],
       )
     );
