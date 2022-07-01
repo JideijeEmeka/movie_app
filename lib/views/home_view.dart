@@ -228,7 +228,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
                               child: Text("Tv Airing Today", style: listTextStyle)),
-                            TvAiringTodayList(latest: con.tvAiringToday,),
+                            TvAiringTodayList(tvAiring: con.tvAiringToday,),
                             /// Now Playing Movies
                             Padding(
                                 padding: const EdgeInsets.only(top: 20, left: 6,

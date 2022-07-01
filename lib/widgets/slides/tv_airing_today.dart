@@ -3,9 +3,9 @@ import 'package:movie_app/views/play_movie_view.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class TvAiringTodayList extends StatefulWidget {
-  final List latest;
+  final List tvAiring;
 
-  const TvAiringTodayList({Key? key, required this.latest}) : super(key: key);
+  const TvAiringTodayList({Key? key, required this.tvAiring}) : super(key: key);
 
   @override
   State<TvAiringTodayList> createState() => _TvAiringTodayListState();
@@ -20,22 +20,22 @@ class _TvAiringTodayListState extends State<TvAiringTodayList> {
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
           physics: const ScrollPhysics(),
-          itemCount: widget.latest.length,
+          itemCount: widget.tvAiring.length,
           itemBuilder: (context, index) {
             return InkWell(
               onTap: () {
                 pushNewScreen(context, screen: PlayMovieView(
-                  name: widget.latest[index]['original_name'],
+                  name: widget.tvAiring[index]['original_name'],
                   bannerUrl: 'https://image.tmdb.org/t/p/w500'
-                      + widget.latest[index]['backdrop_path'],
+                      + widget.tvAiring[index]['backdrop_path'],
                   posterUrl: 'https://image.tmdb.org/t/p/w500'
-                      + widget.latest[index]['poster_path'],
-                  description: widget.latest[index]['overview'],
-                  vote: widget.latest[index]['vote_average'].toString(),
-                  launchOn: widget.latest[index]['first_air_date'],
-                  language: widget.latest[index]['original_language'],
-                  popularity: widget.latest[index]['popularity'].toString(),
-                  movieId: widget.latest[index]['id'].toString(),),
+                      + widget.tvAiring[index]['poster_path'],
+                  description: widget.tvAiring[index]['overview'],
+                  vote: widget.tvAiring[index]['vote_average'].toString(),
+                  launchOn: widget.tvAiring[index]['first_air_date'],
+                  language: widget.tvAiring[index]['original_language'],
+                  popularity: widget.tvAiring[index]['popularity'].toString(),
+                  movieId: widget.tvAiring[index]['id'].toString(),),
                     withNavBar: false);
               },
               child: Container(
@@ -43,7 +43,7 @@ class _TvAiringTodayListState extends State<TvAiringTodayList> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       image: DecorationImage(image: NetworkImage('https://image.tmdb.org/t/p/w500'
-                          + widget.latest[index]['poster_path']))),
+                          + widget.tvAiring[index]['poster_path']))),
                   margin: const EdgeInsets.only(left: 7)),
             );
           }),
