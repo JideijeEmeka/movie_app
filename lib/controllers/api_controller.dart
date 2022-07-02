@@ -150,6 +150,14 @@ class ApiServiceController extends ControllerMVC {
     }
   }
 
+  String checkNull(String? input) {
+    if(input != null) {
+      return input;
+    }else {
+      return 'N/A';
+    }
+  }
+
   /// Load movies
   List trendingMovies = [];
   List topRatedMovies = [];
