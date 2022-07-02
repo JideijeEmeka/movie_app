@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/views/play_movie_view.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
 class TrendingMovieList extends StatefulWidget {
@@ -8,10 +10,16 @@ class TrendingMovieList extends StatefulWidget {
   const TrendingMovieList({Key? key, required this.trending}) : super(key: key);
 
   @override
-  State<TrendingMovieList> createState() => _TrendingMovieListState();
+  _TrendingMovieListState createState() => _TrendingMovieListState();
 }
 
-class _TrendingMovieListState extends State<TrendingMovieList> {
+class _TrendingMovieListState extends StateMVC<TrendingMovieList> {
+  _TrendingMovieListState() : super(ApiServiceController()) {
+    con = controller as ApiServiceController;
+  }
+
+  late ApiServiceController con;
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -25,17 +33,17 @@ class _TrendingMovieListState extends State<TrendingMovieList> {
             return InkWell(
               onTap: () {
                 pushNewScreen(context, screen: PlayMovieView(
-                  name: widget.trending[index]['title'],
-                bannerUrl: 'https://image.tmdb.org/t/p/w500'
-                    + widget.trending[index]['backdrop_path'].toString(),
-                posterUrl: 'https://image.tmdb.org/t/p/w500'
-                  + widget.trending[index]['poster_path'].toString(),
-                description: widget.trending[index]['overview'],
-                vote: widget.trending[index]['vote_average'].toString(),
-                launchOn: widget.trending[index]['release_date'],
-                language: widget.trending[index]['original_language'],
-                popularity: widget.trending[index]['popularity'].toString(),
-                movieId: widget.trending[index]['id'].toString(),),
+                  name: con.checkNull(widget.trending[index]['title']),
+                bannerUrl: con.checkNull('https://image.tmdb.org/t/p/w500'
+                    + widget.trending[index]['backdrop_path'].toString()),
+                posterUrl: con.checkNull('https://image.tmdb.org/t/p/w500'
+                    + widget.trending[index]['poster_path'].toString()),
+                description: con.checkNull(widget.trending[index]['overview']),
+                vote: con.checkNull(widget.trending[index]['vote_average'].toString()),
+                launchOn: con.checkNull(widget.trending[index]['release_date']),
+                language: con.checkNull(widget.trending[index]['original_language']),
+                popularity: con.checkNull(widget.trending[index]['popularity'].toString()),
+                movieId: con.checkNull(widget.trending[index]['id'].toString()),),
                     withNavBar: false);
                 },
               child: Container(
