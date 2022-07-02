@@ -55,40 +55,38 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                   DeviceOrientation.portraitDown]);
               },
                   color: Colors.red)),
-          Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  /// Skip backwards button
-                IconButton(
-                  onPressed: () {
-                  setState(() {
-                    _playerController.value.isPlaying
-                        ? _playerController.pause()
-                        : _playerController.play();
-                  });
-                }, icon: Icon(Icons.skip_previous), iconSize: 80, color: Colors.red,),
-                /// Play button
-                IconButton(onPressed: () {
-                  setState(() {
-                    _playerController.value.isPlaying
-                        ? _playerController.pause()
-                        : _playerController.play();
-                  });
-                }, icon: Icon(_playerController.value.isPlaying
-                    ? Icons.pause : Icons.play_arrow), iconSize: 80, color: Colors.red,),
-                /// Skip forward button
-                IconButton(
-                  onPressed: () {
-                    _playerController.seekTo(const Duration(seconds: 1));
-                    setState(() {});
-                }, icon: Icon(Icons.skip_next), iconSize: 80, color: Colors.red,)
-              ],)
-            ],),
-          )
+                /// Skip backwards button
+              IconButton(
+                onPressed: () {
+                setState(() {
+                  _playerController.value.isPlaying
+                      ? _playerController.pause()
+                      : _playerController.play();
+                });
+              }, icon: const Icon(Icons.skip_previous), iconSize: 80, color: Colors.red,),
+              /// Play button
+              IconButton(onPressed: () {
+                setState(() {
+                  _playerController.value.isPlaying
+                      ? _playerController.pause()
+                      : _playerController.play();
+                });
+              }, icon: Icon(_playerController.value.isPlaying
+                  ? Icons.pause : Icons.play_arrow), iconSize: 80, color: Colors.red,),
+              /// Skip forward button
+              IconButton(
+                onPressed: () {
+                  _playerController.seekTo(const Duration(seconds: 1));
+                  setState(() {});
+              }, icon: const Icon(Icons.skip_next), iconSize: 80, color: Colors.red,)
+            ],)
+          ],)
         ],
       )
     );
