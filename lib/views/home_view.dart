@@ -17,7 +17,6 @@ import 'package:movie_app/widgets/slides/trending_movies.dart';
 import 'package:movie_app/widgets/slides/up_coming_movies.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
@@ -181,11 +180,11 @@ class _HomeViewState extends StateMVC<HomeView> {
                             /// Favorite Movies View
                             if(myOwnList.isEmpty) ... [],
                             if(myOwnList.isNotEmpty) ... [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 20, left: 6,
-                                  right: 5, bottom: 3),
-                              child: Text("My List", style: listTextStyle)),
-                            FavoriteMovieList(favoriteList: myOwnList),
+                              Padding(
+                                  padding: const EdgeInsets.only(top: 20, left: 6,
+                                      right: 5, bottom: 3),
+                                  child: Text("My List", style: listTextStyle)),
+                              FavoriteMovieList(favoriteList: myOwnList),
                             ],
                             /// Popular Movies View
                             Padding(
