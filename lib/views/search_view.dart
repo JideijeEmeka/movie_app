@@ -162,7 +162,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                                   style: titleTextStyle,),
                                 /// Hide movie from future search
                                 trailing: IconButton(onPressed: () {
-                                  print(con.searchedMovies[i]["id"]);
+                                  debugPrint(con.searchedMovies[i]["id"]);
                                   con.saveHideToList(con.searchedMovies[i]["id"].toString()).then((_) =>
                                   {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -170,7 +170,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                                   });
                                   con.searchedMovies.removeAt(i);
                                   setState(() { });
-                                  print(con.hiddenMovieList);
+                                  debugPrint('${con.hiddenMovieList}');
                                 },
                                     icon: const Icon(Icons.remove, color: Colors.white)),
                                 tileColor: Colors.brown.withOpacity(0.4),
