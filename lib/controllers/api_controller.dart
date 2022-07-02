@@ -150,6 +150,7 @@ class ApiServiceController extends ControllerMVC {
     }
   }
 
+  /// Null checker for empty string
   String checkNull(String? input) {
     if(input != null) {
       return input;

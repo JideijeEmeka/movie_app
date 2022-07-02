@@ -134,9 +134,9 @@ class _SearchViewState extends StateMVC<SearchView> {
                       itemCount: con.searchedMovies.length,
                       itemBuilder: (c,i){
                         return
-                          con.hiddenMovieList.contains(con.searchedMovies[i]["id"].toString())?
+                          con.hiddenMovieList.contains(con.searchedMovies[i]["id"].toString()) ?
                               Container()
-                        :InkWell(
+                        : InkWell(
                           onTap: (){
                             pushNewScreen(context, screen: PlayMovieView(
                               name: con.searchedMovies[i]['title'],
@@ -162,7 +162,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                                   style: titleTextStyle,),
                                 /// Hide movie from future search
                                 trailing: IconButton(onPressed: () {
-                                  debugPrint(con.searchedMovies[i]["id"]);
+                                  print(con.searchedMovies[i]["id"]);
                                   con.saveHideToList(con.searchedMovies[i]["id"].toString()).then((_) =>
                                   {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -170,7 +170,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                                   });
                                   con.searchedMovies.removeAt(i);
                                   setState(() { });
-                                  debugPrint('${con.hiddenMovieList}');
+                                  print('${con.hiddenMovieList}');
                                 },
                                     icon: const Icon(Icons.remove, color: Colors.white)),
                                 tileColor: Colors.brown.withOpacity(0.4),
