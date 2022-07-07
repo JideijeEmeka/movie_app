@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:movie_app/helpers/constants.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io' show Platform;
 
@@ -26,6 +27,7 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
       ..initialize().then((_) => {
         setState(() {})
       });
+    // _playerController.value.isPlaying
   }
 
   @override
@@ -38,7 +40,6 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
-        alignment: Alignment.center,
         children: [
           SizedBox(
               height: MediaQuery.of(context).size.height,
@@ -54,10 +55,11 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                 SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp,
                   DeviceOrientation.portraitDown]);
               },
-                  color: Colors.red)),
+                  color: Colors.white)),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 80,),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -69,7 +71,7 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                       ? _playerController.pause()
                       : _playerController.play();
                 });
-              }, icon: const Icon(Icons.skip_previous), iconSize: 80, color: Colors.red,),
+              }, icon: const Icon(Icons.skip_previous), iconSize: 80, color: Colors.white,),
               /// Play button
               IconButton(onPressed: () {
                 setState(() {
@@ -78,14 +80,36 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                       : _playerController.play();
                 });
               }, icon: Icon(_playerController.value.isPlaying
-                  ? Icons.pause : Icons.play_arrow), iconSize: 80, color: Colors.red,),
+                  ? Icons.pause : Icons.play_arrow), iconSize: 80, color: Colors.white,),
               /// Skip forward button
               IconButton(
                 onPressed: () {
                   _playerController.seekTo(const Duration(seconds: 1));
                   setState(() {});
-              }, icon: const Icon(Icons.skip_next), iconSize: 80, color: Colors.red,)
-            ],)
+              }, icon: const Icon(Icons.skip_next), iconSize: 80, color: Colors.white,)
+            ],),
+              /// Video Progress Indicator
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(child: Container(
+                    margin: const EdgeInsets.only(left: 30, right: 30, top: 80),
+                    child: VideoProgressIndicator(_playerController,
+                      allowScrubbing: true,
+                      colors: const VideoProgressColors(
+                          backgroundColor: Colors.white,
+                          bufferedColor: Colors.white,
+                          playedColor: Colors.red
+                      ),
+                    ),
+                  ),),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 80, right: 30),
+                    child: Text(_playerController.value.duration.toString(),
+                      style: titleTextStyle,),
+                  )
+                ],
+              )
           ],)
         ],
       )
