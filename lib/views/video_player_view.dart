@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io' show Platform;
@@ -14,6 +16,8 @@ class VideoPlayerView extends StatefulWidget {
 class _VideoPlayerViewState extends State<VideoPlayerView> {
   late VideoPlayerController _playerController;
 
+  // late DateTime movieDuration;
+
   @override
   void initState() {
     super.initState();
@@ -27,6 +31,7 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
       ..initialize().then((_) => {
         setState(() {})
       });
+    // movieDuration = DateTime.parse(_playerController.value.duration.toString());
     // _playerController.value.isPlaying
   }
 
@@ -38,6 +43,8 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
 
   @override
   Widget build(BuildContext context) {
+    // final formattedMovieDuration = DateFormat('hh:mm').format(movieDuration);
+
     return Scaffold(
       body: Stack(
         children: [
@@ -103,12 +110,53 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                       ),
                     ),
                   ),),
+                  ///Video Duration
                   Padding(
                     padding: const EdgeInsets.only(top: 80, right: 30),
                     child: Text(_playerController.value.duration.toString(),
                       style: titleTextStyle,),
                   )
                 ],
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    /// Screen Lock
+                    Row(children: [
+                      const FaIcon(FontAwesomeIcons.unlock, color: Colors.white,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Text('Screen Lock', style: titleTextStyle,),
+                      )
+                    ],),
+                    ///Episodes
+                    Row(children: [
+                      const FaIcon(FontAwesomeIcons.images, color: Colors.white,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Text('Episodes', style: titleTextStyle,),
+                      )
+                    ],),
+                    /// Audio and Subtitles
+                    Row(children: [
+                      const FaIcon(FontAwesomeIcons.microphone, color: Colors.white,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Text('Audio & Subtitles', style: titleTextStyle,),
+                      )
+                    ],),
+                    /// Next Episode
+                    Row(children: [
+                      const FaIcon(FontAwesomeIcons.forwardStep, color: Colors.white,),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 5),
+                        child: Text('Next Ep.', style: titleTextStyle,),
+                      )
+                    ],),
+                  ],
+                ),
               )
           ],)
         ],
