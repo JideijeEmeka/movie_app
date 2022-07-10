@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:io' show Platform;
