@@ -104,7 +104,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                     });
                     FocusManager.instance.primaryFocus?.unfocus();
                     await Future.delayed(const Duration(seconds: 4), () async{
-                    con.similarMovies = await  con.searchMovies(searchController.text);
+                    con.similarMovies = await con.searchMovies(searchController.text);
                     con.getMyHideList();
                       setState(() { });
                     });

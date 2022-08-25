@@ -29,7 +29,13 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
     }else if(Platform.isAndroid){
       SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     }
-    loadVideo();
+    // loadVideo();
+    _playerController = VideoPlayerController.network
+      ('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+      ..initialize().then((_) => {
+      _playerController.play(),
+        setState(() {})
+      });
     // movieDuration = DateTime.parse(_playerController.value.duration.toString());
     // _playerController.value.isPlaying
   }
@@ -40,33 +46,26 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
     _playerController.dispose();
   }
 
-  void loadVideo() {
-    setState(() {
-      isLoading = true;
-    });
-    Future.delayed(const Duration(seconds: 3), () {
-      _playerController = VideoPlayerController.network
-        ('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
-        ..initialize().then((_) => {
-        _playerController.play(),
-          setState(() {})
-        });
-    });
-    setState(() {
-      isLoading = false;
-    });
-  }
+  // void loadVideo() {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  //   Future.delayed(const Duration(seconds: 3), () {
+  //     _playerController.play();
+  //   });
+  //   setState(() {
+  //     isLoading = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
     // final formattedMovieDuration = DateFormat('hh:mm').format(movieDuration);
-
     return Scaffold(
       body: !isLoading ? Stack(
         children: [
           SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
+            width: double.infinity,
               child: _playerController.value.isInitialized
                   ? AspectRatio(aspectRatio: _playerController.value.aspectRatio,
                 child: VideoPlayer(_playerController),)
@@ -82,7 +81,6 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const SizedBox(height: 0,),
             Padding(
               padding: const EdgeInsets.only(top: 130),
               child: Row(
@@ -138,7 +136,7 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.only(top: 30, left: 30, bottom: 5, right: 30),
+                padding: const EdgeInsets.only(top: 28, left: 30, bottom: 5, right: 30),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
