@@ -28,6 +28,7 @@ dependencies:
   video_player: ^2.4.5
   font_awesome_flutter: ^10.1.0
   intl: ^0.17.0
+  flutter_dotenv:
 
 
 dev_dependencies:
