@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// My favorite movie list
 List myOwnList = [];
@@ -8,6 +9,9 @@ List searchList = [];
 
 /// App Name
 String appName = "EmmyFlix";
+
+/// Api Key
+var kApiKey = dotenv.env['API_KEY'];
 
 /// App Colors
 Color purpleColor = const Color(0xFF5D4176);
@@ -48,7 +52,7 @@ final imdbTextStyle = GoogleFonts.poppins(
     fontSize: 9, fontWeight: FontWeight.w400));
 
 /// Api Keys and Access Token
-String apiKey = "2a209b9033ad19c74ec7ab61c4cd582e";
+//String apiKey = "2a209b9033ad19c74ec7ab61c4cd582e";
 String readAccessToken =  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYTIwOWI5MDMzYWQ"
     "xOWM3NGVjN2FiNjFjNGNkNTgyZSIsInN1YiI6IjYyYTBjMGJkN2UxMmYwNmUwNzdhNzk1MC"
     "IsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.nomF8AyiMxmk7R4nXfVmZ-"
