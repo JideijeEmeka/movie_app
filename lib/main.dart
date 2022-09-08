@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:movie_app/views/dashboard_view.dart';
 import 'package:movie_app/views/series_view.dart';
 import 'package:overlay_support/overlay_support.dart';
@@ -7,6 +8,8 @@ import 'package:overlay_support/overlay_support.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: '.env');
 
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);

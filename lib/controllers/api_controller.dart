@@ -170,7 +170,7 @@ class ApiServiceController extends ControllerMVC {
   List tvAiringToday = [];
   List popularTvShows = [];
 
-  TMDB tmdbWithCustomLogs = TMDB(ApiKeys(apiKey, readAccessToken),
+  TMDB tmdbWithCustomLogs = TMDB(ApiKeys(kApiKey!, readAccessToken),
       logConfig: const ConfigLogger(
           showLogs: true,
           showErrorLogs: true
