@@ -28,7 +28,7 @@ class _FavoriteMovieListState extends StateMVC<FavoriteMovieList> {
 
   fetchList() async {
       var i = await con.getMyList();
-      setState(() {
+      setState(() { 
         newList = i;
       });
       debugPrint('$newList');
