@@ -30,7 +30,7 @@ class _MyListWidgetState extends State<MyListWidget> {
   } 
 
   @override
-  void initState() {
+  void initState() { 
     fetchDetails();
     super.initState();
   }
