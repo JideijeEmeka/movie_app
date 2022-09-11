@@ -11,7 +11,7 @@ class DashboardView extends StatefulWidget {
 class _DashboardViewState extends State<DashboardView> {
   @override
   Widget build(BuildContext context) {
-    return const WillPopScope(
+    return const WillPopScope(  
       onWillPop: null,
       child: Scaffold(
         body: NavBar(), 
