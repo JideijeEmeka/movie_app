@@ -14,7 +14,7 @@ class _DashboardViewState extends State<DashboardView> {
     return const WillPopScope(  
       onWillPop: null,
       child: Scaffold(
-        body: NavBar(), 
+        body: NavBar(),  
       ));
   }
 }
