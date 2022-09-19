@@ -85,7 +85,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                 pushNewScreen(context, screen: const SearchView()),
                 padding: const EdgeInsets.only(right: 10),
                 icon: const Icon(Icons.search_rounded, color: Colors.white,
-                size: 30,)),
+                size: 30,)), 
             Container(
               margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
               width: 30,

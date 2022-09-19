@@ -15,6 +15,6 @@ class _DashboardViewState extends State<DashboardView> {
       onWillPop: null,
       child: Scaffold(
         body: NavBar(),  
-      ));
+      )); 
   }
 }
