@@ -71,7 +71,7 @@ class _HomeViewState extends StateMVC<HomeView> {
           flexibleSpace: Container(
             color: Colors.black.withOpacity(0.3),
               padding: const EdgeInsets.only(top: 85, left: 30, right: 30),
-              child: Row(
+              child: Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                 TextButton(onPressed: () {},
@@ -80,7 +80,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                     child: Text("Movies", style: titleTextStyle)),
                 TextButton(onPressed: () {},
                     child: Text("Categories", style: titleTextStyle))])),
-          actions: [
+          actions: [ 
             IconButton(onPressed: () => 
                 pushNewScreen(context, screen: const SearchView()),
                 padding: const EdgeInsets.only(right: 10),
