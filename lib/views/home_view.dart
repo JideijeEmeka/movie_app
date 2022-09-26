@@ -73,7 +73,7 @@ class _HomeViewState extends StateMVC<HomeView> {
               padding: const EdgeInsets.only(top: 85, left: 30, right: 30),
               child: Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: [  
                 TextButton(onPressed: () {},
                     child: Text("TV Shows", style: titleTextStyle)),
                 TextButton(onPressed: () {},

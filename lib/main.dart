@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return OverlaySupport.global(
-      child: MaterialApp(
+      child: MaterialApp(  
         title: 'EmmyFlix',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
