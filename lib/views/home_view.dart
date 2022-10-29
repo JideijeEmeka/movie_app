@@ -89,7 +89,7 @@ class _HomeViewState extends StateMVC<HomeView> {
             Container(
               margin: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
               width: 30,
-              decoration: BoxDecoration( . 
+              decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
                 borderRadius: BorderRadius.circular(5),
                 color: Colors.white

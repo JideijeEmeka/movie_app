@@ -75,7 +75,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                                 ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
                               myOwnList.insert(0, widget.movieId);
                               debugPrint('$myOwnList');
-                              setState(() { });
+                              setState(() { }); 
                             },
                                 icon: const Icon(Icons.add, size: 30,
                                     color: Colors.white))
