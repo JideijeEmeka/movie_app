@@ -55,7 +55,7 @@ class _MyListWidgetState extends State<MyListWidget> {
         movieId: movie['id'].toString(),),
         withNavBar: false)
         },
-        child: Container(
+        child: Container( 
           width: 116, height: 200,
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8),

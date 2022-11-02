@@ -76,7 +76,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                               myOwnList.insert(0, widget.movieId);
                               debugPrint('$myOwnList');
                               setState(() { });  
-                            },
+                            }, 
                                 icon: const Icon(Icons.add, size: 30,
                                     color: Colors.white))
                             /// Show check icon if movie already added to favorite

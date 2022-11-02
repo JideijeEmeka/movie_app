@@ -38,7 +38,7 @@ class _FavoriteMovieListState extends StateMVC<FavoriteMovieList> {
   Widget build(BuildContext context) {
    fetchList();
     return SizedBox(
-      height: 170,
+      height: 170, 
       child: ListView.builder(
           shrinkWrap: true,
           scrollDirection: Axis.horizontal,
