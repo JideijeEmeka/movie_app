@@ -13,7 +13,7 @@ class _DashboardViewState extends State<DashboardView> {
   Widget build(BuildContext context) {
     return const WillPopScope(  
       onWillPop: null,
-      child: Scaffold(
+      child: Scaffold( 
         body: NavBar(),  
       ));  
   }

@@ -55,9 +55,9 @@ class _MyListWidgetState extends State<MyListWidget> {
         movieId: movie['id'].toString(),),
         withNavBar: false)
         },
-        child: Container( 
+        child: Container(  
           width: 116, height: 200,
-            decoration: BoxDecoration(
+            decoration: BoxDecoration( 
                 borderRadius: BorderRadius.circular(8),
                 image: DecorationImage(image: NetworkImage('https://image.tmdb.org/t/p/w500'
                     + movie['poster_path'].toString()))),
