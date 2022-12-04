@@ -89,7 +89,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.done,
                     decoration: InputDecoration.collapsed(
-                      hintText: 'Search for a show, movie, genre, etc',
+                      hintText: 'Search for a show, movie, series, genre, etc',
                       hintStyle: TextStyle(color: Colors.white.withOpacity(0.6),
                           fontSize: 17),
                   ),),
