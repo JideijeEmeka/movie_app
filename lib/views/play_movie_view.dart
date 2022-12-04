@@ -146,8 +146,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                           withNavBar: false)
                         },
                             style: ElevatedButton.styleFrom(
-                                textStyle: titleTextStyle,
-                                primary: gradientRedColor,
+                                textStyle: titleTextStyle, backgroundColor: gradientRedColor,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8)
                                 ),
