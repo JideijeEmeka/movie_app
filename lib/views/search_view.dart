@@ -48,7 +48,7 @@ class _SearchViewState extends StateMVC<SearchView> {
       floatingActionButton: floatButton(() {
         restoreHiddenMovies();
       },
-          "Show hidden movies",
+          "Show hidden movies!",
         const Icon(CupertinoIcons.eye_fill)),
       appBar: AppBar(
           backgroundColor: Colors.transparent,
