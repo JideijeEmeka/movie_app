@@ -99,7 +99,7 @@ class _HomeViewState extends StateMVC<HomeView> {
         ),
       ),
           floatingActionButton: floatButton(() {},
-              "Play Something", const Icon(CupertinoIcons.shuffle)),
+              "Play Something Now", const Icon(CupertinoIcons.shuffle)),
           floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           extendBodyBehindAppBar: true,
           backgroundColor: Colors.transparent,
