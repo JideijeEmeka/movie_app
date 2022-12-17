@@ -79,7 +79,7 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                             }, 
                                 icon: const Icon(Icons.add, size: 30,
                                     color: Colors.white))
-                            /// Show check icon if movie already added to favorite!
+                            /// Show check icon if movie already added to favorite!!
                                 : IconButton(onPressed: () async {
                               String result = await con.removeMovieFromList(widget.movieId);
                               ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
