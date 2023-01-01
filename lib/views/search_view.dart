@@ -48,7 +48,7 @@ class _SearchViewState extends StateMVC<SearchView> {
       floatingActionButton: floatButton(() {
         restoreHiddenMovies();
       },
-          "Show hidden movies",
+          "Show hidden movies!",
         const Icon(CupertinoIcons.eye_fill)),
       appBar: AppBar(
           backgroundColor: Colors.transparent,
@@ -89,7 +89,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                     keyboardType: TextInputType.text,
                     textInputAction: TextInputAction.done,
                     decoration: InputDecoration.collapsed(
-                      hintText: 'Search for a show, movie, genre, etc',
+                      hintText: 'Search for a show, movie, series, genre, etc',
                       hintStyle: TextStyle(color: Colors.white.withOpacity(0.6),
                           fontSize: 17),
                   ),),
@@ -162,7 +162,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                                   style: titleTextStyle,),
                                 /// Hide movie from future search
                                 trailing: IconButton(onPressed: () {
-                                  print(con.searchedMovies[i]["id"]);
+                                  debugPrint(con.searchedMovies[i]["id"]);
                                   con.saveHideToList(con.searchedMovies[i]["id"].toString()).then((_) =>
                                   {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -170,7 +170,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                                   });
                                   con.searchedMovies.removeAt(i);
                                   setState(() { });
-                                  print('${con.hiddenMovieList}');
+                                  debugPrint('${con.hiddenMovieList}');
                                 },
                                     icon: const Icon(Icons.remove, color: Colors.white)),
                                 tileColor: Colors.brown.withOpacity(0.4),
