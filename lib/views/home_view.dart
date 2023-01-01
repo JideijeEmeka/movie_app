@@ -156,9 +156,10 @@ class _HomeViewState extends StateMVC<HomeView> {
                                             const SizedBox(width: 35,),
                                             ElevatedButton(onPressed: () => {},
                                             style: ElevatedButton.styleFrom(
-                                                backgroundColor: Colors.white,
+                                                onPrimary: Colors.white,
                                                 padding: const EdgeInsets.symmetric(
-                                                    vertical: 7, horizontal: 20), disabledForegroundColor: Colors.black54.withOpacity(0.38), disabledBackgroundColor: Colors.black54.withOpacity(0.12)),
+                                                    vertical: 7, horizontal: 20), primary: Colors.black54.withOpacity(0.38),
+                                                onSurface: Colors.black54.withOpacity(0.12)),
                                                 child: Row(children: const [
                                                   Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
                                                   Text("Play", style: TextStyle(color: Colors.black,
