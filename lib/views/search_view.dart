@@ -166,7 +166,7 @@ class _SearchViewState extends StateMVC<SearchView> {
                                   con.saveHideToList(con.searchedMovies[i]["id"].toString()).then((_) =>
                                   {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                        snackBar(message: 'Hidden from Search!'))
+                                        snackBar(message: 'Hidden from Search Result!'))
                                   });
                                   con.searchedMovies.removeAt(i);
                                   setState(() { });
