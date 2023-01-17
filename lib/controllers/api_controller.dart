@@ -123,8 +123,6 @@ class ApiServiceController extends ControllerMVC {
     });
 
     return searchResults['results'];
-
-
   }
 
   checkInternetConnection() async {

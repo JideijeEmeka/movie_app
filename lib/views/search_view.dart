@@ -125,8 +125,7 @@ class _SearchViewState extends StateMVC<SearchView> {
             Container(
               margin: const EdgeInsets.only(bottom: 50),
               child: !isLoading ?
-              SizedBox(
-                child: Column(
+              Column(
                   children: [
                     ListView.builder(
                       shrinkWrap: true,
@@ -184,7 +183,6 @@ class _SearchViewState extends StateMVC<SearchView> {
                     ),
                     const SizedBox(height: 30,)
                   ],
-                ),
               ):
             Center(child: Padding(
               padding: const EdgeInsets.only(top: 50),
