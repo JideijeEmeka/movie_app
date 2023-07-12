@@ -107,35 +107,30 @@ class _HomeViewState extends StateMVC<HomeView> {
           extendBodyBehindAppBar: true,
           backgroundColor: Colors.transparent,
           body: Stack(
-              clipBehavior: Clip.hardEdge,
               alignment: Alignment.center,
               children: [
-                  Container(
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            stops: const [0.6, 0.4],
-                            tileMode: TileMode.repeated,
-                            colors: [Colors.brown.withOpacity(0.4), Colors.black])
-                    )),
-                  Container(
-                    decoration: const BoxDecoration(
-                        color: Colors.black
-                    )),
+              Container(
+              decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  stops: const [0.6, 0.7],
+                  tileMode: TileMode.repeated,
+                  colors: [Colors.black.withOpacity(0.8),
+                    Colors.black]))),
                   SingleChildScrollView(
                     child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Stack(
                               children: [
-                                const SizedBox(
-                                  height: 360,
+
+                                SizedBox(
                                   width: double.infinity,
-                                  // child: ClipRRect(
-                                  //   child: Image.network('https://image.tmdb.org/t/p/w500'
-                                  //       + popularMovies[0]['poster_path'], fit: BoxFit.cover,),
-                                  // ),
+                                  child: ClipRRect(
+                                    child: Image.network('https://image.tmdb.org/t/p/w500'
+                                        + con.nowPlaying[1]['poster_path'], fit: BoxFit.cover),
+                                  ),
                                 ),
                                 Positioned(
                                   bottom: 2,
@@ -146,34 +141,43 @@ class _HomeViewState extends StateMVC<HomeView> {
                                         Padding(
                                           padding: const EdgeInsets.only(bottom: 60),
                                           child: Text(appName, style: appBarTextStyle)),
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.center,
-                                          children: [
-                                            Column(children: [
-                                              InkWell(
-                                                onTap: () => {},
-                                                child: const Icon(Icons.add, size: 30,
-                                                    color: Colors.white)),
-                                              Text('My List', style: titleTextStyle,)
-                                            ],),
-                                            const SizedBox(width: 35,),
-                                            ElevatedButton(onPressed: () => {},
-                                            style: ElevatedButton.styleFrom(
-                                                onPrimary: Colors.white,
-                                                padding: const EdgeInsets.symmetric(
-                                                    vertical: 7, horizontal: 20), primary: Colors.black54.withOpacity(0.38),
-                                                onSurface: Colors.black54.withOpacity(0.12)),
-                                                child: const Row(children: [
-                                                  Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
-                                                  Text("Play", style: TextStyle(color: Colors.black,
-                                                      fontSize: 17)),
-                                                ],)),
-                                            const SizedBox(width: 35,),
-                                            Column(children: [
-                                              const Icon(Icons.info_outline, size: 30, color: Colors.white,),
-                                              Text('Info', style: titleTextStyle,)
-                                            ],),
-                                          ],
+                                        Container(
+                                            decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                    begin: Alignment.topCenter,
+                                                    end: Alignment.bottomCenter,
+                                                    stops: const [0.6, 0.7],
+                                                    tileMode: TileMode.repeated,
+                                                    colors: [Colors.black.withOpacity(0.8), Colors.black])),
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Column(children: [
+                                                InkWell(
+                                                    onTap: () => {},
+                                                    child: const Icon(Icons.add, size: 30,
+                                                        color: Colors.white)),
+                                                Text('My List', style: titleTextStyle,)
+                                              ],),
+                                              const SizedBox(width: 35),
+                                              ElevatedButton(onPressed: () => {},
+                                                  style: ElevatedButton.styleFrom(
+                                                      onPrimary: Colors.white,
+                                                      padding: const EdgeInsets.symmetric(
+                                                          vertical: 7, horizontal: 20), primary: Colors.white,
+                                                      onSurface: Colors.black54.withOpacity(0.12)),
+                                                  child: const Row(children: [
+                                                    Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
+                                                    Text("Play", style: TextStyle(color: Colors.black,
+                                                        fontSize: 17)),
+                                                  ],)),
+                                              const SizedBox(width: 35,),
+                                              Column(children: [
+                                                const Icon(Icons.info_outline, size: 30, color: Colors.white,),
+                                                Text('Info', style: titleTextStyle,)
+                                              ],),
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -184,7 +188,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                             if(myOwnList.isEmpty) ... [],
                             if(myOwnList.isNotEmpty) ... [
                               Padding(
-                                  padding: const EdgeInsets.only(top: 20, left: 6,
+                                  padding: const EdgeInsets.only(top: 30, left: 6,
                                       right: 5, bottom: 3),
                                   child: Text("My List", style: listTextStyle)),
                               FavoriteMovieList(favoriteList: myOwnList),
