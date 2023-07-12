@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
+import 'package:movie_app/views/movies_view.dart';
 import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
 import 'package:movie_app/widgets/slides/favorite_movies.dart';
@@ -44,6 +45,7 @@ class _HomeViewState extends StateMVC<HomeView> {
       con.checkInternetConnection();
     });
     con.loadMovies();
+    con.discoverMovies();
     con.getMyList();
     super.initState();
   }
@@ -76,7 +78,8 @@ class _HomeViewState extends StateMVC<HomeView> {
                 children: [  
                 TextButton(onPressed: () {},
                     child: Text("TV Shows", style: titleTextStyle)),
-                TextButton(onPressed: () {},
+                TextButton(onPressed: () => pushNewScreen(context, screen:
+                  MoviesView(movies: con.movies), withNavBar: false),
                     child: Text("Movies", style: titleTextStyle)),
                 TextButton(onPressed: () {},
                     child: Text("Categories", style: titleTextStyle))])),
@@ -160,7 +163,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                                                 padding: const EdgeInsets.symmetric(
                                                     vertical: 7, horizontal: 20), primary: Colors.black54.withOpacity(0.38),
                                                 onSurface: Colors.black54.withOpacity(0.12)),
-                                                child: Row(children: const [
+                                                child: const Row(children: [
                                                   Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
                                                   Text("Play", style: TextStyle(color: Colors.black,
                                                       fontSize: 17)),
