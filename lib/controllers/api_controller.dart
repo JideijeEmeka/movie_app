@@ -9,6 +9,7 @@ import 'package:tmdb_api/tmdb_api.dart';
 
 class ApiServiceController extends ControllerMVC {
 
+  bool isLoading = false;
   bool hasInternet = false;
   ConnectivityResult result = ConnectivityResult.none;
   List hiddenMovieList = [];
@@ -167,6 +168,7 @@ class ApiServiceController extends ControllerMVC {
   List similarMovies = [];
   List tvAiringToday = [];
   List popularTvShows = [];
+  List movies = [];
 
   TMDB tmdbWithCustomLogs = TMDB(ApiKeys(kApiKey!, readAccessToken),
       logConfig: const ConfigLogger(
@@ -198,6 +200,17 @@ class ApiServiceController extends ControllerMVC {
       similarMovies = similarMoviesResults['results'];
       tvAiringToday = tvAiringTodayResults['results'];
       popularTvShows = popularTvShowsResults['results'];
+    });
+  }
+
+  void discoverMovies() async {
+    setState(() {
+      isLoading = true;
+    });
+    Map allMovies = await tmdbWithCustomLogs.v3.discover.getMovies();
+    setState(() {
+      movies = allMovies['results'];
+      isLoading = false;
     });
   }
 
