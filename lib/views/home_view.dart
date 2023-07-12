@@ -1,8 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
+import 'package:movie_app/helpers/utility.dart';
 import 'package:movie_app/views/movies_view.dart';
 import 'package:movie_app/views/search_view.dart';
 import 'package:movie_app/widgets/buttons/floating_action_button.dart';
@@ -16,6 +18,7 @@ import 'package:movie_app/widgets/slides/similar_movies.dart';
 import 'package:movie_app/widgets/slides/top_rated_movies.dart';
 import 'package:movie_app/widgets/slides/trending_movies.dart';
 import 'package:movie_app/widgets/slides/up_coming_movies.dart';
+import 'package:movie_app/widgets/snack_bar_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 
@@ -33,6 +36,7 @@ class _HomeViewState extends StateMVC<HomeView> {
 
   late ApiServiceController con;
   List<String> newList = [];
+  final utility = Utility();
 
   @override
   void initState() {
@@ -70,12 +74,14 @@ class _HomeViewState extends StateMVC<HomeView> {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           elevation: 0.0,
+          leading: IconButton(onPressed: () {},
+            icon: const FaIcon(FontAwesomeIcons.e, color: Colors.black, size: 45)),
           flexibleSpace: Container(
             color: Colors.black.withOpacity(0.3),
               padding: const EdgeInsets.only(top: 85, left: 30, right: 30),
               child: Row( 
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [  
+                children: [
                 TextButton(onPressed: () {},
                     child: Text("TV Shows", style: titleTextStyle)),
                 TextButton(onPressed: () => pushNewScreen(context, screen:
@@ -83,7 +89,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                     child: Text("Movies", style: titleTextStyle)),
                 TextButton(onPressed: () {},
                     child: Text("Categories", style: titleTextStyle))])),
-          actions: [ 
+          actions: [
             IconButton(onPressed: () => 
                 pushNewScreen(context, screen: const SearchView()),
                 padding: const EdgeInsets.only(right: 10),
@@ -109,80 +115,77 @@ class _HomeViewState extends StateMVC<HomeView> {
           body: Stack(
               alignment: Alignment.center,
               children: [
-              Container(
-              decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  stops: const [0.6, 0.7],
-                  tileMode: TileMode.repeated,
-                  colors: [Colors.black.withOpacity(0.8),
-                    Colors.black]))),
+                Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.black
+                  )
+                ),
                   SingleChildScrollView(
                     child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Stack(
                               children: [
-
-                                SizedBox(
+                                con.isLoading ? utility.circularLoader() : SizedBox(
                                   width: double.infinity,
                                   child: ClipRRect(
                                     child: Image.network('https://image.tmdb.org/t/p/w500'
                                         + con.nowPlaying[1]['poster_path'], fit: BoxFit.cover),
                                   ),
                                 ),
-                                Positioned(
-                                  bottom: 2,
-                                  left: 50,
-                                  right: 50,
-                                  child: Column(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(bottom: 60),
-                                          child: Text(appName, style: appBarTextStyle)),
-                                        Container(
-                                            decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                    begin: Alignment.topCenter,
-                                                    end: Alignment.bottomCenter,
-                                                    stops: const [0.6, 0.7],
-                                                    tileMode: TileMode.repeated,
-                                                    colors: [Colors.black.withOpacity(0.8), Colors.black])),
-                                          child: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Column(children: [
-                                                InkWell(
-                                                    onTap: () => {},
-                                                    child: const Icon(Icons.add, size: 30,
-                                                        color: Colors.white)),
-                                                Text('My List', style: titleTextStyle,)
-                                              ],),
-                                              const SizedBox(width: 35),
-                                              ElevatedButton(onPressed: () => {},
-                                                  style: ElevatedButton.styleFrom(
-                                                      onPrimary: Colors.white,
-                                                      padding: const EdgeInsets.symmetric(
-                                                          vertical: 7, horizontal: 20), primary: Colors.white,
-                                                      onSurface: Colors.black54.withOpacity(0.12)),
-                                                  child: const Row(children: [
-                                                    Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
-                                                    Text("Play", style: TextStyle(color: Colors.black,
-                                                        fontSize: 17)),
-                                                  ],)),
-                                              const SizedBox(width: 35,),
-                                              Column(children: [
-                                                const Icon(Icons.info_outline, size: 30, color: Colors.white,),
-                                                Text('Info', style: titleTextStyle,)
-                                              ],),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
                               ],
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                  gradient: LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      stops: const [0.6, 0.7],
+                                      tileMode: TileMode.repeated,
+                                      colors: [Colors.black.withOpacity(0.8), Colors.black])),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Column(children: [
+                                    !myOwnList.contains(con.nowPlaying[1]['id']) ?
+                                        IconButton(onPressed: () async {
+                                          String result = await con.addMovieToList(con.nowPlaying[1]['id']);
+                                          ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
+                                          myOwnList.insert(0, con.nowPlaying[1]['id']);
+                                          debugPrint('$myOwnList');
+                                          debugPrint('presssssss');
+                                          setState(() { });
+                                        }, icon: const Icon(Icons.add, size: 30,
+                                            color: Colors.white))
+                                      : IconButton(onPressed: () async {
+                                      String result = await con.removeMovieFromList(con.nowPlaying[1]['id']);
+                                      ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
+                                      myOwnList.remove(con.nowPlaying[1]['id']);
+                                      setState(() { });
+                                      },
+                                        icon: const Icon(Icons.check, size: 30,
+                                            color: Colors.white)),
+                                    Text('My List', style: titleTextStyle,)
+                                  ],),
+                                  const SizedBox(width: 35),
+                                  ElevatedButton(onPressed: () => {},
+                                      style: ElevatedButton.styleFrom(
+                                          onPrimary: Colors.white,
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 7, horizontal: 20), primary: Colors.white,
+                                          onSurface: Colors.black54.withOpacity(0.12)),
+                                      child: const Row(children: [
+                                        Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
+                                        Text("Play", style: TextStyle(color: Colors.black,
+                                            fontSize: 17)),
+                                      ],)),
+                                  const SizedBox(width: 35,),
+                                  Column(children: [
+                                    const Icon(Icons.info_outline, size: 30, color: Colors.white,),
+                                    Text('Info', style: titleTextStyle,)
+                                  ],),
+                                ],
+                              ),
                             ),
                             /// Favorite Movies View
                             if(myOwnList.isEmpty) ... [],
