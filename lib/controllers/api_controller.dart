@@ -177,6 +177,9 @@ class ApiServiceController extends ControllerMVC {
       ));
 
   loadMovies() async {
+    setState(() {
+      isLoading = true;
+    });
     Map trendingResults = await tmdbWithCustomLogs.v3.trending.getTrending();
     Map topRatedResults = await tmdbWithCustomLogs.v3.movies.getTopRated();
     Map popularMoviesResults = await tmdbWithCustomLogs.v3.movies.getPopular();
@@ -200,6 +203,7 @@ class ApiServiceController extends ControllerMVC {
       similarMovies = similarMoviesResults['results'];
       tvAiringToday = tvAiringTodayResults['results'];
       popularTvShows = popularTvShowsResults['results'];
+      isLoading = false;
     });
   }
 
