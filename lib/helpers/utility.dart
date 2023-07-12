@@ -27,4 +27,9 @@ class Utility {
           ],
         ));
   }
+
+  Widget circularLoader({double height = 20, double width = 20}) {
+    return SizedBox(height: height, width: width,
+        child: const Center(child: CircularProgressIndicator()));
+  }
 }
