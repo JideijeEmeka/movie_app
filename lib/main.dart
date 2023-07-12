@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/views/dashboard_view.dart';
 import 'package:movie_app/views/series_view.dart';
 import 'package:overlay_support/overlay_support.dart';
 
+final apiController = ApiServiceController();
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,6 +18,7 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(
       const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
 
+  apiController.loadMovies();
   runApp(const MyApp());
 }
 
