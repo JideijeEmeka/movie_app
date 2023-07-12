@@ -47,8 +47,7 @@ class _MoviesViewState extends StateMVC<MoviesView> {
             scrollDirection: Axis.vertical,
             itemCount: widget.movies.length,
             itemBuilder: (context, index) {
-              return con.isLoading ? const SizedBox(height: 15, width: 15,
-                  child: Center(child: CircularProgressIndicator()))
+              return con.isLoading ? utility.circularLoader()
                : InkWell( onTap: () {
                   pushNewScreen(context, screen: PlayMovieView(
                     name: con.checkNull(widget.movies[index]['title']),
