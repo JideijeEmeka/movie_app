@@ -75,7 +75,7 @@ class _HomeViewState extends StateMVC<HomeView> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
           leading: IconButton(onPressed: () {},
-            icon: const FaIcon(FontAwesomeIcons.e, color: Colors.black, size: 45)),
+            icon: const FaIcon(FontAwesomeIcons.e, color: Colors.red, size: 45)),
           flexibleSpace: Container(
             color: Colors.black.withOpacity(0.3),
               padding: const EdgeInsets.only(top: 85, left: 30, right: 30),
