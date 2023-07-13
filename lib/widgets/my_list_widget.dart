@@ -1,6 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/views/play_movie_view.dart';
+import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,50 +11,40 @@ class MyListWidget extends StatefulWidget {
   const MyListWidget({Key? key, required this.movieId}) : super(key: key);
 
   @override
-  State<MyListWidget> createState() => _MyListWidgetState();
+  _MyListWidgetState createState() => _MyListWidgetState();
 }
 
-class _MyListWidgetState extends State<MyListWidget> {
+class _MyListWidgetState extends StateMVC<MyListWidget> {
+  _MyListWidgetState() : super(ApiServiceController()) {
+    con = controller as ApiServiceController;
+  }
 
-  Map<String, dynamic> movie = {};
-
-  fetchDetails() async {
-    String url = 'https://api.themoviedb.org/3/movie/${widget.movieId}?api_key=2a209b9033ad19c74ec7ab61c4cd582e';
-    var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) {
-      debugPrint(response.body);
-      setState((){
-        movie = jsonDecode(response.body);
-      });
-    }else{
-      debugPrint('error');
-    }
-  } 
+  late ApiServiceController con;
 
   @override
   void initState() { 
-    fetchDetails();
+    con.getMovieDetails(movieId: int.parse(widget.movieId));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    fetchDetails();
-    return movie.isNotEmpty ?
+    con.getMovieDetails(movieId: int.parse(widget.movieId));
+    return con.movieDetails.isNotEmpty ?
       InkWell(
         onTap: () => {
         pushNewScreen(context, screen: PlayMovieView(
-        name: movie['title'],
+        name: con.movieDetails['title'],
         bannerUrl: 'https://image.tmdb.org/t/p/w500'
-        + movie['backdrop_path'].toString(),
+        + con.movieDetails['backdrop_path'].toString(),
         posterUrl: 'https://image.tmdb.org/t/p/w500'
-        + movie['poster_path'].toString(),
-        description: movie['overview'],
-        vote: movie['vote_average'].toString(),
-        launchOn: movie['release_date'],
-        language: movie['original_language'],
-        popularity: movie['popularity'].toString(),
-        movieId: movie['id'].toString(),),
+        + con.movieDetails['poster_path'].toString(),
+        description: con.movieDetails['overview'],
+        vote: con.movieDetails['vote_average'].toString(),
+        launchOn: con.movieDetails['release_date'],
+        language: con.movieDetails['original_language'],
+        popularity: con.movieDetails['popularity'].toString(),
+        movieId: con.movieDetails['id'].toString(),),
         withNavBar: false)
         },
         child: Container(  
@@ -60,7 +52,7 @@ class _MyListWidgetState extends State<MyListWidget> {
             decoration: BoxDecoration( 
                 borderRadius: BorderRadius.circular(8),
                 image: DecorationImage(image: NetworkImage('https://image.tmdb.org/t/p/w500'
-                    + movie['poster_path'].toString()))),
+                    + con.movieDetails['poster_path'].toString()))),
           margin: const EdgeInsets.only(left: 7)
     ),
       )
