@@ -24,6 +24,7 @@ class _SearchViewState extends StateMVC<SearchView> {
   late ApiServiceController con;
 
   bool isLoading = false;
+  bool searching = false;
   final Utility _utility = Utility();
   TextEditingController searchController = TextEditingController();
 
@@ -103,11 +104,10 @@ class _SearchViewState extends StateMVC<SearchView> {
                       isLoading = true;
                     });
                     FocusManager.instance.primaryFocus?.unfocus();
-                    await Future.delayed(const Duration(seconds: 2), () async{
-                    con.similarMovies = await con.searchMovies(searchController.text);
+                    await con.searchMovies(searchController.text).then((_)
+                      => setState(() { searching = true; }));
                     con.getMyHideList();
-                      setState(() { });
-                    });
+                    setState(() { });
                     setState(() {
                       isLoading = false;
                     });
@@ -120,8 +120,14 @@ class _SearchViewState extends StateMVC<SearchView> {
           ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-              child: Text("Top Searches", style: listTextStyle,),
+              child: Text("Top Searches", style: listTextStyle),
             ),
+            searching && con.searchedMovies.isEmpty
+                ? Center(child: Padding(
+                  padding: const EdgeInsets.only(top: 200),
+                  child: Text('Could not find movie\nplease check your input...',
+                      style: listTextStyle),
+                )) :
             Container(
               margin: const EdgeInsets.only(bottom: 50),
               child: !isLoading ?
