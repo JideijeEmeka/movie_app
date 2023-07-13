@@ -10,6 +10,10 @@ class DownloadsView extends StatefulWidget {
 class _DownloadsViewState extends State<DownloadsView> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return const Scaffold(
+      body: Center(
+        child: Text('Coming soon')
+      ),
+    );
   }
 }
