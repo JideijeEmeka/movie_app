@@ -170,7 +170,6 @@ class ApiServiceController extends ControllerMVC {
   List popularMovies = [];
   List upComingTvShows = [];
   List recommendedMovies = [];
-  List latestMovies = [];
   List similarMovies = [];
   List tvAiringToday = [];
   List popularTvShows = [];
@@ -192,7 +191,6 @@ class ApiServiceController extends ControllerMVC {
     Map popularMoviesResults = await tmdbWithCustomLogs.v3.movies.getPopular();
     Map upComingTvResults = await tmdbWithCustomLogs.v3.movies.getUpcoming();
     Map nowPlayingResults = await tmdbWithCustomLogs.v3.movies.getNowPlaying();
-    Map latestMoviesResults = await tmdbWithCustomLogs.v3.movies.getLatest();
     Map recommendedMoviesResults = await tmdbWithCustomLogs.v3.movies
         .getRecommended(2, language: 'en-US');
     Map similarMoviesResults = await tmdbWithCustomLogs.v3.movies
@@ -208,7 +206,6 @@ class ApiServiceController extends ControllerMVC {
       upComingTvShows = upComingTvResults['results'];
       nowPlaying = nowPlayingResults['results'];
       recommendedMovies = recommendedMoviesResults['results'];
-      latestMovies = latestMoviesResults['results'];
       similarMovies = similarMoviesResults['results'];
       tvAiringToday = tvAiringTodayResults['results'];
       popularTvShows = popularTvShowsResults['results'];
