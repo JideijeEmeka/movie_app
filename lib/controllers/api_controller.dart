@@ -13,9 +13,14 @@ class ApiServiceController extends ControllerMVC {
   bool hasInternet = false;
   ConnectivityResult result = ConnectivityResult.none;
   List hiddenMovieList = [];
+  Map movieDetails = {};
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   late SharedPreferences prefs;
+
+  getMovieDetails({required int movieId}) async {
+    movieDetails = await tmdbWithCustomLogs.v3.movies.getDetails(movieId);
+  }
 
   Future<List<String>> getMyList() async {
     prefs = await _prefs;
@@ -169,6 +174,7 @@ class ApiServiceController extends ControllerMVC {
   List tvAiringToday = [];
   List popularTvShows = [];
   List movies = [];
+  List tvShows = [];
 
   TMDB tmdbWithCustomLogs = TMDB(ApiKeys(kApiKey!, readAccessToken),
       logConfig: const ConfigLogger(
@@ -188,7 +194,7 @@ class ApiServiceController extends ControllerMVC {
     Map recommendedMoviesResults = await tmdbWithCustomLogs.v3.movies
         .getRecommended(2, language: 'en-US');
     Map similarMoviesResults = await tmdbWithCustomLogs.v3.movies
-        .getSimilar(2, language: 'en-US');
+        .getSimilar(667538, language: 'en-US');
     Map tvAiringTodayResults = await tmdbWithCustomLogs.v3.tv
         .getAiringToday(language: 'en-US', page: 2);
     Map popularTvShowsResults = await tmdbWithCustomLogs.v3.tv
@@ -217,6 +223,8 @@ class ApiServiceController extends ControllerMVC {
       isLoading = false;
     });
   }
+
+
 
   ApiServiceController();
 
