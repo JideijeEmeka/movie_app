@@ -169,6 +169,7 @@ class ApiServiceController extends ControllerMVC {
   List nowPlaying = [];
   List popularMovies = [];
   List upComingTvShows = [];
+  List comingSoonMovies = [];
   List recommendedMovies = [];
   List similarMovies = [];
   List tvAiringToday = [];
@@ -181,6 +182,17 @@ class ApiServiceController extends ControllerMVC {
           showLogs: true,
           showErrorLogs: true
       ));
+
+  loadComingSoonMovies() async {
+    setState(() {
+      isLoading = true;
+    });
+    Map comingSoonMoviesResults = await tmdbWithCustomLogs.v3.movies.getUpcoming();
+    setState(() {
+      comingSoonMovies = comingSoonMoviesResults['results'];
+      isLoading = false;
+    });
+  }
 
   loadMovies() async {
     setState(() {
