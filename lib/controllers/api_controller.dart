@@ -224,7 +224,16 @@ class ApiServiceController extends ControllerMVC {
     });
   }
 
-
+  void getTvShows() async {
+    setState(() {
+      isLoading = true;
+    });
+    Map allTvShows = await tmdbWithCustomLogs.v3.discover.getTvShows();
+    setState(() {
+      tvShows = allTvShows['results'];
+      isLoading = false;
+    });
+  }
 
   ApiServiceController();
 
