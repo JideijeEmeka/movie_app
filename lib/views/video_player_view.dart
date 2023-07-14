@@ -30,8 +30,8 @@ class _VideoPlayerViewState extends State<VideoPlayerView> {
       SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft]);
     }
     // loadVideo();
-    _playerController = VideoPlayerController.network
-      ('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4')
+    _playerController = VideoPlayerController.networkUrl
+      (Uri.parse('https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4'))
       ..initialize().then((_) => {
       _playerController.play(),
         setState(() {})

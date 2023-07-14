@@ -3,7 +3,6 @@ import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/helpers/utility.dart';
 import 'package:movie_app/views/play_movie_view.dart';
-import 'package:movie_app/widgets/snack_bar_widget.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:persistent_bottom_nav_bar/persistent-tab-view.dart';
 

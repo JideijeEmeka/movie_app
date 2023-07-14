@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:movie_app/controllers/api_controller.dart';
 import 'package:movie_app/helpers/constants.dart';
 import 'package:movie_app/helpers/utility.dart';
