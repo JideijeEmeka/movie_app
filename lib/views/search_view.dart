@@ -164,10 +164,10 @@ class _SearchViewState extends StateMVC<SearchView> {
                                 leading: Image.network('https://image.tmdb.org/t/p/w500'
                                     + con.searchedMovies[i]['poster_path'].toString(), fit: BoxFit.cover,),
                                 title: Text('${con.searchedMovies[i]['title']}',
-                                  style: titleTextStyle,),
+                                  style: titleTextStyle),
                                 /// Hide movie from future search
                                 trailing: IconButton(onPressed: () {
-                                  debugPrint(con.searchedMovies[i]["id"]);
+                                  debugPrint(con.searchedMovies[i]["id"].toString());
                                   con.saveHideToList(con.searchedMovies[i]["id"].toString()).then((_) =>
                                   {
                                     ScaffoldMessenger.of(context).showSnackBar(
