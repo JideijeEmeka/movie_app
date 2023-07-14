@@ -86,7 +86,8 @@ class _HomeViewState extends StateMVC<HomeView> {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           elevation: 0.0,
-          leading: IconButton(onPressed: () {},
+          leading: IconButton(onPressed: () => ScaffoldMessenger.of(context)
+              .showSnackBar(snackBar(message: 'This project is owned by EmmyFLix and its copyrighted!')),
             icon: const FaIcon(FontAwesomeIcons.e, color: Colors.red, size: 45)),
           flexibleSpace: Container(
             color: Colors.black.withOpacity(0.3),
