@@ -194,10 +194,10 @@ class _HomeViewState extends StateMVC<HomeView> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     snackBar(message: 'Coming soon!')),
                                   style: ElevatedButton.styleFrom(
-                                      onPrimary: Colors.white,
-                                      padding: const EdgeInsets.symmetric(
-                                          vertical: 7, horizontal: 20), primary: Colors.white,
-                                      onSurface: Colors.black54.withOpacity(0.12)),
+                                      foregroundColor: Colors.white, backgroundColor: Colors.white,
+                                      padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 20),
+                                      disabledForegroundColor: Colors.black54.withOpacity(0.12).withOpacity(0.38),
+                                      disabledBackgroundColor: Colors.black54.withOpacity(0.12).withOpacity(0.12)),
                                   child: const Row(children: [
                                     Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
                                     Text("Play", style: TextStyle(color: Colors.black,

@@ -28,7 +28,6 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
   late ApiServiceController con;
   @override
   void initState() {
-    //con.myList = favList;
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.initState();
   }
