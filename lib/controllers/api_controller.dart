@@ -194,7 +194,7 @@ class ApiServiceController extends ControllerMVC {
     });
   }
 
-  loadMovies() async {
+  Future<void> loadMovies() async {
     setState(() {
       isLoading = true;
     });
