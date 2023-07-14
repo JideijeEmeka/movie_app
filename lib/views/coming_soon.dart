@@ -25,7 +25,7 @@ class _ComingSoonState extends StateMVC<ComingSoon> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      con.loadComingSoonMovies();
+      con.loadMovies();
     });
     super.initState();
   }
