@@ -51,7 +51,7 @@ class _HomeViewState extends StateMVC<HomeView> {
     //   });
     //   con.checkInternetConnection();
     // });
-    con.loadMovies();
+    con.loadMovies().then((_) => shuffleMovies());
     con.loadComingSoonMovies();
     con.discoverMovies();
     con.getTvShows();
@@ -67,6 +67,13 @@ class _HomeViewState extends StateMVC<HomeView> {
       newList = i;
     });
     debugPrint('$newList');
+  }
+
+  List mainScreenMovies = [];
+
+  shuffleMovies() {
+    mainScreenMovies = con.nowPlaying.toSet().toList();
+    mainScreenMovies.shuffle();
   }
 
   @override
@@ -130,108 +137,101 @@ class _HomeViewState extends StateMVC<HomeView> {
                 ),
                   SingleChildScrollView(
                     child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Stack(
-                              children: [
-                                if(con.nowPlaying.isEmpty) ... [],
-                                if(con.nowPlaying.isNotEmpty) ... [
-                                  SizedBox(
-                                    width: double.infinity,
-                                    child: ClipRRect(
-                                      child: Image.network('https://image.tmdb.org/t/p/w500'
-                                          + con.nowPlaying[0]['poster_path'], fit: BoxFit.cover),
-                                    ),
-                                  ),
-                                ],
-                              ],
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Stack(
+                        children: [
+                          if(mainScreenMovies.isEmpty) ... [],
+                          if(mainScreenMovies.isNotEmpty) ... [
+                            SizedBox(
+                              width: double.infinity,
+                              child: ClipRRect(
+                                child: Image.network('https://image.tmdb.org/t/p/w500'
+                                    + mainScreenMovies[0]['poster_path'], fit: BoxFit.cover),
+                              ),
                             ),
-                            if(con.nowPlaying.isEmpty) ... [],
-                            if(con.nowPlaying.isNotEmpty) ... [
-                              Container(
-                                decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                        begin: Alignment.topCenter,
-                                        end: Alignment.bottomCenter,
-                                        stops: const [0.6, 0.7],
-                                        tileMode: TileMode.repeated,
-                                        colors: [Colors.black.withOpacity(0.8), Colors.black])),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Column(children: [
-                                      !myOwnList.contains(con.nowPlaying[0]['id'].toString()) ?
-                                      IconButton(onPressed: () async {
-                                        String result = await con.addMovieToList(con.nowPlaying[0]['id'].toString());
-                                        con.getMovieDetails(movieId: int.parse(con.nowPlaying[0]['id']));
-                                        ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
-                                        myOwnList.insert(0, con.nowPlaying[0]['id'].toString());
-                                        debugPrint('$myOwnList');
-                                        setState(() { });
-                                      }, icon: const Icon(Icons.add, size: 30,
-                                          color: Colors.white))
-                                          : IconButton(onPressed: () async {
-                                        String result = await con.removeMovieFromList(con.nowPlaying[0]['id'].toString());
-                                        con.getMovieDetails(movieId: int.parse(con.nowPlaying[0]['id']));
-                                        ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
-                                        myOwnList.remove(con.nowPlaying[0]['id'].toString());
-                                        setState(() { });
-                                      },
-                                          icon: const Icon(Icons.check, size: 30,
-                                              color: Colors.white)),
-                                      Text('My List', style: titleTextStyle,)
-                                    ],),
-                                    const SizedBox(width: 35),
-                                    ElevatedButton(onPressed: () => ScaffoldMessenger.of(context)
-                                        .showSnackBar(snackBar(message: 'Coming soon!')),
-                                        style: ElevatedButton.styleFrom(
-                                            onPrimary: Colors.white,
-                                            padding: const EdgeInsets.symmetric(
-                                                vertical: 7, horizontal: 20), primary: Colors.white,
-                                            onSurface: Colors.black54.withOpacity(0.12)),
-                                        child: const Row(children: [
-                                          Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
-                                          Text("Play", style: TextStyle(color: Colors.black,
-                                              fontSize: 17)),
-                                        ],)),
-                                    const SizedBox(width: 35,),
-                                    InkWell(
-                                      onTap: () =>
-                                      {
-                                        pushNewScreen(
-                                            context, screen: PlayMovieView(
-                                            name: con.nowPlaying[1]['title'],
-                                            bannerUrl: 'https://image.tmdb.org/t/p/w500'
-                                                + con
-                                                    .nowPlaying[1]['backdrop_path'],
-                                            posterUrl: 'https://image.tmdb.org/t/p/w500'
-                                                +
-                                                con.nowPlaying[1]['poster_path'],
-                                            description: con
-                                                .nowPlaying[1]['overview'],
-                                            vote: con
-                                                .nowPlaying[1]['vote_average']
-                                                .toString(),
-                                            launchOn: con
-                                                .nowPlaying[1]['release_date'],
-                                            language: con
-                                                .nowPlaying[1]['original_language'],
-                                            popularity: con
-                                                .nowPlaying[1]['popularity']
-                                                .toString(),
-                                            movieId: con.nowPlaying[1]['id']
-                                                .toString()),
-                                            withNavBar: false),
-                                      },
-                                      child: Column(children: [
-                                        const Icon(Icons.info_outline, size: 30, color: Colors.white,),
-                                        Text('Info', style: titleTextStyle,)
-                                      ],),
-                                    ),
-                                  ],
-                                ),
+                          ],
+                        ],
+                      ),
+                      if(mainScreenMovies.isEmpty) ... [],
+                      if(mainScreenMovies.isNotEmpty) ... [
+                        Container(
+                          decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  stops: const [0.6, 0.7],
+                                  tileMode: TileMode.repeated,
+                                  colors: [Colors.black.withOpacity(0.8), Colors.black])),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Column(children: [
+                                !myOwnList.contains(mainScreenMovies[0]['id'].toString()) ?
+                                IconButton(onPressed: () async {
+                                  String result = await con.addMovieToList(mainScreenMovies[0]['id'].toString());
+                                  con.getMovieDetails(movieId: int.parse(mainScreenMovies[0]['id']));
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
+                                  myOwnList.insert(0, mainScreenMovies[0]['id'].toString());
+                                  debugPrint('$myOwnList');
+                                  setState(() { });
+                                }, icon: const Icon(Icons.add, size: 30,
+                                    color: Colors.white))
+                                    : IconButton(onPressed: () async {
+                                  String result = await con.removeMovieFromList(mainScreenMovies[0]['id'].toString());
+                                  con.getMovieDetails(movieId: int.parse(mainScreenMovies[0]['id']));
+                                  ScaffoldMessenger.of(context).showSnackBar(snackBar(message: result));
+                                  myOwnList.remove(mainScreenMovies[0]['id'].toString());
+                                  setState(() { });
+                                },
+                                    icon: const Icon(Icons.check, size: 30,
+                                        color: Colors.white)),
+                                Text('My List', style: titleTextStyle,)
+                              ],),
+                              const SizedBox(width: 35),
+                              ElevatedButton(onPressed: () =>
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    snackBar(message: 'Coming soon!')),
+                                  style: ElevatedButton.styleFrom(
+                                      onPrimary: Colors.white,
+                                      padding: const EdgeInsets.symmetric(
+                                          vertical: 7, horizontal: 20), primary: Colors.white,
+                                      onSurface: Colors.black54.withOpacity(0.12)),
+                                  child: const Row(children: [
+                                    Icon(Icons.play_arrow_rounded, size: 35, color: Colors.black,),
+                                    Text("Play", style: TextStyle(color: Colors.black,
+                                        fontSize: 17)),
+                                  ],)),
+                              const SizedBox(width: 35,),
+                              InkWell(
+                                onTap: () =>
+                                {
+                                  pushNewScreen(
+                                      context, screen: PlayMovieView(
+                                      name: mainScreenMovies[0]['title'],
+                                      bannerUrl: 'https://image.tmdb.org/t/p/w500'
+                                          + mainScreenMovies[0]['backdrop_path'],
+                                      posterUrl: 'https://image.tmdb.org/t/p/w500'
+                                          +
+                                          mainScreenMovies[0]['poster_path'],
+                                      description: mainScreenMovies[0]['overview'],
+                                      vote: mainScreenMovies[0]['vote_average']
+                                          .toString(),
+                                      launchOn: mainScreenMovies[0]['release_date'],
+                                      language: mainScreenMovies[0]['original_language'],
+                                      popularity: mainScreenMovies[0]['popularity'].toString(),
+                                      movieId: mainScreenMovies[0]['id'].toString()),
+                                      withNavBar: false),
+                                },
+                                child: Column(children: [
+                                  const Icon(Icons.info_outline, size: 30, color: Colors.white,),
+                                  Text('Info', style: titleTextStyle,)
+                                ],),
                               ),
                             ],
+                          ),
+                        ),
+                      ],
                             /// Favorite Movies View
                             if(myOwnList.isEmpty) ... [],
                             if(myOwnList.isNotEmpty) ... [
@@ -257,7 +257,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                             Padding(
                               padding: const EdgeInsets.only(top: 20, left: 6,
                                   right: 5, bottom: 3),
-                              child: Text("Similar to what you've watched", style: listTextStyle,),),
+                              child: Text("Similar to what you've watched", style: listTextStyle)),
                             SimilarMoviesList(similarMovies: con.similarMovies,),
                             /// Recommended Movies View
                             Padding(
