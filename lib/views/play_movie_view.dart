@@ -142,12 +142,10 @@ class _PlayMovieViewState extends StateMVC<PlayMovieView> {
                       Container(
                         width: double.infinity,
                         margin: const EdgeInsets.symmetric(vertical: 30),
-                        child: ElevatedButton(onPressed: () => {
-                          pushNewScreen(context, screen: const VideoPlayerView(),
-                          withNavBar: false)
-                        },
+                        child: ElevatedButton(onPressed: () => ScaffoldMessenger.of(context)
+                            .showSnackBar(snackBar(message: 'Coming soon')),
                             style: ElevatedButton.styleFrom(
-                                textStyle: titleTextStyle, onPrimary: gradientRedColor,
+                                foregroundColor: gradientRedColor, textStyle: titleTextStyle,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8)
                                 ),
