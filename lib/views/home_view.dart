@@ -103,7 +103,7 @@ class _HomeViewState extends StateMVC<HomeView> {
                     .showSnackBar(snackBar(message: 'Coming soon!')),
                     child: Text("Categories", style: titleTextStyle))])),
           actions: [
-            IconButton(onPressed: () => 
+            IconButton(onPressed: () =>
                 pushNewScreen(context, screen: const SearchView()),
                 padding: const EdgeInsets.only(right: 10),
                 icon: const Icon(Icons.search_rounded, color: Colors.white,
