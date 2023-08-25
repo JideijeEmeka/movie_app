@@ -35,7 +35,7 @@ class _TvShowsViewState extends StateMVC<TvShowsView> {
     return Scaffold(
       appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text('Tv Show'),
+          title: const Text('Tv Shows'),
           titleTextStyle: loadingTextStyle,
           elevation: 0.0,
           centerTitle: true,
